@@ -1,53 +1,8 @@
-var spa;
-// $(document).ready(function() {
-// function sp() {
-// 	fetch('http://127.0.0.1:5002/nsedata/nifty%2050')
-// 		.then(response => {
-// 			return response.json();
-// 		})
-// 		.then(data => {
-// 			console.log(data);
-// 			var spotPrice = data["lastPrice"]
-// 			console.log(spotPrice);
-// 			//   $("#spotPrice").text(spotPrice);
-// 			//   $(".spotPrice").val(spotPrice);
-// 			spa = spotPrice;
-// 			// return spotPrice;
-// 		})
-// };
-// sp();
-// console.log(spa);
-
-axios.get('http://127.0.0.1:5002/nsedata/nifty%2050')
-	.then(response => {
-		console.log(response.data);
-		this.response = response.data
-		console.log(this.response.lastPrice);
-	})
-	.catch(error => console.error(error));
-
-// function getSpotPrice() {
-// 	return axios.get('http://127.0.0.1:5002/nsedata/nifty%2050')
-// 				.then(response => {
-// 					this.response = response.data
-// 					return this.response.lastPrice
-// 				})
-// }
-// var spa1;
-// spa = getSpotPrice()
-// console.log(getSpotPrice());
-// spa.then(function(result) {
-// 	console.log(result);
-// 	spa1 = result;
-// })
-// console.log(spa1);
-// console.log(spa);
-
 jQuery.extend({
-	getSpotPrice: function() {
+	getData: function() {
 		var result = null;
 		$.ajax({
-			url: 'http://127.0.0.1:5002/nsedata/nifty%2050',
+			url: 'https://spreadsheets.google.com/feeds/cells/11CeHRJ8HTIcAxKTd6BrzMTN-gY0f8C4iI0_ZQ7nGZyQ/ocvh19r/public/basic?alt=json#',
 			type: 'GET',
 			dataType: 'JSON',
 			async: false,
@@ -58,38 +13,26 @@ jQuery.extend({
 		return result;
 	}
 });
-var data1 = $.getSpotPrice();
-var spotprice = data1["lastPrice"];
+var data1 = $.getData();
+var spotprice = data1.feed.entry[35].content.$t;
 console.log(spotprice);
+$('#spotPrice').text(spotprice);
+// document.getElementById("spotPrice").innerHTML = spotprice;
 
-jQuery.extend({
-	getStrikePrice: function() {
-		var result = null;
-		$.ajax({
-			url: 'http://127.0.0.1:5002/option-chain/nifty',
-			type: 'GET',
-			dataType: 'JSON',
-			// data: JSON.stringify({dataId: "xxx"}),
-			// contentType: 'application/json',
-			async: false,
-			success: function(data) {
-				result = data;
-			}
-			// error: function(ex) {
-				// 	alert(ex.responseText);
-			// }
-		});
-		return result;
+function getStrikePrice123(data1) {
+	result = [];
+	for (var i=0; i<78; i++) {
+		result.push(data1.feed.entry[83+23*i].content.$t);
 	}
-});
-var data2 = $.getStrikePrice();
-var strikeprice = data2["Strike Price"];
-console.log(strikeprice);
+	return result;
+}
+var strikeprice123 = getStrikePrice123(data1);
+console.log(strikeprice123);
 
 var app = angular.module("optionsApp", ['ui.bootstrap', 'chart.js']);
 
 app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($scope, DataService, UtilService) {
-	$scope.strike_price = strikeprice;
+	$scope.strike_price = strikeprice123;
 	$scope.spot_price = [spotprice];
 	$scope.setups = DataService.getAllSetups();
 	$scope.chart = {
