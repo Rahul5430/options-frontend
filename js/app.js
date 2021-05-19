@@ -34,6 +34,7 @@ var app = angular.module("optionsApp", ['ui.bootstrap', 'chart.js']);
 app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($scope, DataService, UtilService) {
 	$scope.strike_price = strikeprice123;
 	$scope.spot_price = [spotprice];
+	$scope.index = ["NIFTY", "BANKNIFTY", "USDINR"]
 	$scope.setups = DataService.getAllSetups();
 	$scope.chart = {
 		data: {},

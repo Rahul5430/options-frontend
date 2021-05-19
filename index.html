@@ -1,6 +1,5 @@
 <!doctype html>
 <html lang="en" ng-app="optionsApp" class="ng-scope">
-
 <head>
   <meta charset="utf-8">
   <title>Options</title>
@@ -46,7 +45,6 @@
     }
   </style>
 </head>
-
 <body ng-controller="MainCtrl" class="ng-scope">
   <div class="navbar">
     <h4>Strategy Builder</h4>
@@ -60,14 +58,14 @@
     <div class="func">
       <div>
         <label>
-          Index / Stock <input type="text" ng-model="setup.name" class="form-control" placeholder="ex. NIFTY">
+          Index / Stock <select type="text" ng-init="setup.name = index[0]" ng-model="setup.name" ng-options="x for x in index" class="form-control"></select>
         </label>
       </div>
       <!-- <div>
-            <label>
-              Date <input type="date" class="form-control" name="date">
-            </label>
-          </div> -->
+        <label>
+          Date <input type="text" class="form-control" name="date" value="123456" disabled>
+        </label>
+      </div> -->
       <div>
         <label>
           Select Segment
@@ -85,8 +83,7 @@
       </div>
       <div>
         <label>
-          Spot price <select type="text" ng-model="setup.spotPrice" class="form-control spotPrice"
-            ng-options="x for x in spot_price"></select>
+          Spot price <select type="text" ng-init="setup.spotPrice = spot_price[0]" ng-model="setup.spotPrice" class="form-control spotPrice" ng-options="x for x in spot_price"></select>
         </label>
       </div>
       <div style="grid-column: 1/5;">
@@ -258,6 +255,7 @@
     var data1 = $.getData();
     var spotprice = data1.feed.entry[35].content.$t;
     $("#spot_Price").text(spotprice);
+    $(".spotPrice").val(spotprice);
 
     function run() {
       var x = document.getElementById("select-segment");
