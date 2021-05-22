@@ -13,21 +13,57 @@ jQuery.extend({
 		return result;
 	}
 });
-var data1 = $.getData();
-var spotprice = data1.feed.entry[35].content.$t;
+var data = $.getData();
+var spotprice = data.feed.entry[35].content.$t;
 console.log(spotprice);
-$('#spotPrice').text(spotprice);
+$(document).ready(function(){
+	$("#select-segment").change(function() {
+		var selected = $(this).children("option:selected").val();
+		console.log(selected);
+	});
+});
+// $('#spotPrice').text(spotprice);
 // document.getElementById("spotPrice").innerHTML = spotprice;
 
-function getStrikePrice123(data1) {
+function getStrikePrice123(data) {
 	result = [];
-	for (var i=0; i<78; i++) {
-		result.push(data1.feed.entry[83+23*i].content.$t);
+	for (var i=0; i<80; i++) {
+		result.push(data.feed.entry[83+23*i].content.$t);
 	}
 	return result;
 }
-var strikeprice123 = getStrikePrice123(data1);
+var strikeprice123 = getStrikePrice123(data);
 console.log(strikeprice123);
+
+function getPremium(data) {
+	result = [];
+	for (var i=0; i<80; i++) {
+		result.push(parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')));
+	}
+	return result;
+}
+var premium = getPremium(data);
+console.log(premium);
+
+var premium123 = {};
+for (var i=0; i<80; i++) {
+	// premium123[data.feed.entry[83+23*i].content.$t] = [data.feed.entry[82+23*i].content.$t, data.feed.entry[84+23*i].content.$t];
+	premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, ''))];
+}
+console.log(premium123);
+var premiumvalue = premium123[12800];
+console.log(premiumvalue);
+// $(document).ready(function() {
+// 	$(".strike_price").change(function() {
+// 		var strikeprice = $(this).children("option:selected").val();
+// 		strikeprice = strikeprice.replace("string:", "0");
+// 		strikeprice = parseInt(strikeprice);
+// 		console.log(strikeprice);
+// 		console.log(premium123[strikeprice]);
+// 		premiumvalue = premium123[strikeprice];
+// 		console.log(premiumvalue);
+// 	});
+// });
 
 var app = angular.module("optionsApp", ['ui.bootstrap', 'chart.js']);
 
@@ -35,6 +71,7 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 	$scope.strike_price = strikeprice123;
 	$scope.spot_price = [spotprice];
 	$scope.index = ["NIFTY", "BANKNIFTY", "USDINR"]
+	$scope.premiumValue = premium123[12800];
 	$scope.setups = DataService.getAllSetups();
 	$scope.chart = {
 		data: {},
@@ -43,7 +80,44 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			responsive: true
 		}
 	};
-
+	$scope.trade_type = 'call';
+	$scope.changetrade = function(trade_type) {
+		$scope.trade_type = trade_type;
+		var strikeprice = $(".strike_price").children("option:selected").val();
+		strikeprice = strikeprice.replace("string:", "0");
+		strikeprice = parseInt(strikeprice);
+		if (trade_type == 'put') {
+			console.log('put');
+			console.log(premium123[strikeprice][1]);
+			$scope.premiumValue = [premium123[strikeprice][1]];
+		} else if (trade_type == 'call') {
+			console.log('call');
+			console.log(premium123[strikeprice][0]);
+			$scope.premiumValue = [premium123[strikeprice][0]];
+		} else {
+			console.log('no');
+		}
+	};
+	$scope.changestrikeprice = function(setup) {
+		var strikeprice = $(".strike_price").children("option:selected").val();
+		strikeprice = strikeprice.replace("string:", "0");
+		strikeprice = parseInt(strikeprice);
+		console.log(strikeprice);
+		console.log(premium123[strikeprice])
+		// $scope.premiumValue = premium123[strikeprice];
+		if ($scope.trade_type == 'put') {
+			console.log('put');
+			console.log(premium123[strikeprice][1]);
+			$scope.premiumValue = [premium123[strikeprice][1]];
+		} else if ($scope.trade_type == 'call') {
+			console.log('call');
+			console.log(premium123[strikeprice][0]);
+			$scope.premiumValue = [premium123[strikeprice][0]];
+		} else {
+			console.log('no');
+		}
+	};
+	
 	$scope.$watch('setups', function () {
 		angular.forEach($scope.setups, function (setup) {
 			setup.profit = $scope.netProfit(setup);

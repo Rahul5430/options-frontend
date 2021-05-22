@@ -101,14 +101,14 @@
           Select Expiry
           <!-- <input type="text" class="form-control"> -->
           <select class="form-control" id="select-segment" value="Options">
-            <option value="Date">27MAY2021</option>
-            <option value="Date">03JUN2021</option>
-            <option value="Date">10JUN2021</option>
-            <option value="Date">17JUN2021</option>
-            <option value="Date">24JUN2021</option>
-            <option value="Date">29JUN2021</option>
-            <option value="Date">30SEP2021</option>
-            <option value="Date">30DEC2021</option>
+            <option value="2021-05-27">27 MAY 2021</option>
+            <option value="2021-06-03">03 JUN 2021</option>
+            <option value="2021-06-10">10 JUN 2021</option>
+            <option value="2021-06-17">17 JUN 2021</option>
+            <option value="2021-06-24">24 JUN 2021</option>
+            <option value="2021-06-29">29 JUN 2021</option>
+            <option value="2021-09-30">30 SEP 2021</option>
+            <option value="2021-12-30">30 DEC 2021</option>
 
           </select>
 
@@ -133,8 +133,8 @@
               <!-- </div>
               <div class="row"> -->
               <div class="btn-group callput">
-                <label class="btn btn-warning" ng-model="trade.optionType" uib-btn-radio="'call'">Call</label>
-                <label class="btn btn-warning" ng-model="trade.optionType" uib-btn-radio="'put'">Put</label>
+                <label class="btn btn-warning" ng-model="trade.optionType" uib-btn-radio="'call'" ng-change="trade_type = trade.optionType; changetrade(trade_type)">Call</label>
+                <label class="btn btn-warning" ng-model="trade.optionType" uib-btn-radio="'put'" ng-change="trade_type = trade.optionType; changetrade(trade_type)">Put</label>
               </div>
               <!-- </div> -->
             </div>
@@ -144,13 +144,16 @@
               <div class="row">
                 <div class="col-md-3">
                   <label>Strike price</label>
+                  <code>{{trade_type}}</code>
                   <!-- <input type="text" ng-model="trade.strike" class="form-control"> -->
-                  <select type="text" ng-model="trade.strike" class="form-control" ng-options="x for x in strike_price">
+                  <select type="text" ng-init="trade.strike = strike_price[0]" ng-model="trade.strike" class="form-control strike_price" ng-options="x for x in strike_price" ng-change="changestrikeprice()">
+                  <!-- <select type="text" ng-init="trade.strike = strike_price[0]" ng-model="trade.strike" class="form-control strike_price" ng-options="x for x in strike_price"> -->
                   </select>
                 </div>
                 <div class="col-md-3">
                   <label uib-tooltip="Price of 1 unit of option">Premium</label>
-                  <input type="text" ng-model="trade.premium" class="form-control">
+                  <!-- <input type="text" ng-model="trade.premium" class="form-control premium"> -->
+                  <select type="text" ng-init="trade.premium = premiumValue[0]" ng-model="trade.premium" ng-options="x for x in premiumValue" class="form-control premium"></select>
                 </div>
                 <div class="col-md-3">
                   <label>Qty</label>
@@ -262,18 +265,27 @@
     <button class="btn btn-primary" ng-click="addSetup()"><span class="glyphicon glyphicon-plus"></span> Add New
       Setup</button>
   </div>
+
+
   <footer>
-    <div class="container">
+    <div style="bottom: 0; text-align: center;">
       <div class="text-center">Copyright © 2021. All rights reserved.</div>
     </div>
   </footer>
+
   <!-- </div> -->
+
+
+
   <script>
+
     // $(document).ready(function() {
     //   var x = $("#select-segment").value;
     //   console.log(x);
     // })
     // var abs = 
+
+
     console.log($(".spotPrice option:selected").val());
     jQuery.extend({
       getData: function () {
@@ -290,6 +302,9 @@
         return result;
       }
     });
+
+
+
     var data1 = $.getData();
     var spotprice = data1.feed.entry[35].content.$t;
     $("#spot_Price").text(spotprice);
@@ -309,6 +324,22 @@
         }
       }
     }
+
+
+
+    // for expiry dates
+    $('.form-control options').each(function () {
+      var enddate = new Date($(this).val());
+      var dateNow = new Date();
+
+      if (dateNow > enddate) {
+        $(this).remove();
+      }
+    })
+
+
+
+
   </script>
 </body>
 
