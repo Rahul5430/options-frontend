@@ -74,8 +74,8 @@
     <div class="func">
       <div>
         <label>
-          Index / Stock <select type="text" ng-init="setup.name = index[0]" ng-model="setup.name"
-            ng-options="x for x in index" class="form-control"></select>
+          Index / Stock <select type="text" ng-init="setup.name = indices[0]" ng-model="setup.name"
+            ng-options="x for x in indices" ng-change="index(setup.name)" class="form-control" id="index"></select>
         </label>
       </div>
       <!-- <div>
@@ -157,7 +157,7 @@
                 </div>
                 <div class="col-md-3">
                   <label>Qty</label>
-                  <input type="number" ng-init="trade.qty = 75" ng-model="trade.qty" class="form-control" min="75" step="75">
+                  <input type="number" ng-init="trade.qty = 75" ng-model="trade.qty" class="form-control qty" min="75" step="75">
                 </div>
                 <div class="col-md-3 delete-trade" style="padding-top: 24px;">
                   <button type="button" class="btn btn-danger btn-sm" uib-tooltip="Remove trade"
