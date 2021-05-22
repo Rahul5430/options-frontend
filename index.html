@@ -157,7 +157,7 @@
                 </div>
                 <div class="col-md-3">
                   <label>Qty</label>
-                  <input type="text" ng-model="trade.qty" class="form-control">
+                  <input type="number" ng-init="trade.qty = 75" ng-model="trade.qty" class="form-control" min="75" step="75">
                 </div>
                 <div class="col-md-3 delete-trade" style="padding-top: 24px;">
                   <button type="button" class="btn btn-danger btn-sm" uib-tooltip="Remove trade"
