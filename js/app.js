@@ -71,7 +71,7 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 	$scope.strike_price = strikeprice123;
 	$scope.spot_price = [spotprice];
 	$scope.index = ["NIFTY", "BANKNIFTY", "USDINR"]
-	$scope.premiumValue = premium123[12800];
+	$scope.premiumValue = [premium123[12800][0]];
 	$scope.setups = DataService.getAllSetups();
 	$scope.chart = {
 		data: {},
