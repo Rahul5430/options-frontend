@@ -1,18 +1,14 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en" ng-app="optionsApp" class="ng-scope">
 
 <head>
   <meta charset="utf-8">
   <title>Options</title>
   <!-- <base href="/"> -->
-
-
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="stylesheet" href="css/style.css">
-
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.5.6/ui-bootstrap-tpls.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
@@ -20,9 +16,6 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <script src="js/app.js"></script>
-
-
-
 
   <style>
     @font-face {
@@ -78,13 +71,7 @@
             ng-options="x for x in indices" ng-change="index(setup.name)" class="form-control" id="index"></select>
         </label>
       </div>
-      <!-- <div>
-        <label>
-          Date <input type="text" class="form-control" name="date" value="123456" disabled>
-        </label>
-      </div> -->
       <div>
-
         <label>
           Select Segment
           <!-- <input type="text" value="Options" id="segment" class="form-control" name="segment" list="select-segment" onchange="run()"> -->
@@ -133,20 +120,20 @@
               <!-- </div>
               <div class="row"> -->
               <div class="btn-group callput">
-                <label class="btn btn-warning" ng-model="trade.optionType" uib-btn-radio="'call'" ng-change="trade_type = trade.optionType; changetrade(trade_type)">Call</label>
-                <label class="btn btn-warning" ng-model="trade.optionType" uib-btn-radio="'put'" ng-change="trade_type = trade.optionType; changetrade(trade_type)">Put</label>
+                <label class="btn btn-warning" ng-model="trade.optionType" uib-btn-radio="'call'" ng-change="trade_type = trade.optionType; changetrade(trade_type, {{$index}})">Call</label>
+                <label class="btn btn-warning" ng-model="trade.optionType" uib-btn-radio="'put'" ng-change="trade_type = trade.optionType; changetrade(trade_type, {{$index}})">Put</label>
               </div>
               <!-- </div> -->
             </div>
 
             <!-- <div class="col-md-8"> -->
             <div class="col-md-8">
-              <div class="row">
+              <div class="row" id="func">
                 <div class="col-md-3">
                   <label>Strike price</label>
-                  <!-- <code>{{trade_type}}</code> -->
+                  <code>{{$index}}</code>
                   <!-- <input type="text" ng-model="trade.strike" class="form-control"> -->
-                  <select type="text" ng-init="trade.strike = strike_price[0]" ng-model="trade.strike" class="form-control strike_price" ng-options="x for x in strike_price" ng-change="changestrikeprice()">
+                  <select type="text" id="{{$index}}" ng-init="trade.strike = strike_price[0]" ng-model="trade.strike" class="form-control strike_price" ng-options="x for x in strike_price" ng-change="changestrikeprice({{$index}})">
                   <!-- <select type="text" ng-init="trade.strike = strike_price[0]" ng-model="trade.strike" class="form-control strike_price" ng-options="x for x in strike_price"> -->
                   </select>
                 </div>
@@ -159,7 +146,7 @@
                   <label>Qty</label>
                   <input type="number" ng-init="trade.qty = 75" ng-model="trade.qty" class="form-control qty" min="75" step="75">
                 </div>
-                <div class="col-md-3 delete-trade" style="padding-top: 24px;">
+                <div class="col-md-1 delete-trade" style="padding-top: 24px;">
                   <button type="button" class="btn btn-danger btn-sm" uib-tooltip="Remove trade"
                     ng-click="removeTrade(setup, trade)"><span class="glyphicon glyphicon-remove"></span></button>
                 </div>
@@ -175,7 +162,7 @@
           Trade</button>
       </div>
     </div>
-    <div class="result">
+    <div class="result" style="background-color:#04414d;">
       <div class="row">
         <!-- <div class="col-md-6 net-profit">Profit & Loss: <strong
             class="{{getProfitClass(setup)}}">{{setup.profit}}</strong></div> -->
@@ -307,7 +294,7 @@
 
     var data1 = $.getData();
     var spotprice = data1.feed.entry[35].content.$t;
-    $("#spot_Price").text(spotprice);
+    // $("#spot_Price").text(spotprice);
     $(".spotPrice").val(spotprice);
 
     function run() {

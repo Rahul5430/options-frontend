@@ -89,6 +89,7 @@ var stock = function(url) {
 	});
 	var data = $.getStockData();
 	var spotprice = data.feed.entry[35].content.$t;
+	$("#spot_Price").text(spotprice);
 	var strikeprice123 = [];
 	var premium123 = {};
 	var i=0;
@@ -104,6 +105,9 @@ var stock = function(url) {
 }
 console.log(stock(url_nifty));
 // var stockdata = stock(url_nifty)
+$(document).ready(function() {
+	$("#spot_Price").text(stock(url_nifty)["spotprice"]);
+});
 
 var app = angular.module("optionsApp", ['ui.bootstrap', 'chart.js']);
 
@@ -116,9 +120,9 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 	// $scope.premiumValue = [premium123[12800][0]];
 	$scope.premiumValue = [$scope.stockdata["premium123"][Object.keys($scope.stockdata["premium123"])[0]][0]];
 	$scope.trade_type = 'call';
-	$scope.changetrade = function(trade_type) {
+	$scope.changetrade = function(trade_type, index) {
 		$scope.trade_type = trade_type;
-		var strikeprice = $(".strike_price").children("option:selected").val();
+		var strikeprice = $("#"+index.toString()).children("option:selected").val();
 		strikeprice = strikeprice.replace("string:", "0");
 		strikeprice = parseInt(strikeprice);
 		if (trade_type == 'put') {
@@ -133,8 +137,10 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			console.log('no');
 		}
 	};
-	$scope.changestrikeprice = function() {
-		var strikeprice = $(".strike_price").children("option:selected").val();
+	//premiumValue is same for all. Correct it
+	$scope.changestrikeprice = function(index) {
+		console.log(index);
+		var strikeprice = $("#"+index.toString()).children("option:selected").val();
 		strikeprice = strikeprice.replace("string:", "0");
 		strikeprice = parseInt(strikeprice);
 		console.log(strikeprice);
@@ -184,8 +190,14 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 		data: {},
 		series: ['Profit & Loss'],
 		options: {
-			responsive: true
-		}
+			responsive: true,
+			legend: {
+				labels: {
+					fontColor: "white",
+				}
+			}
+		},
+		// labels: ["White"]
 	};
 	
 	$scope.$watch('setups', function () {
