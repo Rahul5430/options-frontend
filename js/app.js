@@ -112,13 +112,16 @@ $(document).ready(function() {
 var app = angular.module("optionsApp", ['ui.bootstrap', 'chart.js']);
 
 app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($scope, DataService, UtilService) {
+	$scope.id = 0;
 	$scope.stockdata = stock(url_nifty);
-	
+	$scope.premiumData = $scope.stockdata["premium123"];
+	$scope.premium = {};
 	$scope.strike_price = Object.keys($scope.stockdata["premium123"]);
 	$scope.spot_price = [$scope.stockdata["spotprice"]];
 	$scope.indices = ["NIFTY", "BANKNIFTY", "USDINR"]
 	// $scope.premiumValue = [premium123[12800][0]];
-	$scope.premiumValue = [$scope.stockdata["premium123"][Object.keys($scope.stockdata["premium123"])[0]][0]];
+	// $scope.premiumValue = [$scope.stockdata["premium123"][Object.keys($scope.stockdata["premium123"])[0]][0]];
+	$scope.premiumValue = {0: [$scope.stockdata["premium123"][Object.keys($scope.stockdata["premium123"])[0]][0]]};
 	$scope.trade_type = 'call';
 	$scope.changetrade = function(trade_type, index) {
 		$scope.trade_type = trade_type;
@@ -127,12 +130,16 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 		strikeprice = parseInt(strikeprice);
 		if (trade_type == 'put') {
 			console.log('put');
-			console.log($scope.stockdata["premium123"][strikeprice][1]);
-			$scope.premiumValue = [$scope.stockdata["premium123"][strikeprice][1]];
+			// console.log($scope.stockdata["premium123"][strikeprice][1]);
+			// $scope.premiumValue = [$scope.stockdata["premium123"][strikeprice][1]];
+			$scope.premiumValue[index] = [$scope.premium[index][strikeprice][1]];
+			console.log($scope.premiumValue);
 		} else if (trade_type == 'call') {
 			console.log('call');
-			console.log($scope.stockdata["premium123"][strikeprice][0]);
-			$scope.premiumValue = [$scope.stockdata["premium123"][strikeprice][0]];
+			// console.log($scope.stockdata["premium123"][strikeprice][0]);
+			// $scope.premiumValue = [$scope.stockdata["premium123"][strikeprice][0]];
+			$scope.premiumValue[index] = [$scope.premium[index][strikeprice][0]];
+			console.log($scope.premiumValue);
 		} else {
 			console.log('no');
 		}
@@ -148,12 +155,18 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 		// $scope.premiumValue = $scope.stockdata["premium123"][strikeprice];
 		if ($scope.trade_type == 'put') {
 			console.log('put');
-			console.log($scope.stockdata["premium123"][strikeprice][1]);
-			$scope.premiumValue = [$scope.stockdata["premium123"][strikeprice][1]];
+			// console.log($scope.stockdata["premium123"][strikeprice][1]);
+			// $scope.premiumValue = [$scope.stockdata["premium123"][strikeprice][1]];
+			$scope.premiumValue[index] = [$scope.premium[index][strikeprice][1]];
+			console.log($scope.premiumValue);
 		} else if ($scope.trade_type == 'call') {
 			console.log('call');
-			console.log($scope.stockdata["premium123"][strikeprice][0]);
-			$scope.premiumValue = [$scope.stockdata["premium123"][strikeprice][0]];
+			// console.log($scope.stockdata["premium123"][strikeprice][0]);
+			// console.log($scope.premium[index][strikeprice][0]);
+			// $scope.premiumValue = [$scope.stockdata["premium123"][strikeprice][0]];
+			// $scope.premiumValue = [$scope.premium[index][strikeprice][0]];
+			$scope.premiumValue[index] = [$scope.premium[index][strikeprice][0]];
+			console.log($scope.premiumValue);
 		} else {
 			console.log('no');
 		}
@@ -228,6 +241,7 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 				break;
 			}
 		}
+		$scope.id = 0;
 	};
 
 	$scope.addTrade = function (setup) {
@@ -239,6 +253,9 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			premium: 0,
 			qty: 1
 		});
+		$scope.premium[$scope.id] = $scope.premiumData;
+		console.log($scope.premium);
+		$scope.id++;
 	};
 
 	$scope.removeTrade = function (setup, trade) {
@@ -248,6 +265,11 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 				DataService.saveSetups($scope.setups);
 				break;
 			}
+		}
+		if ($scope.id > 0) {
+			$scope.id--;
+		} else {
+			$scope.id = 0;
 		}
 	};
 

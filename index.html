@@ -140,7 +140,7 @@
                 <div class="col-md-3">
                   <label uib-tooltip="Price of 1 unit of option">Premium</label>
                   <!-- <input type="text" ng-model="trade.premium" class="form-control premium"> -->
-                  <select type="text" ng-init="trade.premium = premiumValue[0]" ng-model="trade.premium" ng-options="x for x in premiumValue" class="form-control premium"></select>
+                  <select type="text" ng-init="trade.premium = premiumValue[0]" ng-model="trade.premium" ng-options="x for x in premiumValue[{{$index}}]" class="form-control premium"></select>
                 </div>
                 <div class="col-md-3">
                   <label>Qty</label>
