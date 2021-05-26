@@ -1,6 +1,24 @@
-var url_nifty = 'https://spreadsheets.google.com/feeds/cells/11CeHRJ8HTIcAxKTd6BrzMTN-gY0f8C4iI0_ZQ7nGZyQ/ocvh19r/public/basic?alt=json#';
+// var url_nifty = 'https://spreadsheets.google.com/feeds/cells/11CeHRJ8HTIcAxKTd6BrzMTN-gY0f8C4iI0_ZQ7nGZyQ/ocvh19r/public/basic?alt=json#';
+var url_nifty_all = {
+	0: 'https://spreadsheets.google.com/feeds/cells/11CeHRJ8HTIcAxKTd6BrzMTN-gY0f8C4iI0_ZQ7nGZyQ/ocvh19r/public/basic?alt=json',
+	1: 'https://spreadsheets.google.com/feeds/cells/1-ZI_sRkV3YXW1EyzaD8TzLAjjIDo3-4KxdEAEKx9cGg/ocvh19r/public/basic?alt=json',
+	2: 'https://spreadsheets.google.com/feeds/cells/1UUhg8026dTGpI9lvpMk1HMBYWL0VE9TOO-ouQSeFQi8/ocvh19r/public/basic?alt=json',
+	3: 'https://spreadsheets.google.com/feeds/cells/1QuRPDUiKVKsq2Pn1vUgl6RgYan0vAKxEQK_aPuK52bA/ocvh19r/public/basic?alt=json',
+	4: 'https://spreadsheets.google.com/feeds/cells/1P93jrxiWVUIYtoxxcg9t3XJrDZat_wJZN1mJaiDuIUw/ocvh19r/public/basic?alt=json',
+	5: 'https://spreadsheets.google.com/feeds/cells/1OLb3THjSJNqE4yBb_zaYemkvO_EmlaHGHJUyT3HbOs4/ocvh19r/public/basic?alt=json',
+	6: 'https://spreadsheets.google.com/feeds/cells/1K2Mj2tDqpP3p9KBx0S4jJur7VCddbwmL9pokDgBwHYU/ocvh19r/public/basic?alt=json',
+	7: 'https://spreadsheets.google.com/feeds/cells/1tqMWxaUlurnAoTeTjdLxWnUVz42dR3WHvcBOv35-VnU/ocvh19r/public/basic?alt=json'
+};
 var url_banknifty = 'https://spreadsheets.google.com/feeds/cells/11CeHRJ8HTIcAxKTd6BrzMTN-gY0f8C4iI0_ZQ7nGZyQ/o6nd5tx/public/basic?alt=json';
 var url_usdinr = '';
+// var url_nifty_1 = 'https://spreadsheets.google.com/feeds/cells/11CeHRJ8HTIcAxKTd6BrzMTN-gY0f8C4iI0_ZQ7nGZyQ/ocvh19r/public/basic?alt=json#';
+// var url_nifty_2 = 'https://spreadsheets.google.com/feeds/cells/1-ZI_sRkV3YXW1EyzaD8TzLAjjIDo3-4KxdEAEKx9cGg/ocvh19r/public/basic?alt=json';
+// var url_nifty_4 = 'https://spreadsheets.google.com/feeds/cells/1UUhg8026dTGpI9lvpMk1HMBYWL0VE9TOO-ouQSeFQi8/ocvh19r/public/basic?alt=json';
+// var url_nifty_3 = 'https://spreadsheets.google.com/feeds/cells/1QuRPDUiKVKsq2Pn1vUgl6RgYan0vAKxEQK_aPuK52bA/ocvh19r/public/basic?alt=json';
+// var url_nifty_5 = 'https://spreadsheets.google.com/feeds/cells/1P93jrxiWVUIYtoxxcg9t3XJrDZat_wJZN1mJaiDuIUw/ocvh19r/public/basic?alt=json';
+// var url_nifty_6 = 'https://spreadsheets.google.com/feeds/cells/1OLb3THjSJNqE4yBb_zaYemkvO_EmlaHGHJUyT3HbOs4/ocvh19r/public/basic?alt=json';
+// var url_nifty_7 = 'https://spreadsheets.google.com/feeds/cells/1K2Mj2tDqpP3p9KBx0S4jJur7VCddbwmL9pokDgBwHYU/ocvh19r/public/basic?alt=json';
+// var url_nifty_8 = 'https://spreadsheets.google.com/feeds/cells/1tqMWxaUlurnAoTeTjdLxWnUVz42dR3WHvcBOv35-VnU/ocvh19r/public/basic?alt=json';
 
 // var changeIndex = function() {
 // 	// var x = document.getElementById("index");
@@ -103,17 +121,36 @@ var stock = function(url) {
 		"premium123" : premium123
 	}
 }
-console.log(stock(url_nifty));
+console.log(stock(url_nifty_all[0]));
 // var stockdata = stock(url_nifty)
 $(document).ready(function() {
-	$("#spot_Price").text(stock(url_nifty)["spotprice"]);
+	$("#spot_Price").text(stock(url_nifty_all[0])["spotprice"]);
 });
+
+var url_nifty = url_nifty_all[0];
+var change_expiry = function() {
+	console.log('hi');
+	var expiry = $('.expiry').children('option:selected').val();
+	console.log(expiry);
+	// console.log($('.expiry option:nth-child(2)').val());
+	for (var i=0; i<$('.expiry').children().length; i++) {
+		var option = '.expiry option:nth-child(' + (i+1).toString() + ')';
+		if (expiry == $(option).val()) {
+			url_nifty = url_nifty_all[i];
+			break;
+		}
+	}
+	console.log(url_nifty);
+};
 
 var app = angular.module("optionsApp", ['ui.bootstrap', 'chart.js']);
 
 app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($scope, DataService, UtilService) {
+	$scope.url = url_nifty_all[0];
+	$scope.expiry;
+	$scope.expiries = ['27 MAY 2021','03 JUN 2021','10 JUN 2021','17 JUN 2021', '24 JUN 2021', '29 JUN 2021', '30 SEP 2021', '30 DEC 2021'];
 	$scope.id = 0;
-	$scope.stockdata = stock(url_nifty);
+	$scope.stockdata = stock(url_nifty_all[0]);
 	$scope.premiumData = $scope.stockdata["premium123"];
 	$scope.premium = {};
 	$scope.strike_price = Object.keys($scope.stockdata["premium123"]);
@@ -171,15 +208,21 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			console.log('no');
 		}
 	};
-	$scope.index = function(name) {
+	$scope.index = function(name, url=url_nifty_all[0]) {
 		console.log(name);
 		if (name == 'NIFTY') {
-			$scope.stockdata = stock(url_nifty);
+			for (var x in $scope.premium) {
+				console.log(x);
+				$scope.premium[x] = stock($scope.url)["premium123"];
+			}
+			console.log($scope.premium);
+			$scope.stockdata = stock(url);
 			$scope.strike_price = Object.keys($scope.stockdata["premium123"]);
 			$scope.spot_price = [$scope.stockdata["spotprice"]];
 			$scope.indices = ["NIFTY", "BANKNIFTY", "USDINR"]
 			// $scope.premiumValue = [premium123[12800][0]];
-			$scope.premiumValue = [$scope.stockdata["premium123"][Object.keys($scope.stockdata["premium123"])[0]][0]];
+			// $scope.premiumValue = [$scope.stockdata["premium123"][Object.keys($scope.stockdata["premium123"])[0]][0]];
+			$scope.premiumValue = {0: [$scope.stockdata["premium123"][Object.keys($scope.stockdata["premium123"])[0]][0]]};
 			$scope.trade_type = 'call';
 			$(".qty").attr("step", "75");
 			$(".qty").attr("min", "75");
@@ -190,12 +233,24 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			$scope.spot_price = [$scope.stockdata["spotprice"]];
 			$scope.indices = ["NIFTY", "BANKNIFTY", "USDINR"]
 			// $scope.premiumValue = [premium123[12800][0]];
-			$scope.premiumValue = [$scope.stockdata["premium123"][Object.keys($scope.stockdata["premium123"])[0]][0]];
+			// $scope.premiumValue = [$scope.stockdata["premium123"][Object.keys($scope.stockdata["premium123"])[0]][0]];
+			$scope.premiumValue = {0: [$scope.stockdata["premium123"][Object.keys($scope.stockdata["premium123"])[0]][0]]};
 			$scope.trade_type = 'call';
 			$(".qty").attr("step", "25");
 			$(".qty").attr("min", "25");
 			$(".qty").attr("value", "25");
 		}
+	}
+	$scope.change_expiry = function(expiry, name) {
+		var expiry = $('.expiry').children('option:selected').val();
+		expiry = expiry.slice(7);
+		console.log(expiry);
+		var option = ($scope.expiries).indexOf(expiry);
+		console.log(option);
+		url_nifty = url_nifty_all[option];
+		$scope.url = url_nifty;
+		console.log(url_nifty);
+		$scope.index(name, url_nifty);
 	}
 
 	$scope.setups = DataService.getAllSetups();
@@ -253,7 +308,8 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			premium: 0,
 			qty: 1
 		});
-		$scope.premium[$scope.id] = $scope.premiumData;
+		// $scope.premium[$scope.id] = $scope.premiumData;
+		$scope.premium[$scope.id] = stock($scope.url)["premium123"];
 		console.log($scope.premium);
 		$scope.id++;
 	};
