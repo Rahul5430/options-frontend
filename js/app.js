@@ -125,6 +125,7 @@ console.log(stock(url_nifty_all[0]));
 // var stockdata = stock(url_nifty)
 $(document).ready(function() {
 	$("#spot_Price").text(stock(url_nifty_all[0])["spotprice"]);
+	$("#lot_size").text(1);
 });
 
 var url_nifty = url_nifty_all[0];
@@ -141,6 +142,12 @@ var change_expiry = function() {
 		}
 	}
 	console.log(url_nifty);
+};
+
+var changeqty = function() {
+	$("qty:input").bind("keyup mouseup", function() {
+		console.log("changed");
+	});
 };
 
 var app = angular.module("optionsApp", ['ui.bootstrap', 'chart.js']);
@@ -252,6 +259,14 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 		console.log(url_nifty);
 		$scope.index(name, url_nifty);
 	}
+	$scope.change_qty = function(qty, name) {
+		console.log(qty);
+		if (name == 'NIFTY') {
+			$("#lot_size").text(qty/75);
+		} else if (name == 'BANKNIFTY') {
+			$("#lot_size").text(qty/25);
+		}
+	};
 
 	$scope.setups = DataService.getAllSetups();
 	$scope.chart = {

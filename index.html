@@ -145,7 +145,7 @@
                 </div>
                 <div class="col-md-3">
                   <label>Qty</label>
-                  <input type="number" ng-init="trade.qty = 75" ng-model="trade.qty" class="form-control qty" min="75" step="75">
+                  <input type="number" ng-init="trade.qty = 75" ng-model="trade.qty" class="form-control qty" min="75" step="75" ng-change="change_qty(trade.qty, setup.name)">
                 </div>
                 <div class="col-md-1 delete-trade" style="padding-top: 24px;">
                   <button type="button" class="btn btn-danger btn-sm" uib-tooltip="Remove trade"
@@ -190,7 +190,7 @@
         </div>
         <div>
           <label>LOT SIZE:</label>
-          <label id="trade.qty"></label> 
+          <label id="lot_size"></label> 
           <!-- change acc to quantity -->
         </div>
         <div>
