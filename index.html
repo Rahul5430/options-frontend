@@ -51,7 +51,7 @@
 </head>
 
 
-<body ng-controller="MainCtrl" class="ng-scope">
+<body style="background-color:#212832;" ng-controller="MainCtrl" class="ng-scope">
 
   <div class="navbar">
     <h4>Strategy Builder</h4>
@@ -128,7 +128,7 @@
             </div>
 
             <!-- <div class="col-md-8"> -->
-            <div class="col-md-8">
+            <div style="color:#23a0a4;" class="col-md-8">
               <div class="row" id="func">
                 <div class="col-md-3">
                   <label>Strike price</label>
@@ -163,7 +163,7 @@
           Trade</button>
       </div>
     </div>
-    <div class="result" style="background-color:#04414d;">
+    <div class="result" style="background-color:#212832;">
       <div class="row">
         <!-- <div class="col-md-6 net-profit">Profit & Loss: <strong
             class="{{getProfitClass(setup)}}">{{setup.profit}}</strong></div> -->
@@ -180,13 +180,14 @@
             chart-options="chart.options"></canvas>
         </div>
       </div>
-      <div class="geeks">
+      <div style="color:#23a0a4;" class="geeks">
         <div>
           <label>SPOT PRICE:</label>
           <label id="spot_Price"></label>
         </div>
         <div>
           <label>STRATEGY TREND:</label>
+          <label id="strategy"></label>
         </div>
         <div>
           <label>LOT SIZE:</label>
@@ -204,8 +205,12 @@
         </div>
       </div>
     </div>
+    <div class="nme">
+      <p>Strategy Details</p>
+      <p>Option Geeks</p>
+    </div>
     <div class="data">
-      <div>
+      <div style="color:#23a0a4;">
         <div>
           <label>
             Prob. of Profit
@@ -221,7 +226,7 @@
           <label>Max. Loss</label>
         </div>
       </div>
-      <div>
+      <div style="color:#23a0a4;">
         <div>
           <label>
             Breakevens
@@ -243,12 +248,20 @@
           </label>
         </div>
       </div>
-      <div>
-        <div>Alpha</div>
-        <div>Beta</div>
+    </div>
+    <div class=data2>
+        <div style="color:#23a0a4;">
+        <div>
+          <label>
+            Alpha
+          </label>
+        </div>
+        <div>
+          <label>Beta</label>
+        </div>
         <div>Theta</div>
         <div>Gamma</div>
-      </div>
+    </div>
     </div>
   </div>
   <div class="button-group text-center">

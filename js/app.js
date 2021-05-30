@@ -113,7 +113,7 @@ var stock = function(url) {
 	var i=0;
 	while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "") {
 		strikeprice123.push(data.feed.entry[83+23*i].content.$t);
-		premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, ''))];;
+		premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[74+23*i].content.$t),(data.feed.entry[92+23*i].content.$t), (data.feed.entry[75+23*i].content.$t),(data.feed.entry[91+23*i].content.$t), (data.feed.entry[78+23*i].content.$t), (data.feed.entry[88+23*i].content.$t)];;
 		i++;
 	}
 	return {
@@ -211,6 +211,7 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			// $scope.premiumValue = [$scope.premium[index][strikeprice][0]];
 			$scope.premiumValue[index] = [$scope.premium[index][strikeprice][0]];
 			console.log($scope.premiumValue);
+			console.log();
 		} else {
 			console.log('no');
 		}
