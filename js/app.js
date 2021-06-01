@@ -11,83 +11,31 @@ var url_nifty_all = {
 };
 var url_banknifty = 'https://spreadsheets.google.com/feeds/cells/11CeHRJ8HTIcAxKTd6BrzMTN-gY0f8C4iI0_ZQ7nGZyQ/o6nd5tx/public/basic?alt=json';
 var url_usdinr = '';
-// var url_nifty_1 = 'https://spreadsheets.google.com/feeds/cells/11CeHRJ8HTIcAxKTd6BrzMTN-gY0f8C4iI0_ZQ7nGZyQ/ocvh19r/public/basic?alt=json#';
-// var url_nifty_2 = 'https://spreadsheets.google.com/feeds/cells/1-ZI_sRkV3YXW1EyzaD8TzLAjjIDo3-4KxdEAEKx9cGg/ocvh19r/public/basic?alt=json';
-// var url_nifty_4 = 'https://spreadsheets.google.com/feeds/cells/1UUhg8026dTGpI9lvpMk1HMBYWL0VE9TOO-ouQSeFQi8/ocvh19r/public/basic?alt=json';
-// var url_nifty_3 = 'https://spreadsheets.google.com/feeds/cells/1QuRPDUiKVKsq2Pn1vUgl6RgYan0vAKxEQK_aPuK52bA/ocvh19r/public/basic?alt=json';
-// var url_nifty_5 = 'https://spreadsheets.google.com/feeds/cells/1P93jrxiWVUIYtoxxcg9t3XJrDZat_wJZN1mJaiDuIUw/ocvh19r/public/basic?alt=json';
-// var url_nifty_6 = 'https://spreadsheets.google.com/feeds/cells/1OLb3THjSJNqE4yBb_zaYemkvO_EmlaHGHJUyT3HbOs4/ocvh19r/public/basic?alt=json';
-// var url_nifty_7 = 'https://spreadsheets.google.com/feeds/cells/1K2Mj2tDqpP3p9KBx0S4jJur7VCddbwmL9pokDgBwHYU/ocvh19r/public/basic?alt=json';
-// var url_nifty_8 = 'https://spreadsheets.google.com/feeds/cells/1tqMWxaUlurnAoTeTjdLxWnUVz42dR3WHvcBOv35-VnU/ocvh19r/public/basic?alt=json';
 
-// var changeIndex = function() {
-// 	// var x = document.getElementById("index");
-// 	var x = $('#index').children("option:selected").val();
-// 	console.log(x);
-// 	if (x === "string:BANKNIFTY") {
-// 		console.log('BANKNIFTY');
-// 		url = url_banknifty;
-// 	} else if (x === "string:USDINR") {
-// 		console.log('USDINR');
-// 		url = url_usdinr;
-// 	} else {
-// 		console.log('NIFTY');
-// 	}
-// }
-
-// jQuery.extend({
-// 	getNiftyData: function() {
-// 		var result = null;
-// 		$.ajax({
-// 			url: url_nifty,
-// 			type: 'GET',
-// 			dataType: 'JSON',
-// 			async: false,
-// 			success: function(data) {
-// 				result = data;
-// 			}
-// 		});
-// 		return result;
-// 	}
-// });
-// var niftyData = $.getNiftyData();
-// var spotprice = niftyData.feed.entry[35].content.$t;
-// console.log(spotprice);
-// $(document).ready(function(){
-// 	$("#select-segment").change(function() {
-// 		var selected = $(this).children("option:selected").val();
-// 		console.log(selected);
+// var expiryData = function() {
+// 	jQuery.extend({
+// 		getExpiries: function() {
+// 			var result = null;
+// 			$.ajax({
+// 				url: 'https://www.nseindia.com/api/option-chain-indices?symbol=NIFTY#',
+// 				type: 'GET',
+// 				dataType: 'JSON',
+// 				async: false,
+// 				success: function(data) {
+// 					result = data;
+// 				}
+// 			});
+// 			return result;
+// 		}
 // 	});
-// });
-
-// function getStrikePrice123(data) {
-// 	result = [];
-// 	// for (var i=0; i<80; i++) {
-// 	var i=0;
-// 	while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "") {
-// 		result.push(data.feed.entry[83+23*i].content.$t);
-// 		i++;
-// 	}
-// 	return result;
+// 	var data = $.getExpiries();
+// 	var expiryDates = data.records.expiryDates;
+// 	var expiries = expiryDates.slice(0, 5);
+// 	expiries.append(expiryDates[9]);
+// 	expiries.append(expiryDates[10]);
+// 	expiries.append(expiryDates[11]);
+// 	return expiries;
 // }
-// var strikeprice123 = getStrikePrice123(niftyData);
-// console.log(strikeprice123);
-
-// // function getPremium(data) {
-// // 	result = [];
-// // 	for (var i=0; i<80; i++) {
-// // 		result.push(parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')));
-// // 	}
-// // 	return result;
-// // }
-// // var premium = getPremium(niftyData);
-// // console.log(premium);
-
-// var premium123 = {};
-// for (var i=0; i<80; i++) {
-// 	premium123[niftyData.feed.entry[83+23*i].content.$t] = [parseFloat((niftyData.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((niftyData.feed.entry[84+23*i].content.$t).replace(/,/g, ''))];
-// }
-// console.log(premium123);
 
 var stock = function(url) {
 	jQuery.extend({
@@ -122,7 +70,6 @@ var stock = function(url) {
 	}
 }
 console.log(stock(url_nifty_all[0]));
-// var stockdata = stock(url_nifty)
 $(document).ready(function() {
 	$("#spot_Price").text(stock(url_nifty_all[0])["spotprice"]);
 	$("#lot_size").text(1);
@@ -133,7 +80,6 @@ var change_expiry = function() {
 	console.log('hi');
 	var expiry = $('.expiry').children('option:selected').val();
 	console.log(expiry);
-	// console.log($('.expiry option:nth-child(2)').val());
 	for (var i=0; i<$('.expiry').children().length; i++) {
 		var option = '.expiry option:nth-child(' + (i+1).toString() + ')';
 		if (expiry == $(option).val()) {
@@ -150,15 +96,32 @@ var changeqty = function() {
 	});
 };
 
+var d = new Date()
+d.setDate(d.getDate() + (1 + 7 - d.getDate()) % 7);
+console.log(d)
+function getNextDayOfTheWeek(dayName, excludeToday = true, refDate = new Date()) {
+    const dayOfWeek = ["sun","mon","tue","wed","thu","fri","sat"]
+                      .indexOf(dayName.slice(0,3).toLowerCase());
+    if (dayOfWeek < 0) return;
+    refDate.setHours(0,0,0,0);
+    refDate.setDate(refDate.getDate() + +!!excludeToday + 
+                    (dayOfWeek + 7 - refDate.getDay() - +!!excludeToday) % 7);
+    return refDate;
+}
+
+console.log("Next is: " + getNextDayOfTheWeek("Wednesday", false));
+
 var app = angular.module("optionsApp", ['ui.bootstrap', 'chart.js']);
 
 app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($scope, DataService, UtilService) {
 	$scope.url = url_nifty_all[0];
 	$scope.expiry;
 	$scope.expiries = ['27 MAY 2021','03 JUN 2021','10 JUN 2021','17 JUN 2021', '24 JUN 2021', '29 JUN 2021', '30 SEP 2021', '30 DEC 2021'];
+	// $scope.expiries = expiryData();
 	$scope.id = 0;
-	$scope.stockdata = stock(url_nifty_all[0]);
-	$scope.premiumData = $scope.stockdata["premium123"];
+	// $scope.stockdata = stock(url_nifty_all[0]);
+	$scope.stockdata = stock($scope.url);
+	// $scope.premiumData = $scope.stockdata["premium123"];
 	$scope.premium = {};
 	$scope.strike_price = Object.keys($scope.stockdata["premium123"]);
 	$scope.spot_price = [$scope.stockdata["spotprice"]];
@@ -188,15 +151,12 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			console.log('no');
 		}
 	};
-	//premiumValue is same for all. Correct it
 	$scope.changestrikeprice = function(index) {
 		console.log(index);
 		var strikeprice = $("#"+index.toString()).children("option:selected").val();
 		strikeprice = strikeprice.replace("string:", "0");
 		strikeprice = parseInt(strikeprice);
 		console.log(strikeprice);
-		// console.log($scope.stockdata["premium123"][strikeprice])
-		// $scope.premiumValue = $scope.stockdata["premium123"][strikeprice];
 		if ($scope.trade_type == 'put') {
 			console.log('put');
 			// console.log($scope.stockdata["premium123"][strikeprice][1]);
@@ -219,9 +179,10 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 	$scope.index = function(name, url=url_nifty_all[0]) {
 		console.log(name);
 		if (name == 'NIFTY') {
+			$scope.stockdata = stock($scope.url);
 			for (var x in $scope.premium) {
 				console.log(x);
-				$scope.premium[x] = stock($scope.url)["premium123"];
+				$scope.premium[x] = $scope.stockdata["premium123"];
 			}
 			console.log($scope.premium);
 			$scope.stockdata = stock(url);
@@ -325,7 +286,8 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			qty: 1
 		});
 		// $scope.premium[$scope.id] = $scope.premiumData;
-		$scope.premium[$scope.id] = stock($scope.url)["premium123"];
+		// $scope.premium[$scope.id] = stock($scope.url)["premium123"];
+		$scope.premium[$scope.id] = $scope.stockdata["premium123"];
 		console.log($scope.premium);
 		$scope.id++;
 	};

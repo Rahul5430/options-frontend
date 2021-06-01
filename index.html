@@ -289,29 +289,28 @@
     // var abs = 
 
 
-    console.log($(".spotPrice option:selected").val());
-    jQuery.extend({
-      getData: function () {
-        var result = null;
-        $.ajax({
-          url: 'https://spreadsheets.google.com/feeds/cells/11CeHRJ8HTIcAxKTd6BrzMTN-gY0f8C4iI0_ZQ7nGZyQ/ocvh19r/public/basic?alt=json#',
-          type: 'GET',
-          dataType: 'JSON',
-          async: false,
-          success: function (data) {
-            result = data;
-          }
-        });
-        return result;
-      }
-    });
+    // console.log($(".spotPrice option:selected").val());
+    // jQuery.extend({
+    //   getData: function () {
+    //     var result = null;
+    //     $.ajax({
+    //       url: 'https://spreadsheets.google.com/feeds/cells/11CeHRJ8HTIcAxKTd6BrzMTN-gY0f8C4iI0_ZQ7nGZyQ/ocvh19r/public/basic?alt=json#',
+    //       type: 'GET',
+    //       dataType: 'JSON',
+    //       async: false,
+    //       success: function (data) {
+    //         result = data;
+    //       }
+    //     });
+    //     return result;
+    //   }
+    // });
 
 
 
-    var data1 = $.getData();
-    var spotprice = data1.feed.entry[35].content.$t;
-    // $("#spot_Price").text(spotprice);
-    $(".spotPrice").val(spotprice);
+    // var data1 = $.getData();
+    // var spotprice = data1.feed.entry[35].content.$t;
+    // $(".spotPrice").val(spotprice);
 
     function run() {
       var x = document.getElementById("select-segment");
@@ -320,9 +319,7 @@
       for (var i = 0; i < y.length; i++) {
         if (x.value == "Futures") {
           y[i].style.display = "none";
-          // document.querySelectorAll('[id=callput]').style.display = "none";
         } else {
-          // document.querySelectorAll('[id=callput]').style.display = "inline-block";
           y[i].style.display = "inline-block";
         }
       }
@@ -331,14 +328,14 @@
 
 
     // for expiry dates
-    $('.form-control options').each(function () {
+    $('.form-control expiry').each(function () {
       var enddate = new Date($(this).val());
       var dateNow = new Date();
 
       if (dateNow > enddate) {
         $(this).remove();
       }
-    })
+    });
 
 
 
