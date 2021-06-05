@@ -100,12 +100,10 @@ var d = new Date()
 d.setDate(d.getDate() + (1 + 7 - d.getDate()) % 7);
 console.log(d)
 function getNextDayOfTheWeek(dayName, excludeToday = true, refDate = new Date()) {
-    const dayOfWeek = ["sun","mon","tue","wed","thu","fri","sat"]
-                      .indexOf(dayName.slice(0,3).toLowerCase());
+    const dayOfWeek = ["sun","mon","tue","wed","thu","fri","sat"].indexOf(dayName.slice(0,3).toLowerCase());
     if (dayOfWeek < 0) return;
     refDate.setHours(0,0,0,0);
-    refDate.setDate(refDate.getDate() + +!!excludeToday + 
-                    (dayOfWeek + 7 - refDate.getDay() - +!!excludeToday) % 7);
+    refDate.setDate(refDate.getDate() + +!!excludeToday + (dayOfWeek + 7 - refDate.getDay() - +!!excludeToday) % 7);
     return refDate;
 }
 
@@ -116,7 +114,7 @@ var app = angular.module("optionsApp", ['ui.bootstrap', 'chart.js']);
 app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($scope, DataService, UtilService) {
 	$scope.url = url_nifty_all[0];
 	$scope.expiry;
-	$scope.expiries = ['27 MAY 2021','03 JUN 2021','10 JUN 2021','17 JUN 2021', '24 JUN 2021', '29 JUN 2021', '30 SEP 2021', '30 DEC 2021'];
+	$scope.expiries = ['27 MAY 2021','03 JUN 2021','10 JUN 2021','17 JUN 2021', '24 JUN 2021', '29 JULy 2021', '30 SEP 2021', '30 DEC 2021'];
 	// $scope.expiries = expiryData();
 	$scope.id = 0;
 	// $scope.stockdata = stock(url_nifty_all[0]);
