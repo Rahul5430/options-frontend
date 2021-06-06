@@ -61,7 +61,7 @@ var stock = function(url) {
 	var i=0;
 	while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "") {
 		strikeprice123.push(data.feed.entry[83+23*i].content.$t);
-		premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[74+23*i].content.$t),(data.feed.entry[92+23*i].content.$t), (data.feed.entry[75+23*i].content.$t),(data.feed.entry[91+23*i].content.$t), (data.feed.entry[78+23*i].content.$t), (data.feed.entry[88+23*i].content.$t)];;
+		premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t)];;
 		i++;
 	}
 	return {
