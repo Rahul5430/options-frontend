@@ -71,8 +71,14 @@ var stock = function(url) {
 }
 console.log(stock(url_nifty_all[0]));
 $(document).ready(function() {
-	$("#spot_Price").text(stock(url_nifty_all[0])["spotprice"]);
+	let temp = stock(url_nifty_all[0])
+	$("#spot_Price").text(temp['spotprice']);
 	$("#lot_size").text(1);
+	$('#strategy').text((Object.values(temp['premium123'])[0][2]));
+	$('#oi').text((Object.values(temp['premium123'])[0][6]));
+	$('#change_in_oi').text((Object.values(temp['premium123'])[0][4]));
+	$('#volume').text((Object.values(temp['premium123'])[0][8]));
+	$('#trend_strength').text((Object.values(temp['premium123'])[0][10]));
 });
 
 var url_nifty = url_nifty_all[0];
@@ -139,12 +145,22 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			// $scope.premiumValue = [$scope.stockdata["premium123"][strikeprice][1]];
 			$scope.premiumValue[index] = [$scope.premium[index][strikeprice][1]];
 			console.log($scope.premiumValue);
+			$('#strategy').text((Object.values($scope.stockdata["premium123"])[0][3]));
+			$('#oi').text((Object.values($scope.stockdata['premium123'])[0][7]));
+			$('#change_in_oi').text((Object.values($scope.stockdata['premium123'])[0][5]));
+			$('#volume').text((Object.values($scope.stockdata['premium123'])[0][9]));
+			$('#trend_strength').text((Object.values($scope.stockdata['premium123'])[0][11]));
 		} else if (trade_type == 'call') {
 			console.log('call');
 			// console.log($scope.stockdata["premium123"][strikeprice][0]);
 			// $scope.premiumValue = [$scope.stockdata["premium123"][strikeprice][0]];
 			$scope.premiumValue[index] = [$scope.premium[index][strikeprice][0]];
 			console.log($scope.premiumValue);
+			$('#strategy').text((Object.values($scope.stockdata["premium123"])[0][2]));
+			$('#oi').text((Object.values($scope.stockdata['premium123'])[0][6]));
+			$('#change_in_oi').text((Object.values($scope.stockdata['premium123'])[0][4]));
+			$('#volume').text((Object.values($scope.stockdata['premium123'])[0][8]));
+			$('#trend_strength').text((Object.values($scope.stockdata['premium123'])[0][10]));
 		} else {
 			console.log('no');
 		}
@@ -155,6 +171,7 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 		strikeprice = strikeprice.replace("string:", "0");
 		strikeprice = parseInt(strikeprice);
 		console.log(strikeprice);
+		// $('#strategy').text(strikeprice);
 		if ($scope.trade_type == 'put') {
 			console.log('put');
 			// console.log($scope.stockdata["premium123"][strikeprice][1]);
