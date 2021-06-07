@@ -191,7 +191,7 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			console.log('no');
 		}
 	};
-	$scope.index = function(name, url=url_nifty_all[0]) {
+	$scope.index = function(name) {
 		console.log(name);
 		if (name == 'NIFTY') {
 			$scope.stockdata = stock($scope.url);
@@ -200,7 +200,7 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 				$scope.premium[x] = $scope.stockdata["premium123"];
 			}
 			console.log($scope.premium);
-			$scope.stockdata = stock(url);
+			// $scope.stockdata = stock(url);
 			$scope.strike_price = Object.keys($scope.stockdata["premium123"]);
 			$scope.spot_price = [$scope.stockdata["spotprice"]];
 			$scope.indices = ["NIFTY", "BANKNIFTY", "USDINR"]
@@ -211,8 +211,18 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			$(".qty").attr("step", "75");
 			$(".qty").attr("min", "75");
 			$(".qty").attr("value", "75");
+			$('#strategy').text((Object.values($scope.stockdata["premium123"])[0][2]));
+			$('#oi').text((Object.values($scope.stockdata['premium123'])[0][6]));
+			$('#change_in_oi').text((Object.values($scope.stockdata['premium123'])[0][4]));
+			$('#volume').text((Object.values($scope.stockdata['premium123'])[0][8]));
+			$('#trend_strength').text((Object.values($scope.stockdata['premium123'])[0][10]));
 		} else if (name == 'BANKNIFTY') {
 			$scope.stockdata = stock(url_banknifty);
+			for (var x in $scope.premium) {
+				console.log(x);
+				$scope.premium[x] = $scope.stockdata["premium123"];
+			}
+			console.log($scope.premium);
 			$scope.strike_price = Object.keys($scope.stockdata["premium123"]);
 			$scope.spot_price = [$scope.stockdata["spotprice"]];
 			$scope.indices = ["NIFTY", "BANKNIFTY", "USDINR"]
@@ -223,6 +233,11 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			$(".qty").attr("step", "25");
 			$(".qty").attr("min", "25");
 			$(".qty").attr("value", "25");
+			$('#strategy').text((Object.values($scope.stockdata["premium123"])[0][2]));
+			$('#oi').text((Object.values($scope.stockdata['premium123'])[0][6]));
+			$('#change_in_oi').text((Object.values($scope.stockdata['premium123'])[0][4]));
+			$('#volume').text((Object.values($scope.stockdata['premium123'])[0][8]));
+			$('#trend_strength').text((Object.values($scope.stockdata['premium123'])[0][10]));
 		}
 	}
 	$scope.change_expiry = function(expiry, name) {
@@ -244,8 +259,16 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			$("#lot_size").text(qty/25);
 		}
 	};
+	$scope.load = function (n) {
+		$scope.id = n;
+		for (var i=0; i<n; i++) {
+			$scope.premium[i] = $scope.stockdata["premium123"];
+		}
+		// console.log($scope.premium);
+	}
 
 	$scope.setups = DataService.getAllSetups();
+	// $scope.abc = ($scope.setups[0].trades);
 	$scope.chart = {
 		data: {},
 		series: ['Profit & Loss'],
@@ -305,6 +328,9 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 		$scope.premium[$scope.id] = $scope.stockdata["premium123"];
 		console.log($scope.premium);
 		$scope.id++;
+		// console.log($scope.abc);
+		// console.log(Object.keys(setup.trades).length);
+		// console.log(setup.trades.length);
 	};
 
 	$scope.removeTrade = function (setup, trade) {

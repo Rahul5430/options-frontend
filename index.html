@@ -64,7 +64,7 @@
   </div>
 
   <div class="setup form-group" ng-repeat="setup in setups track by $index">
-    <div class="func">
+    <div class="func" ng-init="load(setup.trades.length)">
       <div>
         <label>
           Index / Stock <select type="text" ng-init="setup.name = indices[0]" ng-model="setup.name"
