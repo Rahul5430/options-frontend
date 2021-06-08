@@ -112,15 +112,41 @@ function getNextDayOfTheWeek(dayName, excludeToday = true, refDate = new Date())
     refDate.setDate(refDate.getDate() + +!!excludeToday + (dayOfWeek + 7 - refDate.getDay() - +!!excludeToday) % 7);
     return refDate;
 }
-
 console.log("Next is: " + getNextDayOfTheWeek("Wednesday", false));
+
+var expirieslist = function() {
+	var arr = [];
+	for (var i=0; i<28; i+=7) {
+		var d = new Date();
+		d.setDate(i + d.getDate() + ((7-d.getDay())%7+4) % 7);
+		d = d.toString().toUpperCase();
+		d = d.slice(4,15)
+		arr.push(d);
+	}
+	for (var i=0; i<4; i++) {
+		var d = new Date();
+		d.setDate(1);
+		if (i < 3) {
+			d.setMonth(d.getMonth()+2+i);
+		} else {
+			d.setMonth(12);
+		}
+		do {
+			d.setDate(d.getDate() - 1);
+		} while (d.getDay() !== 4);
+		arr.push(d.toString().slice(4,15).toUpperCase());
+	}
+	return arr;
+};
+console.log(expirieslist());
 
 var app = angular.module("optionsApp", ['ui.bootstrap', 'chart.js']);
 
 app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($scope, DataService, UtilService) {
 	$scope.url = url_nifty_all[0];
 	$scope.expiry;
-	$scope.expiries = ['27 MAY 2021','03 JUN 2021','10 JUN 2021','17 JUN 2021', '24 JUN 2021', '29 JULy 2021', '30 SEP 2021', '30 DEC 2021'];
+	// $scope.expiries = ['27 MAY 2021','03 JUN 2021','10 JUN 2021','17 JUN 2021', '24 JUN 2021', '29 JULy 2021', '30 SEP 2021', '30 DEC 2021'];
+	$scope.expiries = expirieslist();
 	// $scope.expiries = expiryData();
 	$scope.id = 0;
 	// $scope.stockdata = stock(url_nifty_all[0]);
@@ -301,6 +327,11 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 		};
 		console.log(setup.spotPrice);
 		$scope.setups.push(setup);
+		$('#strategy').text((Object.values($scope.stockdata["premium123"])[0][2]));
+		$('#oi').text((Object.values($scope.stockdata['premium123'])[0][6]));
+		$('#change_in_oi').text((Object.values($scope.stockdata['premium123'])[0][4]));
+		$('#volume').text((Object.values($scope.stockdata['premium123'])[0][8]));
+		$('#trend_strength').text((Object.values($scope.stockdata['premium123'])[0][10]));
 	};
 
 	$scope.deleteSetup = function (setup) {
