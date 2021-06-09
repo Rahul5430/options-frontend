@@ -75,9 +75,9 @@
         <label>
           Select Segment
           <!-- <input type="text" value="Options" id="segment" class="form-control" name="segment" list="select-segment" onchange="run()"> -->
-          <select class="form-control" id="select-segment" value="Options" onchange="run()">
-            <option value="Futures">Futures</option>
-            <option value="Options" selected="selected">Options</option>
+          <select class="form-control" id="select-segment" ng-init="segment = segments[0]" ng-model="segment" ng-change="change_segment(segment)" ng-options="x for x in segments">
+            <!-- <option value="Futures">Futures</option>
+            <option value="Options" selected="selected">Options</option> -->
           </select>
         </label>
 
@@ -111,7 +111,7 @@
       </div>
       <div style="grid-column: 1/5;">
         <div ng-repeat="trade in setup.trades  track by $index">
-          <div class="row">
+          <div class="row trade_div">
             <div class="col-md-4">
               <!-- <div class="col-md-4 option-type"> -->
               <div class="btn-group">

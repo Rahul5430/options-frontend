@@ -10,32 +10,17 @@ var url_nifty_all = {
 	7: 'https://spreadsheets.google.com/feeds/cells/1tqMWxaUlurnAoTeTjdLxWnUVz42dR3WHvcBOv35-VnU/ocvh19r/public/basic?alt=json'
 };
 var url_banknifty = 'https://spreadsheets.google.com/feeds/cells/11CeHRJ8HTIcAxKTd6BrzMTN-gY0f8C4iI0_ZQ7nGZyQ/o6nd5tx/public/basic?alt=json';
+var url_banknifty_all = {
+	0: 'https://spreadsheets.google.com/feeds/cells/11CeHRJ8HTIcAxKTd6BrzMTN-gY0f8C4iI0_ZQ7nGZyQ/o6nd5tx/public/basic?alt=json',
+	1: 'https://spreadsheets.google.com/feeds/cells/1-ZI_sRkV3YXW1EyzaD8TzLAjjIDo3-4KxdEAEKx9cGg/o6nd5tx/public/basic?alt=json',
+	2: 'https://spreadsheets.google.com/feeds/cells/1UUhg8026dTGpI9lvpMk1HMBYWL0VE9TOO-ouQSeFQi8/o6nd5tx/public/basic?alt=json',
+	3: 'https://spreadsheets.google.com/feeds/cells/1QuRPDUiKVKsq2Pn1vUgl6RgYan0vAKxEQK_aPuK52bA/o6nd5tx/public/basic?alt=json',
+	4: 'https://spreadsheets.google.com/feeds/cells/1P93jrxiWVUIYtoxxcg9t3XJrDZat_wJZN1mJaiDuIUw/o6nd5tx/public/basic?alt=json',
+	5: 'https://spreadsheets.google.com/feeds/cells/1OLb3THjSJNqE4yBb_zaYemkvO_EmlaHGHJUyT3HbOs4/o6nd5tx/public/basic?alt=json',
+	6: 'https://spreadsheets.google.com/feeds/cells/1K2Mj2tDqpP3p9KBx0S4jJur7VCddbwmL9pokDgBwHYU/o6nd5tx/public/basic?alt=json',
+	7: 'https://spreadsheets.google.com/feeds/cells/1tqMWxaUlurnAoTeTjdLxWnUVz42dR3WHvcBOv35-VnU/o6nd5tx/public/basic?alt=json'
+};
 var url_usdinr = '';
-
-// var expiryData = function() {
-// 	jQuery.extend({
-// 		getExpiries: function() {
-// 			var result = null;
-// 			$.ajax({
-// 				url: 'https://www.nseindia.com/api/option-chain-indices?symbol=NIFTY#',
-// 				type: 'GET',
-// 				dataType: 'JSON',
-// 				async: false,
-// 				success: function(data) {
-// 					result = data;
-// 				}
-// 			});
-// 			return result;
-// 		}
-// 	});
-// 	var data = $.getExpiries();
-// 	var expiryDates = data.records.expiryDates;
-// 	var expiries = expiryDates.slice(0, 5);
-// 	expiries.append(expiryDates[9]);
-// 	expiries.append(expiryDates[10]);
-// 	expiries.append(expiryDates[11]);
-// 	return expiries;
-// }
 
 var stock = function(url) {
 	jQuery.extend({
@@ -114,14 +99,18 @@ function getNextDayOfTheWeek(dayName, excludeToday = true, refDate = new Date())
 }
 console.log("Next is: " + getNextDayOfTheWeek("Wednesday", false));
 
-var expirieslist = function() {
+var options_expiries = function() {
 	var arr = [];
 	for (var i=0; i<28; i+=7) {
 		var d = new Date();
 		d.setDate(i + d.getDate() + ((7-d.getDay())%7+4) % 7);
 		d = d.toString().toUpperCase();
 		d = d.slice(4,15)
-		arr.push(d);
+		var day = d.slice(4,6);
+		var month = d.slice(0,3);
+		var year = d.slice(7,);
+		var result = day+' '+month+' '+year;
+		arr.push(result);
 	}
 	for (var i=0; i<4; i++) {
 		var d = new Date();
@@ -134,11 +123,31 @@ var expirieslist = function() {
 		do {
 			d.setDate(d.getDate() - 1);
 		} while (d.getDay() !== 4);
+		d = d.toString().slice(4,15).toUpperCase();
+		var day = d.slice(4,6);
+		var month = d.slice(0,3);
+		var year = d.slice(7,);
+		var result = day+' '+month+' '+year;
+		arr.push(result);
+	}
+	return arr;
+};
+console.log(options_expiries());
+
+var future_expiries = function() {
+	var arr = [];
+	for (var i=0; i<3; i++) {
+		var d = new Date();
+		d.setDate(1);
+		d.setMonth(d.getMonth()+1+i);
+		do {
+			d.setDate(d.getDate() - 1);
+		} while (d.getDay() !== 4);
 		arr.push(d.toString().slice(4,15).toUpperCase());
 	}
 	return arr;
 };
-console.log(expirieslist());
+console.log(future_expiries());
 
 var app = angular.module("optionsApp", ['ui.bootstrap', 'chart.js']);
 
@@ -146,7 +155,9 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 	$scope.url = url_nifty_all[0];
 	$scope.expiry;
 	// $scope.expiries = ['27 MAY 2021','03 JUN 2021','10 JUN 2021','17 JUN 2021', '24 JUN 2021', '29 JULy 2021', '30 SEP 2021', '30 DEC 2021'];
-	$scope.expiries = expirieslist();
+	$scope.expiries = options_expiries();
+	$scope.segments = ["OPTIONS", "FUTURES"];
+	$scope.segment = "OPTIONS";
 	// $scope.expiries = expiryData();
 	$scope.id = 0;
 	// $scope.stockdata = stock(url_nifty_all[0]);
@@ -221,6 +232,7 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 		console.log(name);
 		if (name == 'NIFTY') {
 			$scope.stockdata = stock($scope.url);
+			console.log($scope.stockdata);
 			for (var x in $scope.premium) {
 				console.log(x);
 				$scope.premium[x] = $scope.stockdata["premium123"];
@@ -243,7 +255,8 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			$('#volume').text((Object.values($scope.stockdata['premium123'])[0][8]));
 			$('#trend_strength').text((Object.values($scope.stockdata['premium123'])[0][10]));
 		} else if (name == 'BANKNIFTY') {
-			$scope.stockdata = stock(url_banknifty);
+			$scope.stockdata = stock($scope.url);
+			console.log($scope.stockdata);
 			for (var x in $scope.premium) {
 				console.log(x);
 				$scope.premium[x] = $scope.stockdata["premium123"];
@@ -272,10 +285,15 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 		console.log(expiry);
 		var option = ($scope.expiries).indexOf(expiry);
 		console.log(option);
-		url_nifty = url_nifty_all[option];
-		$scope.url = url_nifty;
-		console.log(url_nifty);
-		$scope.index(name, url_nifty);
+		if (name === "NIFTY") {
+			$scope.url = url_nifty_all[option];
+		} else if (name === "BANKNIFTY") {
+			$scope.url = url_banknifty_all[option];
+		}
+		// url_nifty = url_nifty_all[option];
+		// $scope.url = url_nifty;
+		console.log($scope.url);
+		$scope.index(name);
 	}
 	$scope.change_qty = function(qty, name) {
 		console.log(qty);
@@ -291,6 +309,30 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			$scope.premium[i] = $scope.stockdata["premium123"];
 		}
 		// console.log($scope.premium);
+	}
+	$scope.change_segment = function(segment) {
+		console.log(segment);
+		$scope.segment = segment;
+		var x = document.getElementsByClassName("trade_div");
+		var y = document.getElementsByClassName("callput");
+    	var z = document.getElementsByClassName("future-hide");
+		for (var i=0; i<y.length; i++) {
+			if (segment === "OPTIONS") {
+				x[i].style.display = "flex";
+				y[i].style.display = "inline-block";
+				z[i].style.display = "inline-block";
+				$('.strike-price').text('Strike Price');
+				$scope.expiries = options_expiries();
+			} else if (segment === "FUTURES") {
+				if (i !== 0) {
+					x[i].style.display = "none";
+				}
+				y[i].style.display = "none";
+        		z[i].style.display = "none";
+        		$('.strike-price').text('Futures Price');
+				$scope.expiries = future_expiries();
+			}
+		}
 	}
 
 	$scope.setups = DataService.getAllSetups();
