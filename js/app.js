@@ -316,6 +316,11 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 		var x = document.getElementsByClassName("trade_div");
 		var y = document.getElementsByClassName("callput");
     	var z = document.getElementsByClassName("future-hide");
+		if (segment === "FUTURES") {
+			document.getElementsByClassName("add_trade")[0].style.display = "none";
+		} else if (segment === "OPTIONS") {
+			document.getElementsByClassName("add_trade")[0].style.display = "flex";
+		}
 		for (var i=0; i<y.length; i++) {
 			if (segment === "OPTIONS") {
 				x[i].style.display = "flex";
