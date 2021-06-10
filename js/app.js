@@ -1,4 +1,3 @@
-// var url_nifty = 'https://spreadsheets.google.com/feeds/cells/11CeHRJ8HTIcAxKTd6BrzMTN-gY0f8C4iI0_ZQ7nGZyQ/ocvh19r/public/basic?alt=json#';
 var url_nifty_all = {
 	0: 'https://spreadsheets.google.com/feeds/cells/11CeHRJ8HTIcAxKTd6BrzMTN-gY0f8C4iI0_ZQ7nGZyQ/ocvh19r/public/basic?alt=json',
 	1: 'https://spreadsheets.google.com/feeds/cells/1-ZI_sRkV3YXW1EyzaD8TzLAjjIDo3-4KxdEAEKx9cGg/ocvh19r/public/basic?alt=json',
@@ -9,7 +8,6 @@ var url_nifty_all = {
 	6: 'https://spreadsheets.google.com/feeds/cells/1K2Mj2tDqpP3p9KBx0S4jJur7VCddbwmL9pokDgBwHYU/ocvh19r/public/basic?alt=json',
 	7: 'https://spreadsheets.google.com/feeds/cells/1tqMWxaUlurnAoTeTjdLxWnUVz42dR3WHvcBOv35-VnU/ocvh19r/public/basic?alt=json'
 };
-var url_banknifty = 'https://spreadsheets.google.com/feeds/cells/11CeHRJ8HTIcAxKTd6BrzMTN-gY0f8C4iI0_ZQ7nGZyQ/o6nd5tx/public/basic?alt=json';
 var url_banknifty_all = {
 	0: 'https://spreadsheets.google.com/feeds/cells/11CeHRJ8HTIcAxKTd6BrzMTN-gY0f8C4iI0_ZQ7nGZyQ/o6nd5tx/public/basic?alt=json',
 	1: 'https://spreadsheets.google.com/feeds/cells/1-ZI_sRkV3YXW1EyzaD8TzLAjjIDo3-4KxdEAEKx9cGg/o6nd5tx/public/basic?alt=json',
@@ -21,6 +19,351 @@ var url_banknifty_all = {
 	7: 'https://spreadsheets.google.com/feeds/cells/1tqMWxaUlurnAoTeTjdLxWnUVz42dR3WHvcBOv35-VnU/o6nd5tx/public/basic?alt=json'
 };
 var url_usdinr = '';
+
+var nifty = {};
+var banknifty = {};
+$(document).ready(function () {
+	// $.ajax({
+	// 	type: 'GET',
+	// 	url: url_nifty_all[0],
+	// 	dataType: 'json',
+	// 	async: true,
+	// 	success: function (data) {
+	// 		console.log("data0=" + data);
+	// 		nifty[0] = data;
+	// 	}
+	// });
+	$.ajax({
+		type: 'GET',
+		url: url_nifty_all[1],
+		dataType: 'json',
+		async: true,
+		success: function (data) {
+			console.log("data1=" + data);
+			var spotprice = data.feed.entry[35].content.$t;
+			var strikeprice123 = [];
+			var premium123 = {};
+			var i=0;
+			while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "") {
+				strikeprice123.push(data.feed.entry[83+23*i].content.$t);
+				premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t)];;
+				i++;
+			}
+			nifty[1] = {
+				"spotprice" : spotprice,
+				"premium123" : premium123
+			};
+		}
+	});
+	$.ajax({
+		type: 'GET',
+		url: url_nifty_all[2],
+		dataType: 'json',
+		async: true,
+		success: function (data) {
+			console.log("data2=" + data);
+			var spotprice = data.feed.entry[35].content.$t;
+			var strikeprice123 = [];
+			var premium123 = {};
+			var i=0;
+			while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "") {
+				strikeprice123.push(data.feed.entry[83+23*i].content.$t);
+				premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t)];;
+				i++;
+			}
+			nifty[2] = {
+				"spotprice" : spotprice,
+				"premium123" : premium123
+			};
+		}
+	});
+	$.ajax({
+		type: 'GET',
+		url: url_nifty_all[3],
+		dataType: 'json',
+		async: true,
+		success: function (data) {
+			console.log("data3=" + data);
+			var spotprice = data.feed.entry[35].content.$t;
+			var strikeprice123 = [];
+			var premium123 = {};
+			var i=0;
+			while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "") {
+				strikeprice123.push(data.feed.entry[83+23*i].content.$t);
+				premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t)];;
+				i++;
+			}
+			nifty[3] = {
+				"spotprice" : spotprice,
+				"premium123" : premium123
+			};
+		}
+	});
+	$.ajax({
+		type: 'GET',
+		url: url_nifty_all[4],
+		dataType: 'json',
+		async: true,
+		success: function (data) {
+			console.log("data4=" + data);
+			var spotprice = data.feed.entry[35].content.$t;
+			var strikeprice123 = [];
+			var premium123 = {};
+			var i=0;
+			while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "") {
+				strikeprice123.push(data.feed.entry[83+23*i].content.$t);
+				premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t)];;
+				i++;
+			}
+			nifty[4] = {
+				"spotprice" : spotprice,
+				"premium123" : premium123
+			};
+		}
+	});
+	$.ajax({
+		type: 'GET',
+		url: url_nifty_all[5],
+		dataType: 'json',
+		async: true,
+		success: function (data) {
+			console.log("data5=" + data);
+			var spotprice = data.feed.entry[35].content.$t;
+			var strikeprice123 = [];
+			var premium123 = {};
+			var i=0;
+			while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "") {
+				strikeprice123.push(data.feed.entry[83+23*i].content.$t);
+				premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t)];;
+				i++;
+			}
+			nifty[5] = {
+				"spotprice" : spotprice,
+				"premium123" : premium123
+			};
+		}
+	});
+	$.ajax({
+		type: 'GET',
+		url: url_nifty_all[6],
+		dataType: 'json',
+		async: true,
+		success: function (data) {
+			console.log("data6=" + data);
+			var spotprice = data.feed.entry[35].content.$t;
+			var strikeprice123 = [];
+			var premium123 = {};
+			var i=0;
+			while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "") {
+				strikeprice123.push(data.feed.entry[83+23*i].content.$t);
+				premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t)];;
+				i++;
+			}
+			nifty[6] = {
+				"spotprice" : spotprice,
+				"premium123" : premium123
+			};
+		}
+	});
+	$.ajax({
+		type: 'GET',
+		url: url_nifty_all[7],
+		dataType: 'json',
+		async: true,
+		success: function (data) {
+			console.log("data7=" + data);
+			var spotprice = data.feed.entry[35].content.$t;
+			var strikeprice123 = [];
+			var premium123 = {};
+			var i=0;
+			while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "") {
+				strikeprice123.push(data.feed.entry[83+23*i].content.$t);
+				premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t)];;
+				i++;
+			}
+			nifty[7] = {
+				"spotprice" : spotprice,
+				"premium123" : premium123
+			};
+		}
+	});
+	$.ajax({
+		type: 'GET',
+		url: url_banknifty_all[0],
+		dataType: 'json',
+		async: true,
+		success: function (data) {
+			console.log("bankdata0=" + data);
+			var spotprice = data.feed.entry[35].content.$t;
+			var strikeprice123 = [];
+			var premium123 = {};
+			var i=0;
+			while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "") {
+				strikeprice123.push(data.feed.entry[83+23*i].content.$t);
+				premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t)];;
+				i++;
+			}
+			banknifty[0] = {
+				"spotprice" : spotprice,
+				"premium123" : premium123
+			};
+		}
+	});
+	$.ajax({
+		type: 'GET',
+		url: url_banknifty_all[1],
+		dataType: 'json',
+		async: true,
+		success: function (data) {
+			console.log("bankdata1=" + data);
+			var spotprice = data.feed.entry[35].content.$t;
+			var strikeprice123 = [];
+			var premium123 = {};
+			var i=0;
+			while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "") {
+				strikeprice123.push(data.feed.entry[83+23*i].content.$t);
+				premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t)];;
+				i++;
+			}
+			banknifty[1] = {
+				"spotprice" : spotprice,
+				"premium123" : premium123
+			};
+		}
+	});
+	$.ajax({
+		type: 'GET',
+		url: url_banknifty_all[2],
+		dataType: 'json',
+		async: true,
+		success: function (data) {
+			console.log("bankdata2=" + data);
+			var spotprice = data.feed.entry[35].content.$t;
+			var strikeprice123 = [];
+			var premium123 = {};
+			var i=0;
+			while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "") {
+				strikeprice123.push(data.feed.entry[83+23*i].content.$t);
+				premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t)];;
+				i++;
+			}
+			banknifty[2] = {
+				"spotprice" : spotprice,
+				"premium123" : premium123
+			};
+		}
+	});
+	$.ajax({
+		type: 'GET',
+		url: url_banknifty_all[3],
+		dataType: 'json',
+		async: true,
+		success: function (data) {
+			console.log("bankdata3=" + data);
+			var spotprice = data.feed.entry[35].content.$t;
+			var strikeprice123 = [];
+			var premium123 = {};
+			var i=0;
+			while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "") {
+				strikeprice123.push(data.feed.entry[83+23*i].content.$t);
+				premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t)];;
+				i++;
+			}
+			banknifty[3] = {
+				"spotprice" : spotprice,
+				"premium123" : premium123
+			};
+		}
+	});
+	$.ajax({
+		type: 'GET',
+		url: url_banknifty_all[4],
+		dataType: 'json',
+		async: true,
+		success: function (data) {
+			console.log("bankdata4=" + data);
+			var spotprice = data.feed.entry[35].content.$t;
+			var strikeprice123 = [];
+			var premium123 = {};
+			var i=0;
+			while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "") {
+				strikeprice123.push(data.feed.entry[83+23*i].content.$t);
+				premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t)];;
+				i++;
+			}
+			banknifty[4] = {
+				"spotprice" : spotprice,
+				"premium123" : premium123
+			};
+		}
+	});
+	$.ajax({
+		type: 'GET',
+		url: url_banknifty_all[5],
+		dataType: 'json',
+		async: true,
+		success: function (data) {
+			console.log("bankdata5=" + data);
+			var spotprice = data.feed.entry[35].content.$t;
+			var strikeprice123 = [];
+			var premium123 = {};
+			var i=0;
+			while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "") {
+				strikeprice123.push(data.feed.entry[83+23*i].content.$t);
+				premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t)];;
+				i++;
+			}
+			banknifty[5] = {
+				"spotprice" : spotprice,
+				"premium123" : premium123
+			};
+		}
+	});
+	$.ajax({
+		type: 'GET',
+		url: url_banknifty_all[6],
+		dataType: 'json',
+		async: true,
+		success: function (data) {
+			console.log("bankdata6=" + data);
+			var spotprice = data.feed.entry[35].content.$t;
+			var strikeprice123 = [];
+			var premium123 = {};
+			var i=0;
+			while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "") {
+				strikeprice123.push(data.feed.entry[83+23*i].content.$t);
+				premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t)];;
+				i++;
+			}
+			banknifty[6] = {
+				"spotprice" : spotprice,
+				"premium123" : premium123
+			};
+		}
+	});
+	$.ajax({
+		type: 'GET',
+		url: url_banknifty_all[7],
+		dataType: 'json',
+		async: true,
+		success: function (data) {
+			console.log("bankdata7=" + data);
+			var spotprice = data.feed.entry[35].content.$t;
+			var strikeprice123 = [];
+			var premium123 = {};
+			var i=0;
+			while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "") {
+				strikeprice123.push(data.feed.entry[83+23*i].content.$t);
+				premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t)];;
+				i++;
+			}
+			banknifty[7] = {
+				"spotprice" : spotprice,
+				"premium123" : premium123
+			};
+		}
+	});
+});
 
 var stock = function(url) {
 	jQuery.extend({
@@ -54,9 +397,9 @@ var stock = function(url) {
 		"premium123" : premium123
 	}
 }
-console.log(stock(url_nifty_all[0]));
+nifty[0] = stock(url_nifty_all[0]);
 $(document).ready(function() {
-	let temp = stock(url_nifty_all[0])
+	let temp = nifty[0];
 	$("#spot_Price").text(temp['spotprice']);
 	$("#lot_size").text(1);
 	$('#strategy').text((Object.values(temp['premium123'])[0][2]));
@@ -65,39 +408,6 @@ $(document).ready(function() {
 	$('#volume').text((Object.values(temp['premium123'])[0][8]));
 	$('#trend_strength').text((Object.values(temp['premium123'])[0][10]));
 });
-
-var url_nifty = url_nifty_all[0];
-var change_expiry = function() {
-	console.log('hi');
-	var expiry = $('.expiry').children('option:selected').val();
-	console.log(expiry);
-	for (var i=0; i<$('.expiry').children().length; i++) {
-		var option = '.expiry option:nth-child(' + (i+1).toString() + ')';
-		if (expiry == $(option).val()) {
-			url_nifty = url_nifty_all[i];
-			break;
-		}
-	}
-	console.log(url_nifty);
-};
-
-var changeqty = function() {
-	$("qty:input").bind("keyup mouseup", function() {
-		console.log("changed");
-	});
-};
-
-var d = new Date()
-d.setDate(d.getDate() + (1 + 7 - d.getDate()) % 7);
-console.log(d)
-function getNextDayOfTheWeek(dayName, excludeToday = true, refDate = new Date()) {
-    const dayOfWeek = ["sun","mon","tue","wed","thu","fri","sat"].indexOf(dayName.slice(0,3).toLowerCase());
-    if (dayOfWeek < 0) return;
-    refDate.setHours(0,0,0,0);
-    refDate.setDate(refDate.getDate() + +!!excludeToday + (dayOfWeek + 7 - refDate.getDay() - +!!excludeToday) % 7);
-    return refDate;
-}
-console.log("Next is: " + getNextDayOfTheWeek("Wednesday", false));
 
 var options_expiries = function() {
 	var arr = [];
@@ -154,21 +464,15 @@ var app = angular.module("optionsApp", ['ui.bootstrap', 'chart.js']);
 app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($scope, DataService, UtilService) {
 	$scope.url = url_nifty_all[0];
 	$scope.expiry;
-	// $scope.expiries = ['27 MAY 2021','03 JUN 2021','10 JUN 2021','17 JUN 2021', '24 JUN 2021', '29 JULy 2021', '30 SEP 2021', '30 DEC 2021'];
 	$scope.expiries = options_expiries();
 	$scope.segments = ["OPTIONS", "FUTURES"];
 	$scope.segment = "OPTIONS";
-	// $scope.expiries = expiryData();
 	$scope.id = 0;
-	// $scope.stockdata = stock(url_nifty_all[0]);
-	$scope.stockdata = stock($scope.url);
-	// $scope.premiumData = $scope.stockdata["premium123"];
+	$scope.stockdata = nifty[0];
 	$scope.premium = {};
 	$scope.strike_price = Object.keys($scope.stockdata["premium123"]);
 	$scope.spot_price = [$scope.stockdata["spotprice"]];
 	$scope.indices = ["NIFTY", "BANKNIFTY", "USDINR"]
-	// $scope.premiumValue = [premium123[12800][0]];
-	// $scope.premiumValue = [$scope.stockdata["premium123"][Object.keys($scope.stockdata["premium123"])[0]][0]];
 	$scope.premiumValue = {0: [$scope.stockdata["premium123"][Object.keys($scope.stockdata["premium123"])[0]][0]]};
 	$scope.trade_type = 'call';
 	$scope.changetrade = function(trade_type, index) {
@@ -178,8 +482,6 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 		strikeprice = parseInt(strikeprice);
 		if (trade_type == 'put') {
 			console.log('put');
-			// console.log($scope.stockdata["premium123"][strikeprice][1]);
-			// $scope.premiumValue = [$scope.stockdata["premium123"][strikeprice][1]];
 			$scope.premiumValue[index] = [$scope.premium[index][strikeprice][1]];
 			console.log($scope.premiumValue);
 			$('#strategy').text((Object.values($scope.stockdata["premium123"])[0][3]));
@@ -189,8 +491,6 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			$('#trend_strength').text((Object.values($scope.stockdata['premium123'])[0][11]));
 		} else if (trade_type == 'call') {
 			console.log('call');
-			// console.log($scope.stockdata["premium123"][strikeprice][0]);
-			// $scope.premiumValue = [$scope.stockdata["premium123"][strikeprice][0]];
 			$scope.premiumValue[index] = [$scope.premium[index][strikeprice][0]];
 			console.log($scope.premiumValue);
 			$('#strategy').text((Object.values($scope.stockdata["premium123"])[0][2]));
@@ -208,19 +508,12 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 		strikeprice = strikeprice.replace("string:", "0");
 		strikeprice = parseInt(strikeprice);
 		console.log(strikeprice);
-		// $('#strategy').text(strikeprice);
 		if ($scope.trade_type == 'put') {
 			console.log('put');
-			// console.log($scope.stockdata["premium123"][strikeprice][1]);
-			// $scope.premiumValue = [$scope.stockdata["premium123"][strikeprice][1]];
 			$scope.premiumValue[index] = [$scope.premium[index][strikeprice][1]];
 			console.log($scope.premiumValue);
 		} else if ($scope.trade_type == 'call') {
 			console.log('call');
-			// console.log($scope.stockdata["premium123"][strikeprice][0]);
-			// console.log($scope.premium[index][strikeprice][0]);
-			// $scope.premiumValue = [$scope.stockdata["premium123"][strikeprice][0]];
-			// $scope.premiumValue = [$scope.premium[index][strikeprice][0]];
 			$scope.premiumValue[index] = [$scope.premium[index][strikeprice][0]];
 			console.log($scope.premiumValue);
 			console.log();
@@ -231,19 +524,16 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 	$scope.index = function(name) {
 		console.log(name);
 		if (name == 'NIFTY') {
-			$scope.stockdata = stock($scope.url);
+			// $scope.stockdata = stock($scope.url);
 			console.log($scope.stockdata);
 			for (var x in $scope.premium) {
 				console.log(x);
 				$scope.premium[x] = $scope.stockdata["premium123"];
 			}
 			console.log($scope.premium);
-			// $scope.stockdata = stock(url);
 			$scope.strike_price = Object.keys($scope.stockdata["premium123"]);
 			$scope.spot_price = [$scope.stockdata["spotprice"]];
 			$scope.indices = ["NIFTY", "BANKNIFTY", "USDINR"]
-			// $scope.premiumValue = [premium123[12800][0]];
-			// $scope.premiumValue = [$scope.stockdata["premium123"][Object.keys($scope.stockdata["premium123"])[0]][0]];
 			$scope.premiumValue = {0: [$scope.stockdata["premium123"][Object.keys($scope.stockdata["premium123"])[0]][0]]};
 			$scope.trade_type = 'call';
 			$(".qty").attr("step", "75");
@@ -255,7 +545,7 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			$('#volume').text((Object.values($scope.stockdata['premium123'])[0][8]));
 			$('#trend_strength').text((Object.values($scope.stockdata['premium123'])[0][10]));
 		} else if (name == 'BANKNIFTY') {
-			$scope.stockdata = stock($scope.url);
+			// $scope.stockdata = stock($scope.url);
 			console.log($scope.stockdata);
 			for (var x in $scope.premium) {
 				console.log(x);
@@ -265,8 +555,6 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			$scope.strike_price = Object.keys($scope.stockdata["premium123"]);
 			$scope.spot_price = [$scope.stockdata["spotprice"]];
 			$scope.indices = ["NIFTY", "BANKNIFTY", "USDINR"]
-			// $scope.premiumValue = [premium123[12800][0]];
-			// $scope.premiumValue = [$scope.stockdata["premium123"][Object.keys($scope.stockdata["premium123"])[0]][0]];
 			$scope.premiumValue = {0: [$scope.stockdata["premium123"][Object.keys($scope.stockdata["premium123"])[0]][0]]};
 			$scope.trade_type = 'call';
 			$(".qty").attr("step", "25");
@@ -286,13 +574,13 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 		var option = ($scope.expiries).indexOf(expiry);
 		console.log(option);
 		if (name === "NIFTY") {
-			$scope.url = url_nifty_all[option];
+			// $scope.url = url_nifty_all[option];
+			$scope.stockdata = nifty[option];
 		} else if (name === "BANKNIFTY") {
-			$scope.url = url_banknifty_all[option];
+			// $scope.url = url_banknifty_all[option];
+			$scope.stockdata = banknifty[option];
 		}
-		// url_nifty = url_nifty_all[option];
-		// $scope.url = url_nifty;
-		console.log($scope.url);
+		// console.log($scope.url);
 		$scope.index(name);
 	}
 	$scope.change_qty = function(qty, name) {
@@ -308,7 +596,6 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 		for (var i=0; i<n; i++) {
 			$scope.premium[i] = $scope.stockdata["premium123"];
 		}
-		// console.log($scope.premium);
 	}
 	$scope.change_segment = function(segment) {
 		console.log(segment);
@@ -341,7 +628,6 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 	}
 
 	$scope.setups = DataService.getAllSetups();
-	// $scope.abc = ($scope.setups[0].trades);
 	$scope.chart = {
 		data: {},
 		series: ['Profit & Loss'],
@@ -353,7 +639,6 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 				}
 			}
 		},
-		// labels: ["White"]
 	};
 	
 	$scope.$watch('setups', function () {
@@ -401,14 +686,9 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			premium: 0,
 			qty: 1
 		});
-		// $scope.premium[$scope.id] = $scope.premiumData;
-		// $scope.premium[$scope.id] = stock($scope.url)["premium123"];
 		$scope.premium[$scope.id] = $scope.stockdata["premium123"];
 		console.log($scope.premium);
 		$scope.id++;
-		// console.log($scope.abc);
-		// console.log(Object.keys(setup.trades).length);
-		// console.log(setup.trades.length);
 	};
 
 	$scope.removeTrade = function (setup, trade) {
@@ -482,7 +762,7 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 	};
 
 	$scope.updateChartData = function (setup) {
-		spotPrice = parseInt(setup.spotPrice, 10);
+		var spotPrice = parseInt(setup.spotPrice, 10);
 		if (spotPrice == 0) return 0;
 
 		var spotRange = parseInt(spotPrice * 0.08, 10);
@@ -577,3 +857,6 @@ app.factory('UtilService', function () {
 	};
 	return methods;
 });
+
+console.log(nifty);
+console.log(banknifty);
