@@ -525,6 +525,7 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 		console.log(name);
 		if (name == 'NIFTY') {
 			// $scope.stockdata = stock($scope.url);
+			$scope.stockdata = nifty[$scope.url];
 			console.log($scope.stockdata);
 			for (var x in $scope.premium) {
 				console.log(x);
@@ -546,6 +547,7 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			$('#trend_strength').text((Object.values($scope.stockdata['premium123'])[0][10]));
 		} else if (name == 'BANKNIFTY') {
 			// $scope.stockdata = stock($scope.url);
+			$scope.stockdata = banknifty[$scope.url];
 			console.log($scope.stockdata);
 			for (var x in $scope.premium) {
 				console.log(x);
@@ -574,11 +576,13 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 		var option = ($scope.expiries).indexOf(expiry);
 		console.log(option);
 		if (name === "NIFTY") {
+			$scope.url = option;
 			// $scope.url = url_nifty_all[option];
-			$scope.stockdata = nifty[option];
+			// $scope.stockdata = nifty[option];
 		} else if (name === "BANKNIFTY") {
+			$scope.url = option;
 			// $scope.url = url_banknifty_all[option];
-			$scope.stockdata = banknifty[option];
+			// $scope.stockdata = banknifty[option];
 		}
 		// console.log($scope.url);
 		$scope.index(name);
