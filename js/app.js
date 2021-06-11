@@ -462,7 +462,8 @@ console.log(future_expiries());
 var app = angular.module("optionsApp", ['ui.bootstrap', 'chart.js']);
 
 app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($scope, DataService, UtilService) {
-	$scope.url = url_nifty_all[0];
+	// $scope.url = url_nifty_all[0];
+	$scope.url = 0;
 	$scope.expiry;
 	$scope.expiries = options_expiries();
 	$scope.segments = ["OPTIONS", "FUTURES"];
@@ -587,8 +588,10 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 		// console.log($scope.url);
 		$scope.index(name);
 	}
+	$scope.quantity = 75;
 	$scope.change_qty = function(qty, name) {
 		console.log(qty);
+		$scope.quantity = qty;
 		if (name == 'NIFTY') {
 			$("#lot_size").text(qty/75);
 		} else if (name == 'BANKNIFTY') {
@@ -649,8 +652,14 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 		angular.forEach($scope.setups, function (setup) {
 			setup.profit = $scope.netProfit(setup);
 			$scope.updateChartData(setup);
+			$scope.change_qty($scope.quantity, setup.name);
 		});
 		DataService.saveSetups($scope.setups);
+		$('#strategy').text((Object.values($scope.stockdata["premium123"])[0][2]));
+		$('#oi').text((Object.values($scope.stockdata['premium123'])[0][6]));
+		$('#change_in_oi').text((Object.values($scope.stockdata['premium123'])[0][4]));
+		$('#volume').text((Object.values($scope.stockdata['premium123'])[0][8]));
+		$('#trend_strength').text((Object.values($scope.stockdata['premium123'])[0][10]));
 	}, true);
 
 	$scope.addSetup = function () {
@@ -662,12 +671,13 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			profit: 0
 		};
 		console.log(setup.spotPrice);
-		$scope.setups.push(setup);
 		$('#strategy').text((Object.values($scope.stockdata["premium123"])[0][2]));
+		console.log((Object.values($scope.stockdata["premium123"])[0][2]));
 		$('#oi').text((Object.values($scope.stockdata['premium123'])[0][6]));
 		$('#change_in_oi').text((Object.values($scope.stockdata['premium123'])[0][4]));
 		$('#volume').text((Object.values($scope.stockdata['premium123'])[0][8]));
 		$('#trend_strength').text((Object.values($scope.stockdata['premium123'])[0][10]));
+		$scope.setups.push(setup);
 	};
 
 	$scope.deleteSetup = function (setup) {
