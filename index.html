@@ -137,6 +137,7 @@
                   <select type="text" id="{{$index}}" ng-init="trade.strike = strike_price[0]" ng-model="trade.strike" class="form-control strike_price" ng-options="x for x in strike_price" ng-change="changestrikeprice({{$index}})">
                   <!-- <select type="text" ng-init="trade.strike = strike_price[0]" ng-model="trade.strike" class="form-control strike_price" ng-options="x for x in strike_price"> -->
                   </select>
+                  <select type="text" class="form-control future" ng-model="trade.strike" style="display: none;" ng-options="x for x in future_price"></select>
                 </div>
                 <div class="col-md-3 future-hide">
                   <label uib-tooltip="Price of 1 unit of option">Premium</label>

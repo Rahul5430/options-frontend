@@ -22,7 +22,24 @@ var url_usdinr = '';
 
 var nifty = {};
 var banknifty = {};
+var niftyfutures = {}
+var bankniftyfutures = {}
 $(document).ready(function () {
+	$.ajax({
+		type: 'GET',
+		url: 'https://spreadsheets.google.com/feeds/cells/11CeHRJ8HTIcAxKTd6BrzMTN-gY0f8C4iI0_ZQ7nGZyQ/o1jty9e/public/basic?alt=json',
+		dataType: 'json',
+		async: true,
+		success: function (data) {
+			console.log("futures data=" + data);
+			niftyfutures[0] = parseInt(data.feed.entry[0].content.$t);
+			niftyfutures[1] = parseInt(data.feed.entry[2].content.$t);
+			niftyfutures[2] = parseInt(data.feed.entry[4].content.$t);
+			bankniftyfutures[0] = parseInt(data.feed.entry[1].content.$t);
+			bankniftyfutures[1] = parseInt(data.feed.entry[3].content.$t);
+			bankniftyfutures[2] = parseInt(data.feed.entry[5].content.$t);
+		}
+	});
 	// $.ajax({
 	// 	type: 'GET',
 	// 	url: url_nifty_all[0],
@@ -468,6 +485,7 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 	$scope.expiries = options_expiries();
 	$scope.segments = ["OPTIONS", "FUTURES"];
 	$scope.segment = "OPTIONS";
+	$scope.future_price = [Object.values(niftyfutures)[0]];
 	$scope.id = 0;
 	$scope.stockdata = nifty[0];
 	$scope.premium = {};
@@ -580,10 +598,20 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			$scope.url = option;
 			// $scope.url = url_nifty_all[option];
 			// $scope.stockdata = nifty[option];
+			if ($scope.segment === "FUTURES") {
+				$scope.future_price = [Object.values(niftyfutures)[option]];
+			} else if ($scope.segment === "OPTIONS") {
+				// options
+			}
 		} else if (name === "BANKNIFTY") {
 			$scope.url = option;
 			// $scope.url = url_banknifty_all[option];
 			// $scope.stockdata = banknifty[option];
+			if ($scope.segment === "FUTURES") {
+				$scope.future_price = [Object.values(bankniftyfutures)[option]];
+			} else if ($scope.segment === "OPTIONS") {
+				// options
+			}
 		}
 		// console.log($scope.url);
 		$scope.index(name);
@@ -610,6 +638,8 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 		var x = document.getElementsByClassName("trade_div");
 		var y = document.getElementsByClassName("callput");
     	var z = document.getElementsByClassName("future-hide");
+		var a = document.getElementsByClassName("future");
+		var b = document.getElementsByClassName("strike_price");
 		if (segment === "FUTURES") {
 			document.getElementsByClassName("add_trade")[0].style.display = "none";
 		} else if (segment === "OPTIONS") {
@@ -620,6 +650,8 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 				x[i].style.display = "flex";
 				y[i].style.display = "inline-block";
 				z[i].style.display = "inline-block";
+				a[i].style.display = "none"
+				b[i].style.display = "flex"
 				$('.strike-price').text('Strike Price');
 				$scope.expiries = options_expiries();
 			} else if (segment === "FUTURES") {
@@ -628,6 +660,8 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 				}
 				y[i].style.display = "none";
         		z[i].style.display = "none";
+				a[i].style.display = "flex"
+				b[i].style.display = "none"
         		$('.strike-price').text('Futures Price');
 				$scope.expiries = future_expiries();
 			}
@@ -744,23 +778,34 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 		if (spotPrice == 0) return 0;
 
 		var ret = 0;
-		setup.trades.forEach(function (trade) {
+		if ($scope.segment === "OPTIONS") {
+			setup.trades.forEach(function (trade) {
+				if (trade.strike <= 0) return;
+
+				if (trade.tradeType == "buy") {
+					if (trade.optionType == "call") {
+						ret += (Math.max(spotPrice - trade.strike, 0) - trade.premium) * trade.qty;
+					} else { //put
+						ret += (Math.max(trade.strike - spotPrice, 0) - trade.premium) * trade.qty;
+					}
+				} else { //sell
+					if (trade.optionType == "call") {
+						ret += (trade.premium - Math.max(spotPrice - trade.strike, 0)) * trade.qty;
+					} else { //put
+						ret += (trade.premium - Math.max(trade.strike - spotPrice, 0)) * trade.qty;
+					}
+				}
+			});
+		} else if ($scope.segment === "FUTURES") {
+			var trade = setup.trades[0];
 			if (trade.strike <= 0) return;
 
 			if (trade.tradeType == "buy") {
-				if (trade.optionType == "call") {
-					ret += (Math.max(spotPrice - trade.strike, 0) - trade.premium) * trade.qty;
-				} else { //put
-					ret += (Math.max(trade.strike - spotPrice, 0) - trade.premium) * trade.qty;
-				}
+				ret += (spotPrice - trade.strike) * trade.qty;
 			} else { //sell
-				if (trade.optionType == "call") {
-					ret += (trade.premium - Math.max(spotPrice - trade.strike, 0)) * trade.qty;
-				} else { //put
-					ret += (trade.premium - Math.max(trade.strike - spotPrice, 0)) * trade.qty;
-				}
+				ret += (trade.strike - spotPrice) * trade.qty;
 			}
-		});
+		}
 
 		return parseFloat(ret).toFixed(2);
 	};
@@ -872,5 +917,7 @@ app.factory('UtilService', function () {
 	return methods;
 });
 
+console.log(niftyfutures);
+console.log(bankniftyfutures);
 console.log(nifty);
 console.log(banknifty);
