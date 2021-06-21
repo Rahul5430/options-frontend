@@ -495,6 +495,7 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 	$scope.premiumValue = {0: [$scope.stockdata["premium123"][Object.keys($scope.stockdata["premium123"])[0]][0]]};
 	$scope.trade_type = 'call';
 	$scope.breakevens = {};
+	$scope.total_loss = {};
 	$scope.changetrade = function(trade_type, index) {
 		$scope.trade_type = trade_type;
 		var strikeprice = $("#"+index.toString()).children("option:selected").val();
@@ -509,6 +510,10 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			$('#change_in_oi').text((Object.values($scope.stockdata['premium123'])[0][5]));
 			$('#volume').text((Object.values($scope.stockdata['premium123'])[0][9]));
 			$('#trend_strength').text((Object.values($scope.stockdata['premium123'])[0][11]));
+			$scope.breakevens[index] = strikeprice - parseInt($scope.premiumValue[index]);
+			console.log($scope.breakevens);
+			$scope.total_loss[index] = -1 * parseFloat($scope.premiumValue[index]);
+			console.log($scope.total_loss);
 		} else if (trade_type == 'call') {
 			console.log('call');
 			$scope.premiumValue[index] = [$scope.premium[index][strikeprice][0]];
@@ -518,6 +523,10 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			$('#change_in_oi').text((Object.values($scope.stockdata['premium123'])[0][4]));
 			$('#volume').text((Object.values($scope.stockdata['premium123'])[0][8]));
 			$('#trend_strength').text((Object.values($scope.stockdata['premium123'])[0][10]));
+			$scope.breakevens[index] = strikeprice + parseInt($scope.premiumValue[index]);
+			console.log($scope.breakevens);
+			$scope.total_loss[index] = -1 * parseFloat($scope.premiumValue[index]);
+			console.log($scope.total_loss);
 		} else {
 			console.log('no');
 		}
@@ -532,12 +541,18 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			console.log('put');
 			$scope.premiumValue[index] = [$scope.premium[index][strikeprice][1]];
 			console.log($scope.premiumValue);
+			$scope.breakevens[index] = strikeprice - parseInt($scope.premiumValue[index]);
+			console.log($scope.breakevens);
+			$scope.total_loss[index] = -1 * parseFloat($scope.premiumValue[index]);
+			console.log($scope.total_loss);
 		} else if ($scope.trade_type == 'call') {
 			console.log('call');
 			$scope.premiumValue[index] = [$scope.premium[index][strikeprice][0]];
 			console.log($scope.premiumValue);
 			$scope.breakevens[index] = strikeprice + parseInt($scope.premiumValue[index]);
 			console.log($scope.breakevens);
+			$scope.total_loss[index] = -1 * parseFloat($scope.premiumValue[index]);
+			console.log($scope.total_loss);
 		} else {
 			console.log('no');
 		}
@@ -633,7 +648,24 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 		for (var i=0; i<n; i++) {
 			$scope.premium[i] = $scope.stockdata["premium123"];
 			$scope.breakevens[i] = parseInt($scope.strike_price[0]);
+			$scope.total_loss[i] = parseFloat(Object.values($scope.premium[i])[0][0]);
 		}
+		var size = Object.keys($scope.breakevens).length;
+		var ans = 0;
+		for (var [key, value] of Object.entries($scope.breakevens)) {
+			var breakeven = parseInt(`${value}`);
+			ans += breakeven;
+		}
+		console.log(ans/size);
+		$('#breakevens').text(ans/size);
+		var size = Object.keys($scope.total_loss).length;
+		var ans = 0;
+		for (var [key, value] of Object.entries($scope.total_loss)) {
+			var total_loss = parseInt(`${value}`);
+			ans += total_loss;
+		}
+		console.log(ans/size);
+		$('#total_loss').text(ans/size);
 	}
 	$scope.change_segment = function(segment) {
 		console.log(segment);
@@ -702,11 +734,19 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 		var ans = 0;
 		for (var [key, value] of Object.entries($scope.breakevens)) {
 			var breakeven = parseInt(`${value}`);
-			// console.log(breakeven);
 			ans += breakeven;
 		}
 		console.log(ans/size);
 		$('#breakevens').text(ans/size);
+		console.log($scope.total_loss);
+		var size = Object.keys($scope.total_loss).length;
+		var ans = 0;
+		for (var [key, value] of Object.entries($scope.total_loss)) {
+			var total_loss = parseInt(`${value}`);
+			ans += total_loss;
+		}
+		console.log(ans/size);
+		$('#total_loss').text(ans/size);
 	}, true);
 
 	$scope.addSetup = function () {
@@ -749,6 +789,7 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 		});
 		$scope.premium[$scope.id] = $scope.stockdata["premium123"];
 		$scope.breakevens[$scope.id] = parseInt($scope.strike_price[0]);
+		$scope.total_loss[$scope.id] = parseFloat(Object.values($scope.premium[$scope.id])[0][0]);
 		console.log($scope.premium);
 		$scope.id++;
 	};
