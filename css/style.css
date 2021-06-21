@@ -11787,16 +11787,20 @@ body {
 }
 
 .nme>p {
-	margin-left: 130px;
+	/* margin-left: 130px; */
+	margin-left: 25%;
 }
 
 .data {
-	margin-left: 40px;
+	/* margin-left: 40px; */
+	/* position: relative; */
+	/* top: 140px; */
+	/* width: 900px; */
+	margin-left: 3%;
+	margin-top: 11%;
 	display: grid;
-	position: relative;
-	top: 140px;
 	grid-template-columns: 50% 50%;
-	width: 900px;
+	width: 60%;
 	background-color: #393d46;
 	border: 2px;
 	border-radius: 4em;
@@ -11805,14 +11809,18 @@ body {
 }
 
 .data2 {
-	margin-top: 28px;
-	margin-left: 35px;
+	/* margin-top: 28px; */
+	/* margin-left: 35px; */
+	/* height: 218px; */
+	/* width: 510px; */
+	/* position: relative; */
+	/* top: -103px; */
+	/* left: 925px; */
+	margin-top: -13.9%;
+	margin-left: 65%;
 	display: grid;
-	height: 218px;
-	width: 510px;
-	position: relative;
-	top: -103px;
-	left: 925px;
+	height: 13.4rem;
+	width: 33%;
 	background-color: #393d46;
 	border: 2px;
 	border-radius: 4em;
