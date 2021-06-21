@@ -48,10 +48,25 @@
     }
   </style>
 
+  <!-- Google Tag Manager -->
+  <script>(function (w, d, s, l, i) {
+      w[l] = w[l] || []; w[l].push({
+        'gtm.start':
+          new Date().getTime(), event: 'gtm.js'
+      }); var f = d.getElementsByTagName(s)[0],
+        j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+          'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer', 'GTM-WX7CCPQ');</script>
+  <!-- End Google Tag Manager -->
 </head>
 
 
 <body style="background-color:#212832;" ng-controller="MainCtrl" class="ng-scope">
+
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WX7CCPQ" height="0" width="0"
+      style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
 
   <div class="navbar">
     <h4>Strategy Builder</h4>
@@ -75,7 +90,8 @@
         <label>
           Select Segment
           <!-- <input type="text" value="Options" id="segment" class="form-control" name="segment" list="select-segment" onchange="run()"> -->
-          <select class="form-control" id="select-segment" ng-init="segment = segments[0]" ng-model="segment" ng-change="change_segment(segment)" ng-options="x for x in segments">
+          <select class="form-control" id="select-segment" ng-init="segment = segments[0]" ng-model="segment"
+            ng-change="change_segment(segment)" ng-options="x for x in segments">
             <!-- <option value="Futures">Futures</option>
             <option value="Options" selected="selected">Options</option> -->
           </select>
@@ -87,7 +103,8 @@
         <label>
           Select Expiry
           <!-- <input type="text" class="form-control"> -->
-          <select class="form-control expiry" ng-init="expiry = expiries[0]" ng-change="change_expiry(expiry, setup.name)" ng-model="expiry" ng-options="x for x in expiries">
+          <select class="form-control expiry" ng-init="expiry = expiries[0]"
+            ng-change="change_expiry(expiry, setup.name)" ng-model="expiry" ng-options="x for x in expiries">
             <!-- <option ng-repeat="x in expiries" value="{{x.value}}">{{x.date}}</option> -->
             <!-- <option value="2021-05-27">27 MAY 2021</option>
             <option value="2021-06-03">03 JUN 2021</option>
@@ -121,8 +138,10 @@
               <!-- </div>
               <div class="row"> -->
               <div class="btn-group callput">
-                <label class="btn btn-warning" ng-model="trade.optionType" uib-btn-radio="'call'" ng-change="trade_type = trade.optionType; changetrade(trade_type, {{$index}})">Call</label>
-                <label class="btn btn-warning" ng-model="trade.optionType" uib-btn-radio="'put'" ng-change="trade_type = trade.optionType; changetrade(trade_type, {{$index}})">Put</label>
+                <label class="btn btn-warning" ng-model="trade.optionType" uib-btn-radio="'call'"
+                  ng-change="trade_type = trade.optionType; changetrade(trade_type, {{$index}})">Call</label>
+                <label class="btn btn-warning" ng-model="trade.optionType" uib-btn-radio="'put'"
+                  ng-change="trade_type = trade.optionType; changetrade(trade_type, {{$index}})">Put</label>
               </div>
               <!-- </div> -->
             </div>
@@ -134,19 +153,24 @@
                   <label class="strike-price">Strike price</label>
                   <code>{{$index}}</code>
                   <!-- <input type="text" ng-model="trade.strike" class="form-control"> -->
-                  <select type="text" id="{{$index}}" ng-init="trade.strike = strike_price[0]" ng-model="trade.strike" class="form-control strike_price" ng-options="x for x in strike_price" ng-change="changestrikeprice({{$index}})">
-                  <!-- <select type="text" ng-init="trade.strike = strike_price[0]" ng-model="trade.strike" class="form-control strike_price" ng-options="x for x in strike_price"> -->
+                  <select type="text" id="{{$index}}" ng-init="trade.strike = strike_price[0]" ng-model="trade.strike"
+                    class="form-control strike_price" ng-options="x for x in strike_price"
+                    ng-change="changestrikeprice({{$index}})">
+                    <!-- <select type="text" ng-init="trade.strike = strike_price[0]" ng-model="trade.strike" class="form-control strike_price" ng-options="x for x in strike_price"> -->
                   </select>
-                  <select type="text" class="form-control future" ng-model="trade.strike" style="display: none;" ng-options="x for x in future_price"></select>
+                  <select type="text" class="form-control future" ng-model="trade.strike" style="display: none;"
+                    ng-options="x for x in future_price"></select>
                 </div>
                 <div class="col-md-3 future-hide">
                   <label uib-tooltip="Price of 1 unit of option">Premium</label>
                   <!-- <input type="text" ng-model="trade.premium" class="form-control premium"> -->
-                  <select type="text" ng-init="trade.premium = premiumValue[0]" ng-model="trade.premium" ng-options="x for x in premiumValue[{{$index}}]" class="form-control premium"></select>
+                  <select type="text" ng-init="trade.premium = premiumValue[0]" ng-model="trade.premium"
+                    ng-options="x for x in premiumValue[{{$index}}]" class="form-control premium"></select>
                 </div>
                 <div class="col-md-3">
                   <label>Qty</label>
-                  <input type="number" ng-init="trade.qty = 75" ng-model="trade.qty" class="form-control qty" min="75" step="75" ng-change="change_qty(trade.qty, setup.name)">
+                  <input type="number" ng-init="trade.qty = 75" ng-model="trade.qty" class="form-control qty" min="75"
+                    step="75" ng-change="change_qty(trade.qty, setup.name)">
                 </div>
                 <div class="col-md-1 delete-trade" style="padding-top: 24px;">
                   <button type="button" class="btn btn-danger btn-sm" uib-tooltip="Remove trade"
@@ -172,7 +196,7 @@
             Setup</button></div>
       </div>
     </div>
-    
+
     <div class="graph">
       <div class="container">
         <div class="chart-wrapper" ng-if="setup.spotPrice > 0">
@@ -192,7 +216,7 @@
         </div>
         <div>
           <label>LOT SIZE:</label>
-          <label id="lot_size"></label> 
+          <label id="lot_size"></label>
           <!-- change acc to quantity -->
         </div>
         <div>
@@ -215,7 +239,7 @@
     </div>
     <div class="nme">
       <p>Strategy Details</p>
-      <p>Option Geeks</p>
+      <p>Option Greeks</p>
     </div>
     <div class="data">
       <div style="color:#23a0a4;">
@@ -271,7 +295,7 @@
       </div>
     </div>
     <div class=data2>
-        <div style="color:#23a0a4;">
+      <div style="color:#23a0a4;">
         <div>
           <label>
             Alpha
@@ -282,7 +306,7 @@
         </div>
         <div>Theta</div>
         <div>Gamma</div>
-    </div>
+      </div>
     </div>
   </div>
   <div class="button-group text-center">
@@ -294,7 +318,7 @@
   <footer>
     <div style="bottom: 0; text-align: center;">
       <div class="text-center">
-        Copyright © 
+        Copyright ©
         <script type="text/javascript">
           document.write(new Date().getFullYear());
         </script>
