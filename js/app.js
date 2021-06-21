@@ -665,7 +665,7 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			ans += total_loss;
 		}
 		console.log(ans/size);
-		$('#total_loss').text(ans/size);
+		$('#total_loss').text((ans/size) * $scope.quantity);
 	}
 	$scope.change_segment = function(segment) {
 		console.log(segment);
@@ -746,7 +746,7 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			ans += total_loss;
 		}
 		console.log(ans/size);
-		$('#total_loss').text(ans/size);
+		$('#total_loss').text((ans/size) * $scope.quantity);
 	}, true);
 
 	$scope.addSetup = function () {
