@@ -11787,20 +11787,21 @@ body {
 }
 
 .nme>p {
-	/* margin-left: 130px; */
-	margin-left: 25%;
+	margin-left: 130px;
+	/* margin-left: 25%; */
 }
 
 .data {
-	/* margin-left: 40px; */
-	/* position: relative; */
-	/* top: 140px; */
-	/* width: 900px; */
-	margin-left: 3%;
-	margin-top: 11%;
+	margin-top: -1%;
+	margin-left: 40px;
 	display: grid;
+	position: relative;
+	top: 140px;
+	/* margin-left: 3%; */
+	/* margin-top: 11%; */
 	grid-template-columns: 50% 50%;
-	width: 60%;
+	/* width: 60%; */
+	width: 900px;
 	background-color: #393d46;
 	border: 2px;
 	border-radius: 4em;
@@ -11810,17 +11811,18 @@ body {
 
 .data2 {
 	/* margin-top: 28px; */
-	/* margin-left: 35px; */
-	/* height: 218px; */
-	/* width: 510px; */
-	/* position: relative; */
-	/* top: -103px; */
-	/* left: 925px; */
-	margin-top: -13.9%;
-	margin-left: 65%;
+	/* margin-top: -13.9%; */
+	/* margin-left: 65%; */
+	margin-top: 2%;
+	margin-left: 35px;
 	display: grid;
-	height: 13.4rem;
-	width: 33%;
+	height: 218px;
+	width: 510px;
+	position: relative;
+	top: -103px;
+	left: 925px;
+	/* height: 13.4rem;
+	width: 33%; */
 	background-color: #393d46;
 	border: 2px;
 	border-radius: 4em;
