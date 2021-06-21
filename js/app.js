@@ -494,6 +494,7 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 	$scope.indices = ["NIFTY", "BANKNIFTY", "USDINR"]
 	$scope.premiumValue = {0: [$scope.stockdata["premium123"][Object.keys($scope.stockdata["premium123"])[0]][0]]};
 	$scope.trade_type = 'call';
+	$scope.breakevens = {};
 	$scope.changetrade = function(trade_type, index) {
 		$scope.trade_type = trade_type;
 		var strikeprice = $("#"+index.toString()).children("option:selected").val();
@@ -535,7 +536,8 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			console.log('call');
 			$scope.premiumValue[index] = [$scope.premium[index][strikeprice][0]];
 			console.log($scope.premiumValue);
-			console.log();
+			$scope.breakevens[index] = strikeprice + parseInt($scope.premiumValue[index]);
+			console.log($scope.breakevens);
 		} else {
 			console.log('no');
 		}
@@ -630,6 +632,7 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 		$scope.id = n;
 		for (var i=0; i<n; i++) {
 			$scope.premium[i] = $scope.stockdata["premium123"];
+			$scope.breakevens[i] = parseInt($scope.strike_price[0]);
 		}
 	}
 	$scope.change_segment = function(segment) {
@@ -694,6 +697,16 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 		$('#change_in_oi').text((Object.values($scope.stockdata['premium123'])[0][4]));
 		$('#volume').text((Object.values($scope.stockdata['premium123'])[0][8]));
 		$('#trend_strength').text((Object.values($scope.stockdata['premium123'])[0][10]));
+		console.log($scope.breakevens);
+		var size = Object.keys($scope.breakevens).length;
+		var ans = 0;
+		for (var [key, value] of Object.entries($scope.breakevens)) {
+			var breakeven = parseInt(`${value}`);
+			// console.log(breakeven);
+			ans += breakeven;
+		}
+		console.log(ans/size);
+		$('#breakevens').text(ans/size);
 	}, true);
 
 	$scope.addSetup = function () {
@@ -735,6 +748,7 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			qty: 1
 		});
 		$scope.premium[$scope.id] = $scope.stockdata["premium123"];
+		$scope.breakevens[$scope.id] = parseInt($scope.strike_price[0]);
 		console.log($scope.premium);
 		$scope.id++;
 	};
