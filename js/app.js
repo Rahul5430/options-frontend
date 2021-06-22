@@ -1010,7 +1010,7 @@ app.factory('UtilService', function () {
 				case x < 1000:
 					return 100;
 				case x < 2000:
-					return 200;
+					return 50;
 				default:
 					return 500;
 			}
