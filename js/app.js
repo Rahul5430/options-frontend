@@ -722,6 +722,8 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 		angular.forEach($scope.setups, function (setup) {
 			setup.profit = $scope.netProfit(setup);
 			$scope.updateChartData(setup);
+			$('#max_profit').text($scope.max);
+			$('#max_loss').text($scope.min);
 			$scope.change_qty($scope.quantity, setup.name);
 		});
 		DataService.saveSetups($scope.setups);
@@ -877,6 +879,8 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 		}
 	};
 
+	$scope.max;
+	$scope.min;
 	$scope.updateChartData = function (setup) {
 		var spotPrice = parseInt(setup.spotPrice, 10);
 		if (spotPrice == 0) return 0;
@@ -893,6 +897,47 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 		for (var spot = spotMin; spot <= spotMax; spot += spotInc) {
 			labelArr.push(spot);
 			profitArr.push($scope.netProfit(setup, spot));
+		}
+
+		var size = profitArr.length;
+		var extreme_left = parseFloat(profitArr[0]);
+		var extreme_right = parseFloat(profitArr[size-1]);
+		var min = Math.min.apply(Math, profitArr);
+		var max = Math.max.apply(Math, profitArr);
+		console.log(profitArr);
+		console.log(extreme_left, extreme_right);
+		console.log(max, min);
+		if (max !== extreme_left && max !== extreme_right) {
+			$scope.max = max.toString();
+			$('.rupee').each(function() {
+				$(this).css("display", "inline-flex");
+			});
+		} else if (max === parseFloat(profitArr[1]) || max === parseFloat(profitArr[size-2])) {
+			$scope.max = max.toString();
+			$('.rupee').each(function() {
+				$(this).css("display", "inline-flex");
+			});
+		} else {
+			$scope.max = 'Undefined';
+			$('.rupee').each(function() {
+				$(this).css("display", "none");
+			});
+		}
+		if (min !== extreme_left && min !== extreme_right) {
+			$scope.min = min.toString();
+			$('.rupee').each(function() {
+				$(this).css("display", "inline-flex");
+			});
+		} else if (min === parseFloat(profitArr[1]) || min === parseFloat(profitArr[size-2])) {
+			$scope.min = min.toString();
+			$('.rupee').each(function() {
+				$(this).css("display", "inline-flex");
+			});
+		} else {
+			$scope.min = 'Undefined';
+			$('.rupee').each(function() {
+				$(this).css("display", "none");
+			});
 		}
 
 		$scope.chart.data[setup.id] = {
