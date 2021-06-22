@@ -724,6 +724,11 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			$scope.updateChartData(setup);
 			$('#max_profit').text($scope.max);
 			$('#max_loss').text($scope.min);
+			if ($scope.max !== 'Undefined' && $scope.min !== 'Undefined') {
+				$('#max_rr_ratio').text(parseFloat($scope.min)/parseFloat($scope.max));
+			} else {
+				$('#max_rr_ratio').text('NA');
+			}
 			$scope.change_qty($scope.quantity, setup.name);
 		});
 		DataService.saveSetups($scope.setups);
