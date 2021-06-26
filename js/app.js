@@ -463,13 +463,20 @@ console.log(options_expiries());
 
 var future_expiries = function() {
 	var arr = [];
+	var temp = 1;
 	for (var i=0; i<3; i++) {
 		var d = new Date();
 		d.setDate(1);
-		d.setMonth(d.getMonth()+1+i);
+		d.setMonth(d.getMonth()+temp+i);
 		do {
 			d.setDate(d.getDate() - 1);
 		} while (d.getDay() !== 4);
+		console.log(d);
+		if (d < new Date()) {
+			temp = 2;
+			i--;
+			continue;
+		}
 		arr.push(d.toString().slice(4,15).toUpperCase());
 	}
 	return arr;
