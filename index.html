@@ -241,85 +241,87 @@
       <p>Strategy Details</p>
       <p>Option Greeks</p>
     </div>
-    <div class="data">
-      <div style="color:#23a0a4;">
-        <div>
-          <label>
-            Prob. of Profit:
-          </label>
-          <label>--</label>
+    <div style="display: grid; grid-template-columns: 65% 30%; margin: 40px; grid-gap: 40px;">
+      <div class="data">
+        <div style="color:#23a0a4;">
+          <div>
+            <label>
+              Prob. of Profit:
+            </label>
+            <label>--</label>
+          </div>
+          <div class="net-profit">
+            <label>Max. Profit:</label>
+            <span class="rupee" style="display: none;">&#8377;</span>
+            <label id="max_profit">Undefined</label>
+          </div>
+          <div>
+            <label>Max. RR Ratio:</label>
+            <label id="max_rr_ratio">NA</label>
+          </div>
+          <div>
+            <label>Max. Loss:</label>
+            <span class="rupee" style="display: none;">&#8377;</span>
+            <!-- <label id="total_loss"></label> -->
+            <label id="max_loss">Undefined</label>
+          </div>
         </div>
-        <div class="net-profit">
-          <label>Max. Profit:</label>
-          <span class="rupee" style="display: none;">&#8377;</span>
-          <label id="max_profit">Undefined</label>
-        </div>
-        <div>
-          <label>Max. RR Ratio:</label>
-          <label id="max_rr_ratio">NA</label>
-        </div>
-        <div>
-          <label>Max. Loss:</label>
-          <span class="rupee" style="display: none;">&#8377;</span>
-          <!-- <label id="total_loss"></label> -->
-          <label id="max_loss">Undefined</label>
+        <div style="color:#23a0a4;">
+          <div>
+            <label>
+              Breakevens:
+            </label>
+            <span>&#8377;</span>
+            <label id="breakevens"></label>
+          </div>
+          <div>
+            <label>
+              Total PNL:
+            </label>
+            <span>&#8377;</span>
+            <label>0</label>
+          </div>
+          <div>
+            <label>
+              Net Credit:
+            </label>
+            <span>&#8377;</span>
+            <label>0</label>
+          </div>
+          <div>
+            <label>
+              Estimated Margin/Premium:
+            </label>
+            <span>&#8377;</span>
+            <label id="margin"></label>
+          </div>
         </div>
       </div>
-      <div style="color:#23a0a4;">
-        <div>
-          <label>
-            Breakevens:
-          </label>
-          <span>&#8377;</span>
-          <label id="breakevens"></label>
-        </div>
-        <div>
-          <label>
-            Total PNL:
-          </label>
-          <span>&#8377;</span>
-          <label>0</label>
-        </div>
-        <div>
-          <label>
-            Net Credit:
-          </label>
-          <span>&#8377;</span>
-          <label>0</label>
-        </div>
-        <div>
-          <label>
-            Estimated Margin/Premium:
-          </label>
-          <span>&#8377;</span>
-          <label id="margin"></label>
-        </div>
-      </div>
-    </div>
-    <div class=data2>
-      <div style="color:#23a0a4;">
-        <div>
-          <label>
-            Delta:
-          </label>
-          <label id="delta"></label>
-        </div>
-        <div>
-          <label>Theta:</label>
-          <label id="theta"></label>
-        </div>
-        <div>
-          <label>Gamma:</label>
-          <label id="gamma"></label>
-        </div>
-        <div>
-          <label>Vega:</label>
-          <label id="vega"></label>
+      <div class=data2>
+        <div style="color:#23a0a4;">
+          <div>
+            <label>
+              Delta:
+            </label>
+            <label id="delta"></label>
+          </div>
+          <div>
+            <label>Theta:</label>
+            <label id="theta"></label>
+          </div>
+          <div>
+            <label>Gamma:</label>
+            <label id="gamma"></label>
+          </div>
+          <div>
+            <label>Vega:</label>
+            <label id="vega"></label>
+          </div>
         </div>
       </div>
     </div>
   </div>
-  <div class="button-group text-center">
+  <div class="button-group text-center" style="padding: 30px;">
     <button class="btn btn-primary" ng-click="addSetup()"><span class="glyphicon glyphicon-plus"></span> Add New
       Setup</button>
   </div>

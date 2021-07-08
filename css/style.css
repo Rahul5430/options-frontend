@@ -3123,7 +3123,7 @@ fieldset:disabled .btn {
 	background-color: #0d6efd;
 	border-color: black;
 	position: relative;
-	top: -50px;
+	/* top: -50px; */
 }
 
 .btn-primary:hover {
@@ -11780,7 +11780,7 @@ body {
 	display: grid;
 	grid-template-columns: 50% 50%;
 	text-align: center;
-	margin-bottom: -120px;
+	/* margin-bottom: -120px; */
 	margin-top: 100px;
 	color: #23a0a4;
 	font-size: 25px;
@@ -11793,15 +11793,15 @@ body {
 
 .data {
 	margin-top: -1%;
-	margin-left: 40px;
+	/* margin-left: 40px; */
 	display: grid;
-	position: relative;
+	/* position: relative; */
 	top: 140px;
 	/* margin-left: 3%; */
 	/* margin-top: 11%; */
 	grid-template-columns: 50% 50%;
-	/* width: 60%; */
-	width: 900px;
+	width: 100%;
+	/* width: 900px; */
 	background-color: #393d46;
 	border: 2px;
 	border-radius: 4em;
@@ -11813,20 +11813,21 @@ body {
 	/* margin-top: 28px; */
 	/* margin-top: -13.9%; */
 	/* margin-left: 65%; */
-	margin-top: 2%;
-	margin-left: 35px;
+	/* margin-top: 2%; */
+	/* margin-left: 35px; */
 	display: grid;
-	height: 218px;
-	width: 510px;
-	position: relative;
-	top: -103px;
-	left: 925px;
+	/* height: 218px; */
+	/* width: 510px; */
+	width: 100%;
+	/* position: relative; */
+	/* top: -103px; */
+	/* left: 925px; */
 	/* height: 13.4rem;
 	width: 33%; */
 	background-color: #393d46;
 	border: 2px;
 	border-radius: 4em;
-	/* box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%), 0 6px 20px 0 rgb(0 0 0 / 19%); */
+	box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%), 0 6px 20px 0 rgb(0 0 0 / 19%);
 	padding: 10px;
 }
 
