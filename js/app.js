@@ -1,3 +1,38 @@
+var options_expiries = function() {
+	var arr = [];
+	for (var i=0; i<28; i+=7) {
+		var d = new Date();
+		d.setDate(i + d.getDate() + ((7-d.getDay())%7+4) % 7);
+		d = d.toString().toUpperCase();
+		d = d.slice(4,15)
+		var day = d.slice(4,6);
+		var month = d.slice(0,3);
+		var year = d.slice(7,);
+		var result = day+' '+month+' '+year;
+		arr.push(result);
+	}
+	for (var i=0; i<4; i++) {
+		var d = new Date();
+		d.setDate(1);
+		if (i < 3) {
+			d.setMonth(d.getMonth()+2+i);
+		} else {
+			d.setMonth(12);
+		}
+		do {
+			d.setDate(d.getDate() - 1);
+		} while (d.getDay() !== 4);
+		d = d.toString().slice(4,15).toUpperCase();
+		var day = d.slice(4,6);
+		var month = d.slice(0,3);
+		var year = d.slice(7,);
+		var result = day+' '+month+' '+year;
+		arr.push(result);
+	}
+	return arr;
+};
+var temp = options_expiries();
+
 var url_nifty_all = {
 	0: 'https://spreadsheets.google.com/feeds/cells/11CeHRJ8HTIcAxKTd6BrzMTN-gY0f8C4iI0_ZQ7nGZyQ/ocvh19r/public/basic?alt=json',
 	1: 'https://spreadsheets.google.com/feeds/cells/1-ZI_sRkV3YXW1EyzaD8TzLAjjIDo3-4KxdEAEKx9cGg/ocvh19r/public/basic?alt=json',
@@ -57,18 +92,37 @@ $(document).ready(function () {
 		async: true,
 		success: function (data) {
 			console.log("data1=" + data);
+			var temporary;
+			$.ajax({
+				type: 'GET',
+				url: 'https://opstra.definedge.com/api/free/strategybuilder/optionchain/NIFTY&' + temp[1].replace(/\s+/g, ""),
+				dataType: 'json',
+				async: false,
+				success: function (data) {
+					console.log("all data=" + data);
+					temporary = data;
+				}
+			});
 			var spotprice = data.feed.entry[35].content.$t;
 			var strikeprice123 = [];
 			var premium123 = {};
 			var i=0;
-			while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "") {
+			console.log(temporary.data);
+			var j=0;
+			while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "" && j < temporary.data.length) {
 				strikeprice123.push(data.feed.entry[83+23*i].content.$t);
-				premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t)];;
+				if (data.feed.entry[83+23*i].content.$t == temporary.data[j].StrikePrice) {
+					premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), (temporary.data[j].CallDelta), (temporary.data[j].PutDelta), (temporary.data[j].CallTheta), (temporary.data[j].PutTheta), (temporary.data[j].CallGamma), (temporary.data[j].PutGamma), (temporary.data[j].CallVega), (temporary.data[j].PutVega)];;
+					j++;
+				} else {
+					premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), "-", "-", "-", "-", "-", "-", "-", "-"];
+				}
 				i++;
 			}
 			nifty[1] = {
 				"spotprice" : spotprice,
-				"premium123" : premium123
+				"premium123" : premium123,
+				"temporary" : temporary
 			};
 		}
 	});
@@ -79,18 +133,37 @@ $(document).ready(function () {
 		async: true,
 		success: function (data) {
 			console.log("data2=" + data);
+			var temporary;
+			$.ajax({
+				type: 'GET',
+				url: 'https://opstra.definedge.com/api/free/strategybuilder/optionchain/NIFTY&' + temp[2].replace(/\s+/g, ""),
+				dataType: 'json',
+				async: false,
+				success: function (data) {
+					console.log("all data=" + data);
+					temporary = data;
+				}
+			});
 			var spotprice = data.feed.entry[35].content.$t;
 			var strikeprice123 = [];
 			var premium123 = {};
 			var i=0;
-			while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "") {
+			console.log(temporary.data);
+			var j=0;
+			while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "" && j < temporary.data.length) {
 				strikeprice123.push(data.feed.entry[83+23*i].content.$t);
-				premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t)];;
+				if (data.feed.entry[83+23*i].content.$t == temporary.data[j].StrikePrice) {
+					premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), (temporary.data[j].CallDelta), (temporary.data[j].PutDelta), (temporary.data[j].CallTheta), (temporary.data[j].PutTheta), (temporary.data[j].CallGamma), (temporary.data[j].PutGamma), (temporary.data[j].CallVega), (temporary.data[j].PutVega)];;
+					j++;
+				} else {
+					premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), "-", "-", "-", "-", "-", "-", "-", "-"];
+				}
 				i++;
 			}
 			nifty[2] = {
 				"spotprice" : spotprice,
-				"premium123" : premium123
+				"premium123" : premium123,
+				"temporary" : temporary
 			};
 		}
 	});
@@ -101,18 +174,36 @@ $(document).ready(function () {
 		async: true,
 		success: function (data) {
 			console.log("data3=" + data);
+			var temporary;
+			$.ajax({
+				type: 'GET',
+				url: 'https://opstra.definedge.com/api/free/strategybuilder/optionchain/NIFTY&' + temp[3].replace(/\s+/g, ""),
+				dataType: 'json',
+				async: false,
+				success: function (data) {
+					console.log("all data=" + data);
+					temporary = data;
+				}
+			});
 			var spotprice = data.feed.entry[35].content.$t;
 			var strikeprice123 = [];
 			var premium123 = {};
 			var i=0;
-			while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "") {
+			var j=0;
+			while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "" && j < temporary.data.length) {
 				strikeprice123.push(data.feed.entry[83+23*i].content.$t);
-				premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t)];;
+				if (data.feed.entry[83+23*i].content.$t == temporary.data[j].StrikePrice) {
+					premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), (temporary.data[j].CallDelta), (temporary.data[j].PutDelta), (temporary.data[j].CallTheta), (temporary.data[j].PutTheta), (temporary.data[j].CallGamma), (temporary.data[j].PutGamma), (temporary.data[j].CallVega), (temporary.data[j].PutVega)];;
+					j++;
+				} else {
+					premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), "-", "-", "-", "-", "-", "-", "-", "-"];
+				}
 				i++;
 			}
 			nifty[3] = {
 				"spotprice" : spotprice,
-				"premium123" : premium123
+				"premium123" : premium123,
+				"temporary" : temporary
 			};
 		}
 	});
@@ -123,18 +214,36 @@ $(document).ready(function () {
 		async: true,
 		success: function (data) {
 			console.log("data4=" + data);
+			var temporary;
+			$.ajax({
+				type: 'GET',
+				url: 'https://opstra.definedge.com/api/free/strategybuilder/optionchain/NIFTY&' + temp[4].replace(/\s+/g, ""),
+				dataType: 'json',
+				async: false,
+				success: function (data) {
+					console.log("all data=" + data);
+					temporary = data;
+				}
+			});
 			var spotprice = data.feed.entry[35].content.$t;
 			var strikeprice123 = [];
 			var premium123 = {};
 			var i=0;
-			while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "") {
+			var j=0;
+			while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "" && j < temporary.data.length) {
 				strikeprice123.push(data.feed.entry[83+23*i].content.$t);
-				premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t)];;
+				if (data.feed.entry[83+23*i].content.$t == temporary.data[j].StrikePrice) {
+					premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), (temporary.data[j].CallDelta), (temporary.data[j].PutDelta), (temporary.data[j].CallTheta), (temporary.data[j].PutTheta), (temporary.data[j].CallGamma), (temporary.data[j].PutGamma), (temporary.data[j].CallVega), (temporary.data[j].PutVega)];;
+					j++;
+				} else {
+					premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), "-", "-", "-", "-", "-", "-", "-", "-"];
+				}
 				i++;
 			}
 			nifty[4] = {
 				"spotprice" : spotprice,
-				"premium123" : premium123
+				"premium123" : premium123,
+				"temporary" : temporary
 			};
 		}
 	});
@@ -145,18 +254,36 @@ $(document).ready(function () {
 		async: true,
 		success: function (data) {
 			console.log("data5=" + data);
+			var temporary;
+			$.ajax({
+				type: 'GET',
+				url: 'https://opstra.definedge.com/api/free/strategybuilder/optionchain/NIFTY&' + temp[5].replace(/\s+/g, ""),
+				dataType: 'json',
+				async: false,
+				success: function (data) {
+					console.log("all data=" + data);
+					temporary = data;
+				}
+			});
 			var spotprice = data.feed.entry[35].content.$t;
 			var strikeprice123 = [];
 			var premium123 = {};
 			var i=0;
-			while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "") {
+			var j=0;
+			while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "" && j < temporary.data.length) {
 				strikeprice123.push(data.feed.entry[83+23*i].content.$t);
-				premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t)];;
+				if (data.feed.entry[83+23*i].content.$t == temporary.data[j].StrikePrice) {
+					premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), (temporary.data[j].CallDelta), (temporary.data[j].PutDelta), (temporary.data[j].CallTheta), (temporary.data[j].PutTheta), (temporary.data[j].CallGamma), (temporary.data[j].PutGamma), (temporary.data[j].CallVega), (temporary.data[j].PutVega)];;
+					j++;
+				} else {
+					premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), "-", "-", "-", "-", "-", "-", "-", "-"];
+				}
 				i++;
 			}
 			nifty[5] = {
 				"spotprice" : spotprice,
-				"premium123" : premium123
+				"premium123" : premium123,
+				"temporary" : temporary
 			};
 		}
 	});
@@ -167,18 +294,36 @@ $(document).ready(function () {
 		async: true,
 		success: function (data) {
 			console.log("data6=" + data);
+			var temporary;
+			$.ajax({
+				type: 'GET',
+				url: 'https://opstra.definedge.com/api/free/strategybuilder/optionchain/NIFTY&' + temp[6].replace(/\s+/g, ""),
+				dataType: 'json',
+				async: false,
+				success: function (data) {
+					console.log("all data=" + data);
+					temporary = data;
+				}
+			});
 			var spotprice = data.feed.entry[35].content.$t;
 			var strikeprice123 = [];
 			var premium123 = {};
 			var i=0;
-			while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "") {
+			var j=0;
+			while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "" && j < temporary.data.length) {
 				strikeprice123.push(data.feed.entry[83+23*i].content.$t);
-				premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t)];;
+				if (data.feed.entry[83+23*i].content.$t == temporary.data[j].StrikePrice) {
+					premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), (temporary.data[j].CallDelta), (temporary.data[j].PutDelta), (temporary.data[j].CallTheta), (temporary.data[j].PutTheta), (temporary.data[j].CallGamma), (temporary.data[j].PutGamma), (temporary.data[j].CallVega), (temporary.data[j].PutVega)];;
+					j++;
+				} else {
+					premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), "-", "-", "-", "-", "-", "-", "-", "-"];
+				}
 				i++;
 			}
 			nifty[6] = {
 				"spotprice" : spotprice,
-				"premium123" : premium123
+				"premium123" : premium123,
+				"temporary" : temporary
 			};
 		}
 	});
@@ -189,18 +334,36 @@ $(document).ready(function () {
 		async: true,
 		success: function (data) {
 			console.log("data7=" + data);
+			var temporary;
+			$.ajax({
+				type: 'GET',
+				url: 'https://opstra.definedge.com/api/free/strategybuilder/optionchain/NIFTY&' + temp[7].replace(/\s+/g, ""),
+				dataType: 'json',
+				async: false,
+				success: function (data) {
+					console.log("all data=" + data);
+					temporary = data;
+				}
+			});
 			var spotprice = data.feed.entry[35].content.$t;
 			var strikeprice123 = [];
 			var premium123 = {};
 			var i=0;
-			while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "") {
+			var j=0;
+			while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "" && j < temporary.data.length) {
 				strikeprice123.push(data.feed.entry[83+23*i].content.$t);
-				premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t)];;
+				if (data.feed.entry[83+23*i].content.$t == temporary.data[j].StrikePrice) {
+					premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), (temporary.data[j].CallDelta), (temporary.data[j].PutDelta), (temporary.data[j].CallTheta), (temporary.data[j].PutTheta), (temporary.data[j].CallGamma), (temporary.data[j].PutGamma), (temporary.data[j].CallVega), (temporary.data[j].PutVega)];;
+					j++;
+				} else {
+					premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), "-", "-", "-", "-", "-", "-", "-", "-"];
+				}
 				i++;
 			}
 			nifty[7] = {
 				"spotprice" : spotprice,
-				"premium123" : premium123
+				"premium123" : premium123,
+				"temporary" : temporary
 			};
 		}
 	});
@@ -211,18 +374,36 @@ $(document).ready(function () {
 		async: true,
 		success: function (data) {
 			console.log("bankdata0=" + data);
+			var temporary;
+			$.ajax({
+				type: 'GET',
+				url: 'https://opstra.definedge.com/api/free/strategybuilder/optionchain/BANKNIFTY&' + temp[0].replace(/\s+/g, ""),
+				dataType: 'json',
+				async: false,
+				success: function (data) {
+					console.log("all data=" + data);
+					temporary = data;
+				}
+			});
 			var spotprice = data.feed.entry[35].content.$t;
 			var strikeprice123 = [];
 			var premium123 = {};
 			var i=0;
-			while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "") {
+			var j=0;
+			while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "" && j < temporary.data.length) {
 				strikeprice123.push(data.feed.entry[83+23*i].content.$t);
-				premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t)];;
+				if (data.feed.entry[83+23*i].content.$t == temporary.data[j].StrikePrice) {
+					premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), (temporary.data[j].CallDelta), (temporary.data[j].PutDelta), (temporary.data[j].CallTheta), (temporary.data[j].PutTheta), (temporary.data[j].CallGamma), (temporary.data[j].PutGamma), (temporary.data[j].CallVega), (temporary.data[j].PutVega)];;
+					j++;
+				} else {
+					premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), "-", "-", "-", "-", "-", "-", "-", "-"];
+				}
 				i++;
 			}
 			banknifty[0] = {
 				"spotprice" : spotprice,
-				"premium123" : premium123
+				"premium123" : premium123,
+				"temporary" : temporary
 			};
 		}
 	});
@@ -233,18 +414,36 @@ $(document).ready(function () {
 		async: true,
 		success: function (data) {
 			console.log("bankdata1=" + data);
+			var temporary;
+			$.ajax({
+				type: 'GET',
+				url: 'https://opstra.definedge.com/api/free/strategybuilder/optionchain/BANKNIFTY&' + temp[1].replace(/\s+/g, ""),
+				dataType: 'json',
+				async: false,
+				success: function (data) {
+					console.log("all data=" + data);
+					temporary = data;
+				}
+			});
 			var spotprice = data.feed.entry[35].content.$t;
 			var strikeprice123 = [];
 			var premium123 = {};
 			var i=0;
-			while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "") {
+			var j=0;
+			while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "" && j < temporary.data.length) {
 				strikeprice123.push(data.feed.entry[83+23*i].content.$t);
-				premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t)];;
+				if (data.feed.entry[83+23*i].content.$t == temporary.data[j].StrikePrice) {
+					premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), (temporary.data[j].CallDelta), (temporary.data[j].PutDelta), (temporary.data[j].CallTheta), (temporary.data[j].PutTheta), (temporary.data[j].CallGamma), (temporary.data[j].PutGamma), (temporary.data[j].CallVega), (temporary.data[j].PutVega)];;
+					j++;
+				} else {
+					premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), "-", "-", "-", "-", "-", "-", "-", "-"];
+				}
 				i++;
 			}
 			banknifty[1] = {
 				"spotprice" : spotprice,
-				"premium123" : premium123
+				"premium123" : premium123,
+				"temporary" : temporary
 			};
 		}
 	});
@@ -255,18 +454,36 @@ $(document).ready(function () {
 		async: true,
 		success: function (data) {
 			console.log("bankdata2=" + data);
+			var temporary;
+			$.ajax({
+				type: 'GET',
+				url: 'https://opstra.definedge.com/api/free/strategybuilder/optionchain/BANKNIFTY&' + temp[2].replace(/\s+/g, ""),
+				dataType: 'json',
+				async: false,
+				success: function (data) {
+					console.log("all data=" + data);
+					temporary = data;
+				}
+			});
 			var spotprice = data.feed.entry[35].content.$t;
 			var strikeprice123 = [];
 			var premium123 = {};
 			var i=0;
-			while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "") {
+			var j=0;
+			while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "" && j < temporary.data.length) {
 				strikeprice123.push(data.feed.entry[83+23*i].content.$t);
-				premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t)];;
+				if (data.feed.entry[83+23*i].content.$t == temporary.data[j].StrikePrice) {
+					premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), (temporary.data[j].CallDelta), (temporary.data[j].PutDelta), (temporary.data[j].CallTheta), (temporary.data[j].PutTheta), (temporary.data[j].CallGamma), (temporary.data[j].PutGamma), (temporary.data[j].CallVega), (temporary.data[j].PutVega)];;
+					j++;
+				} else {
+					premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), "-", "-", "-", "-", "-", "-", "-", "-"];
+				}
 				i++;
 			}
 			banknifty[2] = {
 				"spotprice" : spotprice,
-				"premium123" : premium123
+				"premium123" : premium123,
+				"temporary" : temporary
 			};
 		}
 	});
@@ -277,18 +494,36 @@ $(document).ready(function () {
 		async: true,
 		success: function (data) {
 			console.log("bankdata3=" + data);
+			var temporary;
+			$.ajax({
+				type: 'GET',
+				url: 'https://opstra.definedge.com/api/free/strategybuilder/optionchain/BANKNIFTY&' + temp[3].replace(/\s+/g, ""),
+				dataType: 'json',
+				async: false,
+				success: function (data) {
+					console.log("all data=" + data);
+					temporary = data;
+				}
+			});
 			var spotprice = data.feed.entry[35].content.$t;
 			var strikeprice123 = [];
 			var premium123 = {};
 			var i=0;
-			while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "") {
+			var j=0;
+			while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "" && j < temporary.data.length) {
 				strikeprice123.push(data.feed.entry[83+23*i].content.$t);
-				premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t)];;
+				if (data.feed.entry[83+23*i].content.$t == temporary.data[j].StrikePrice) {
+					premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), (temporary.data[j].CallDelta), (temporary.data[j].PutDelta), (temporary.data[j].CallTheta), (temporary.data[j].PutTheta), (temporary.data[j].CallGamma), (temporary.data[j].PutGamma), (temporary.data[j].CallVega), (temporary.data[j].PutVega)];;
+					j++;
+				} else {
+					premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), "-", "-", "-", "-", "-", "-", "-", "-"];
+				}
 				i++;
 			}
 			banknifty[3] = {
 				"spotprice" : spotprice,
-				"premium123" : premium123
+				"premium123" : premium123,
+				"temporary" : temporary
 			};
 		}
 	});
@@ -299,18 +534,36 @@ $(document).ready(function () {
 		async: true,
 		success: function (data) {
 			console.log("bankdata4=" + data);
+			var temporary;
+			$.ajax({
+				type: 'GET',
+				url: 'https://opstra.definedge.com/api/free/strategybuilder/optionchain/BANKNIFTY&' + temp[4].replace(/\s+/g, ""),
+				dataType: 'json',
+				async: false,
+				success: function (data) {
+					console.log("all data=" + data);
+					temporary = data;
+				}
+			});
 			var spotprice = data.feed.entry[35].content.$t;
 			var strikeprice123 = [];
 			var premium123 = {};
 			var i=0;
-			while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "") {
+			var j=0;
+			while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "" && j < temporary.data.length) {
 				strikeprice123.push(data.feed.entry[83+23*i].content.$t);
-				premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t)];;
+				if (data.feed.entry[83+23*i].content.$t == temporary.data[j].StrikePrice) {
+					premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), (temporary.data[j].CallDelta), (temporary.data[j].PutDelta), (temporary.data[j].CallTheta), (temporary.data[j].PutTheta), (temporary.data[j].CallGamma), (temporary.data[j].PutGamma), (temporary.data[j].CallVega), (temporary.data[j].PutVega)];;
+					j++;
+				} else {
+					premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), "-", "-", "-", "-", "-", "-", "-", "-"];
+				}
 				i++;
 			}
 			banknifty[4] = {
 				"spotprice" : spotprice,
-				"premium123" : premium123
+				"premium123" : premium123,
+				"temporary" : temporary
 			};
 		}
 	});
@@ -321,18 +574,36 @@ $(document).ready(function () {
 		async: true,
 		success: function (data) {
 			console.log("bankdata5=" + data);
+			var temporary;
+			$.ajax({
+				type: 'GET',
+				url: 'https://opstra.definedge.com/api/free/strategybuilder/optionchain/BANKNIFTY&' + temp[5].replace(/\s+/g, ""),
+				dataType: 'json',
+				async: false,
+				success: function (data) {
+					console.log("all data=" + data);
+					temporary = data;
+				}
+			});
 			var spotprice = data.feed.entry[35].content.$t;
 			var strikeprice123 = [];
 			var premium123 = {};
 			var i=0;
-			while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "") {
+			var j=0;
+			while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "" && j < temporary.data.length) {
 				strikeprice123.push(data.feed.entry[83+23*i].content.$t);
-				premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t)];;
+				if (data.feed.entry[83+23*i].content.$t == temporary.data[j].StrikePrice) {
+					premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), (temporary.data[j].CallDelta), (temporary.data[j].PutDelta), (temporary.data[j].CallTheta), (temporary.data[j].PutTheta), (temporary.data[j].CallGamma), (temporary.data[j].PutGamma), (temporary.data[j].CallVega), (temporary.data[j].PutVega)];;
+					j++;
+				} else {
+					premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), "-", "-", "-", "-", "-", "-", "-", "-"];
+				}
 				i++;
 			}
 			banknifty[5] = {
 				"spotprice" : spotprice,
-				"premium123" : premium123
+				"premium123" : premium123,
+				"temporary" : temporary
 			};
 		}
 	});
@@ -343,18 +614,36 @@ $(document).ready(function () {
 		async: true,
 		success: function (data) {
 			console.log("bankdata6=" + data);
+			var temporary;
+			$.ajax({
+				type: 'GET',
+				url: 'https://opstra.definedge.com/api/free/strategybuilder/optionchain/BANKNIFTY&' + temp[6].replace(/\s+/g, ""),
+				dataType: 'json',
+				async: false,
+				success: function (data) {
+					console.log("all data=" + data);
+					temporary = data;
+				}
+			});
 			var spotprice = data.feed.entry[35].content.$t;
 			var strikeprice123 = [];
 			var premium123 = {};
 			var i=0;
-			while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "") {
+			var j=0;
+			while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "" && j < temporary.data.length) {
 				strikeprice123.push(data.feed.entry[83+23*i].content.$t);
-				premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t)];;
+				if (data.feed.entry[83+23*i].content.$t == temporary.data[j].StrikePrice) {
+					premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), (temporary.data[j].CallDelta), (temporary.data[j].PutDelta), (temporary.data[j].CallTheta), (temporary.data[j].PutTheta), (temporary.data[j].CallGamma), (temporary.data[j].PutGamma), (temporary.data[j].CallVega), (temporary.data[j].PutVega)];;
+					j++;
+				} else {
+					premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), "-", "-", "-", "-", "-", "-", "-", "-"];
+				}
 				i++;
 			}
 			banknifty[6] = {
 				"spotprice" : spotprice,
-				"premium123" : premium123
+				"premium123" : premium123,
+				"temporary" : temporary
 			};
 		}
 	});
@@ -365,18 +654,36 @@ $(document).ready(function () {
 		async: true,
 		success: function (data) {
 			console.log("bankdata7=" + data);
+			var temporary;
+			$.ajax({
+				type: 'GET',
+				url: 'https://opstra.definedge.com/api/free/strategybuilder/optionchain/BANKNIFTY&' + temp[7].replace(/\s+/g, ""),
+				dataType: 'json',
+				async: false,
+				success: function (data) {
+					console.log("all data=" + data);
+					temporary = data;
+				}
+			});
 			var spotprice = data.feed.entry[35].content.$t;
 			var strikeprice123 = [];
 			var premium123 = {};
 			var i=0;
-			while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "") {
+			var j=0;
+			while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "" && j < temporary.data.length) {
 				strikeprice123.push(data.feed.entry[83+23*i].content.$t);
-				premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t)];;
+				if (data.feed.entry[83+23*i].content.$t == temporary.data[j].StrikePrice) {
+					premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), (temporary.data[j].CallDelta), (temporary.data[j].PutDelta), (temporary.data[j].CallTheta), (temporary.data[j].PutTheta), (temporary.data[j].CallGamma), (temporary.data[j].PutGamma), (temporary.data[j].CallVega), (temporary.data[j].PutVega)];;
+					j++;
+				} else {
+					premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), "-", "-", "-", "-", "-", "-", "-", "-"];
+				}
 				i++;
 			}
 			banknifty[7] = {
 				"spotprice" : spotprice,
-				"premium123" : premium123
+				"premium123" : premium123,
+				"temporary" : temporary
 			};
 		}
 	});
@@ -399,19 +706,37 @@ var stock = function(url) {
 		}
 	});
 	var data = $.getStockData();
+	var temporary;
+	$.ajax({
+		type: 'GET',
+		url: 'https://opstra.definedge.com/api/free/strategybuilder/optionchain/NIFTY&' + temp[0].replace(/\s+/g, ""),
+		dataType: 'json',
+		async: false,
+		success: function (data) {
+			console.log("all data=" + data);
+			temporary = data;
+		}
+	});
 	var spotprice = data.feed.entry[35].content.$t;
 	$("#spot_Price").text(spotprice);
 	var strikeprice123 = [];
 	var premium123 = {};
 	var i=0;
-	while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "") {
+	var j=0;
+	while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "" && j < temporary.data.length) {
 		strikeprice123.push(data.feed.entry[83+23*i].content.$t);
-		premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t)];;
+		if (data.feed.entry[83+23*i].content.$t == temporary.data[j].StrikePrice) {
+			premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), (temporary.data[j].CallDelta), (temporary.data[j].PutDelta), (temporary.data[j].CallTheta), (temporary.data[j].PutTheta), (temporary.data[j].CallGamma), (temporary.data[j].PutGamma), (temporary.data[j].CallVega), (temporary.data[j].PutVega)];;
+			j++;
+		} else {
+			premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), "-", "-", "-", "-", "-", "-", "-", "-"];
+		}
 		i++;
-	}
+	}	
 	return {
 		"spotprice" : spotprice,
-		"premium123" : premium123
+		"premium123" : premium123,
+		"temporary" : temporary
 	}
 }
 nifty[0] = stock(url_nifty_all[0]);
@@ -426,40 +751,24 @@ $(document).ready(function() {
 	$('#trend_strength').text((Object.values(temp['premium123'])[0][10]));
 });
 
-var options_expiries = function() {
-	var arr = [];
-	for (var i=0; i<28; i+=7) {
-		var d = new Date();
-		d.setDate(i + d.getDate() + ((7-d.getDay())%7+4) % 7);
-		d = d.toString().toUpperCase();
-		d = d.slice(4,15)
-		var day = d.slice(4,6);
-		var month = d.slice(0,3);
-		var year = d.slice(7,);
-		var result = day+' '+month+' '+year;
-		arr.push(result);
-	}
-	for (var i=0; i<4; i++) {
-		var d = new Date();
-		d.setDate(1);
-		if (i < 3) {
-			d.setMonth(d.getMonth()+2+i);
-		} else {
-			d.setMonth(12);
-		}
-		do {
-			d.setDate(d.getDate() - 1);
-		} while (d.getDay() !== 4);
-		d = d.toString().slice(4,15).toUpperCase();
-		var day = d.slice(4,6);
-		var month = d.slice(0,3);
-		var year = d.slice(7,);
-		var result = day+' '+month+' '+year;
-		arr.push(result);
-	}
-	return arr;
-};
+
 console.log(options_expiries());
+// var temp = options_expiries();
+// for (var i of temp) {
+// 	i = i.replace(/\s+/g, "");
+// 	console.log(i);
+// 	$.ajax({
+// 		type: 'GET',
+// 		url: 'https://opstra.definedge.com/api/free/strategybuilder/optionchain/NIFTY&' + i,
+// 		dataType: 'json',
+// 		async: true,
+// 		success: function (data) {
+// 			console.log(i + "=" + data);
+// 			allData.push(data);
+// 			console.log(allData);
+// 		}
+// 	});
+// }
 
 var future_expiries = function() {
 	var arr = [];
@@ -503,6 +812,10 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 	$scope.trade_type = 'call';
 	$scope.breakevens = {};
 	$scope.total_loss = {};
+	$scope.delta = 0;
+	$scope.gamma = 0;
+	$scope.vega = 0;
+	$scope.theta = 0;
 	$scope.changetrade = function(trade_type, index) {
 		$scope.trade_type = trade_type;
 		var strikeprice = $("#"+index.toString()).children("option:selected").val();
@@ -521,6 +834,10 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			console.log($scope.breakevens);
 			$scope.total_loss[index] = -1 * parseFloat($scope.premiumValue[index]);
 			console.log($scope.total_loss);
+			$scope.delta = $scope.premium[index][strikeprice][13];
+			$scope.theta = $scope.premium[index][strikeprice][15];
+			$scope.gamma = $scope.premium[index][strikeprice][17];
+			$scope.vega = $scope.premium[index][strikeprice][19];
 		} else if (trade_type == 'call') {
 			console.log('call');
 			$scope.premiumValue[index] = [$scope.premium[index][strikeprice][0]];
@@ -534,6 +851,10 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			console.log($scope.breakevens);
 			$scope.total_loss[index] = -1 * parseFloat($scope.premiumValue[index]);
 			console.log($scope.total_loss);
+			$scope.delta = $scope.premium[index][strikeprice][12];
+			$scope.theta = $scope.premium[index][strikeprice][14];
+			$scope.gamma = $scope.premium[index][strikeprice][16];
+			$scope.vega = $scope.premium[index][strikeprice][18];
 		} else {
 			console.log('no');
 		}
@@ -552,6 +873,10 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			console.log($scope.breakevens);
 			$scope.total_loss[index] = -1 * parseFloat($scope.premiumValue[index]);
 			console.log($scope.total_loss);
+			$scope.delta = $scope.premium[index][strikeprice][13];
+			$scope.theta = $scope.premium[index][strikeprice][15];
+			$scope.gamma = $scope.premium[index][strikeprice][17];
+			$scope.vega = $scope.premium[index][strikeprice][19];
 		} else if ($scope.trade_type == 'call') {
 			console.log('call');
 			$scope.premiumValue[index] = [$scope.premium[index][strikeprice][0]];
@@ -560,6 +885,11 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			console.log($scope.breakevens);
 			$scope.total_loss[index] = -1 * parseFloat($scope.premiumValue[index]);
 			console.log($scope.total_loss);
+			console.log($scope.premium[index][strikeprice]);
+			$scope.delta = $scope.premium[index][strikeprice][12];
+			$scope.theta = $scope.premium[index][strikeprice][14];
+			$scope.gamma = $scope.premium[index][strikeprice][16];
+			$scope.vega = $scope.premium[index][strikeprice][18];
 		} else {
 			console.log('no');
 		}
@@ -657,6 +987,10 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			$scope.breakevens[i] = parseInt($scope.strike_price[0]);
 			$scope.total_loss[i] = parseFloat(Object.values($scope.premium[i])[0][0]);
 		}
+		$('#delta').text($scope.delta);
+		$('#theta').text($scope.theta);
+		$('#gamma').text($scope.gamma);
+		$('#vega').text($scope.vega);
 		var size = Object.keys($scope.breakevens).length;
 		var ans = 0;
 		for (var [key, value] of Object.entries($scope.breakevens)) {
@@ -744,6 +1078,10 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 		$('#change_in_oi').text((Object.values($scope.stockdata['premium123'])[0][4]));
 		$('#volume').text((Object.values($scope.stockdata['premium123'])[0][8]));
 		$('#trend_strength').text((Object.values($scope.stockdata['premium123'])[0][10]));
+		$('#delta').text($scope.delta);
+		$('#theta').text($scope.theta);
+		$('#gamma').text($scope.gamma);
+		$('#vega').text($scope.vega);
 		console.log($scope.breakevens);
 		var size = Object.keys($scope.breakevens).length;
 		var ans = 0;
