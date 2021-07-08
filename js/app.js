@@ -816,6 +816,8 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 	$scope.gamma = 0;
 	$scope.vega = 0;
 	$scope.theta = 0;
+	$scope.minQty = 75;
+	$scope.stepQty = 75;
 	$scope.changetrade = function(trade_type, index) {
 		$scope.trade_type = trade_type;
 		var strikeprice = $("#"+index.toString()).children("option:selected").val();
@@ -910,9 +912,10 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			$scope.indices = ["NIFTY", "BANKNIFTY", "USDINR"]
 			$scope.premiumValue = {0: [$scope.stockdata["premium123"][Object.keys($scope.stockdata["premium123"])[0]][0]]};
 			$scope.trade_type = 'call';
+			$scope.minQty = 75;
 			$(".qty").attr("step", "75");
-			$(".qty").attr("min", "75");
-			$(".qty").attr("value", "75");
+			// $(".qty").attr("min", "75");
+			// $(".qty").attr("value", "75");
 			$('#strategy').text((Object.values($scope.stockdata["premium123"])[0][2]));
 			$('#oi').text((Object.values($scope.stockdata['premium123'])[0][6]));
 			$('#change_in_oi').text((Object.values($scope.stockdata['premium123'])[0][4]));
@@ -932,9 +935,10 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			$scope.indices = ["NIFTY", "BANKNIFTY", "USDINR"]
 			$scope.premiumValue = {0: [$scope.stockdata["premium123"][Object.keys($scope.stockdata["premium123"])[0]][0]]};
 			$scope.trade_type = 'call';
+			$scope.minQty = 25;
 			$(".qty").attr("step", "25");
-			$(".qty").attr("min", "25");
-			$(".qty").attr("value", "25");
+			// $(".qty").attr("min", "25");
+			// $(".qty").attr("value", "25");
 			$('#strategy').text((Object.values($scope.stockdata["premium123"])[0][2]));
 			$('#oi').text((Object.values($scope.stockdata['premium123'])[0][6]));
 			$('#change_in_oi').text((Object.values($scope.stockdata['premium123'])[0][4]));
@@ -1362,7 +1366,7 @@ app.factory('UtilService', function () {
 				case x < 2000:
 					return 50;
 				default:
-					return 500;
+					return 50;
 			}
 		}
 	};
