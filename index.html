@@ -4,9 +4,7 @@
 <head>
   <meta charset="utf-8">
   <title>Options</title>
-  <!-- <base href="/"> -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="stylesheet" href="css/style.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
@@ -82,18 +80,27 @@
     <div class="func" ng-init="load(setup.trades.length)">
       <div>
         <label>
-          Index / Stock <select type="text" ng-init="setup.name = indices[0]" ng-model="setup.name"
-            ng-options="x for x in indices" ng-change="index(setup.name)" class="form-control" id="index"></select>
+          Index / Stock 
+          <select 
+            ng-init="setup.name = indices[0]" 
+            ng-model="setup.name"
+            ng-options="x for x in indices" 
+            ng-change="index(setup.name)" 
+            class="form-control" 
+            id="index">
+          </select>
         </label>
       </div>
       <div>
         <label>
           Select Segment
-          <!-- <input type="text" value="Options" id="segment" class="form-control" name="segment" list="select-segment" onchange="run()"> -->
-          <select class="form-control" id="select-segment" ng-init="segment = segments[0]" ng-model="segment"
-            ng-change="change_segment(segment)" ng-options="x for x in segments">
-            <!-- <option value="Futures">Futures</option>
-            <option value="Options" selected="selected">Options</option> -->
+          <select 
+            class="form-control" 
+            id="select-segment" 
+            ng-init="segment = segments[0]" 
+            ng-model="segment"
+            ng-change="change_segment(segment)" 
+            ng-options="x for x in segments">
           </select>
         </label>
 
@@ -102,19 +109,12 @@
 
         <label>
           Select Expiry
-          <!-- <input type="text" class="form-control"> -->
-          <select class="form-control expiry" ng-init="expiry = expiries[0]"
-            ng-change="change_expiry(expiry, setup.name)" ng-model="expiry" ng-options="x for x in expiries">
-            <!-- <option ng-repeat="x in expiries" value="{{x.value}}">{{x.date}}</option> -->
-            <!-- <option value="2021-05-27">27 MAY 2021</option>
-            <option value="2021-06-03">03 JUN 2021</option>
-            <option value="2021-06-10">10 JUN 2021</option>
-            <option value="2021-06-17">17 JUN 2021</option>
-            <option value="2021-06-24">24 JUN 2021</option>
-            <option value="2021-06-29">29 JUN 2021</option>
-            <option value="2021-09-30">30 SEP 2021</option>
-            <option value="2021-12-30">30 DEC 2021</option> -->
-
+          <select 
+            class="form-control expiry" 
+            ng-init="expiry = expiries[0]"
+            ng-change="change_expiry(expiry, setup.name)" 
+            ng-model="expiry" 
+            ng-options="x for x in expiries">
           </select>
 
         </label>
@@ -122,59 +122,81 @@
       </div>
       <div>
         <label>
-          Spot price <select type="text" ng-init="setup.spotPrice = spot_price[0]" ng-model="setup.spotPrice"
-            class="form-control spotPrice" ng-options="x for x in spot_price"></select>
+          Spot price 
+          <select
+            ng-init="setup.spotPrice = spot_price[0]" 
+            ng-model="setup.spotPrice"
+            class="form-control spotPrice" 
+            ng-options="x for x in spot_price">
+          </select>
         </label>
       </div>
       <div style="grid-column: 1/5;">
         <div ng-repeat="trade in setup.trades  track by $index">
           <div class="row trade_div">
             <div class="col-md-4">
-              <!-- <div class="col-md-4 option-type"> -->
               <div class="btn-group">
                 <label class="btn btn-info" ng-model="trade.tradeType" uib-btn-radio="'buy'">Buy</label>
                 <label class="btn btn-info" ng-model="trade.tradeType" uib-btn-radio="'sell'">Sell</label>
               </div>
-              <!-- </div>
-              <div class="row"> -->
               <div class="btn-group callput">
                 <label class="btn btn-warning" ng-model="trade.optionType" uib-btn-radio="'call'"
                   ng-change="trade_type = trade.optionType; changetrade(trade_type, {{$index}})">Call</label>
                 <label class="btn btn-warning" ng-model="trade.optionType" uib-btn-radio="'put'"
                   ng-change="trade_type = trade.optionType; changetrade(trade_type, {{$index}})">Put</label>
               </div>
-              <!-- </div> -->
             </div>
 
-            <!-- <div class="col-md-8"> -->
             <div style="color:#23a0a4;" class="col-md-8">
               <div class="row" id="func">
                 <div class="col-md-3">
-                  <label class="strike-price">Strike price</label>
+                  <label class="strike-price">Strike Price</label>
                   <code>{{$index}}</code>
-                  <!-- <input type="text" ng-model="trade.strike" class="form-control"> -->
-                  <select type="text" id="{{$index}}" ng-init="trade.strike = strike_price[0]" ng-model="trade.strike"
-                    class="form-control strike_price" ng-options="x for x in strike_price"
+                  <select 
+                    id="{{$index}}" 
+                    ng-init="trade.strike = strike_price[0]" 
+                    ng-model="trade.strike"
+                    class="form-control strike_price" 
+                    ng-options="x for x in strike_price"
                     ng-change="changestrikeprice({{$index}})">
-                    <!-- <select type="text" ng-init="trade.strike = strike_price[0]" ng-model="trade.strike" class="form-control strike_price" ng-options="x for x in strike_price"> -->
                   </select>
-                  <select type="text" class="form-control future" ng-model="trade.strike" style="display: none;"
-                    ng-options="x for x in future_price"></select>
+                  <select 
+                    class="form-control future" 
+                    ng-model="trade.strike" 
+                    style="display: none;"
+                    ng-options="x for x in future_price">
+                  </select>
                 </div>
                 <div class="col-md-3 future-hide">
                   <label uib-tooltip="Price of 1 unit of option">Premium</label>
-                  <!-- <input type="text" ng-model="trade.premium" class="form-control premium"> -->
-                  <select type="text" ng-init="trade.premium = premiumValue[0]" ng-model="trade.premium"
-                    ng-options="x for x in premiumValue[{{$index}}]" class="form-control premium"></select>
+                  <select 
+                    ng-init="trade.premium = premiumValue[0]" 
+                    ng-model="trade.premium"
+                    ng-options="x for x in premiumValue[{{$index}}]" 
+                    class="form-control premium">
+                  </select>
                 </div>
                 <div class="col-md-3">
                   <label>Qty</label>
-                  <input type="number" ng-init="trade.qty = 75" ng-model="trade.qty" class="form-control qty" ng-min="minQty"
-                    step="75" ng-change="change_qty(trade.qty, setup.name)">
+                  <input 
+                    type="number" 
+                    ng-init="trade.qty = 75" 
+                    ng-model="trade.qty" 
+                    class="form-control qty" 
+                    ng-min="minQty"
+                    step="75" 
+                    ng-change="change_qty(trade.qty, setup.name)" 
+                  />
                 </div>
                 <div class="col-md-1 delete-trade" style="padding-top: 24px;">
-                  <button type="button" class="btn btn-danger btn-sm" uib-tooltip="Remove trade"
-                    ng-click="removeTrade(setup, trade)"><span class="glyphicon glyphicon-remove"></span></button>
+                  <button 
+                    type="button" 
+                    class="btn btn-danger btn-sm" 
+                    uib-tooltip="Remove trade"
+                    ng-click="removeTrade(setup, trade)"
+                  >
+                    <span class="glyphicon glyphicon-remove"></span>
+                  </button>
                 </div>
               </div>
             </div>
@@ -184,25 +206,34 @@
 
 
       <div class="add-trade-btn-wrapper add_trade">
-        <button class="btn btn-default" ng-click="addTrade(setup)"><span class="glyphicon glyphicon-plus"></span> Add
-          Trade</button>
+        <button class="btn btn-default" ng-click="addTrade(setup)">
+          <span class="glyphicon glyphicon-plus"></span> 
+          Add Trade
+        </button>
       </div>
     </div>
     <div class="result" style="background-color:#212832;">
       <div class="row">
         <!-- <div class="col-md-6 net-profit">Profit & Loss: <strong
             class="{{getProfitClass(setup)}}">{{setup.profit}}</strong></div> -->
-        <div class="col-md-6 delete-setup"><button class="btn btn-danger" ng-click="deleteSetup(setup)">Delete
-            Setup</button></div>
+        <div class="col-md-6 delete-setup">
+          <button class="btn btn-danger" ng-click="deleteSetup(setup)">
+            Delete Setup
+          </button>
+        </div>
       </div>
     </div>
 
     <div class="graph">
       <div class="container">
         <div class="chart-wrapper" ng-if="setup.spotPrice > 0">
-          <canvas class="chart chart-line" chart-data="chart.data[setup.id].profits"
-            chart-labels="chart.data[setup.id].labels" chart-series="chart.series"
-            chart-options="chart.options"></canvas>
+          <canvas 
+            class="chart chart-line" 
+            chart-data="chart.data[setup.id].profits"
+            chart-labels="chart.data[setup.id].labels" 
+            chart-series="chart.series"
+            chart-options="chart.options">
+          </canvas>
         </div>
       </div>
       <div style="color:#23a0a4;" class="geeks">
@@ -217,7 +248,6 @@
         <div>
           <label>LOT SIZE:</label>
           <label id="lot_size"></label>
-          <!-- change acc to quantity -->
         </div>
         <div>
           <label>OI:</label>
@@ -245,9 +275,7 @@
       <div class="data">
         <div style="color:#23a0a4;">
           <div>
-            <label>
-              Prob. of Profit:
-            </label>
+            <label>Prob. of Profit:</label>
             <label>--</label>
           </div>
           <div class="net-profit">
@@ -262,36 +290,27 @@
           <div>
             <label>Max. Loss:</label>
             <span class="rupee" style="display: none;">&#8377;</span>
-            <!-- <label id="total_loss"></label> -->
             <label id="max_loss">Undefined</label>
           </div>
         </div>
         <div style="color:#23a0a4;">
           <div>
-            <label>
-              Breakevens:
-            </label>
+            <label>Breakevens:</label>
             <span>&#8377;</span>
             <label id="breakevens"></label>
           </div>
           <div>
-            <label>
-              Total PNL:
-            </label>
+            <label>Total PNL:</label>
             <span>&#8377;</span>
             <label>0</label>
           </div>
           <div>
-            <label>
-              Net Credit:
-            </label>
+            <label>Net Credit:</label>
             <span>&#8377;</span>
             <label>0</label>
           </div>
           <div>
-            <label>
-              Estimated Margin/Premium:
-            </label>
+            <label>Estimated Margin/Premium:</label>
             <span>&#8377;</span>
             <label id="margin"></label>
           </div>
@@ -300,9 +319,7 @@
       <div class=data2>
         <div style="color:#23a0a4;">
           <div>
-            <label>
-              Delta:
-            </label>
+            <label>Delta:</label>
             <label id="delta"></label>
           </div>
           <div>
@@ -322,8 +339,10 @@
     </div>
   </div>
   <div class="button-group text-center" style="padding: 30px;">
-    <button class="btn btn-primary" ng-click="addSetup()"><span class="glyphicon glyphicon-plus"></span> Add New
-      Setup</button>
+    <button class="btn btn-primary" ng-click="addSetup()">
+      <span class="glyphicon glyphicon-plus"></span> 
+      Add New Setup
+    </button>
   </div>
 
 
@@ -343,7 +362,7 @@
 
 
 
-  <script>
+  <!-- <script>
 
     // $(document).ready(function() {
     //   var x = $("#select-segment").value;
@@ -408,7 +427,7 @@
 
 
 
-  </script>
+  </script> -->
 </body>
 
 </html>

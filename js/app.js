@@ -807,7 +807,7 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 	$scope.premium = {};
 	$scope.strike_price = Object.keys($scope.stockdata["premium123"]);
 	$scope.spot_price = [$scope.stockdata["spotprice"]];
-	$scope.indices = ["NIFTY", "BANKNIFTY", "USDINR"]
+	$scope.indices = ["NIFTY", "BANKNIFTY"]
 	$scope.premiumValue = {0: [$scope.stockdata["premium123"][Object.keys($scope.stockdata["premium123"])[0]][0]]};
 	$scope.trade_type = 'call';
 	$scope.breakevens = {};
@@ -1022,7 +1022,9 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 		var a = document.getElementsByClassName("future");
 		var b = document.getElementsByClassName("strike_price");
 		if (segment === "FUTURES") {
-			document.getElementsByClassName("add_trade")[0].style.display = "none";
+			if ($scope.id !== 0) {
+				document.getElementsByClassName("add_trade")[0].style.display = "none";
+			}
 		} else if (segment === "OPTIONS") {
 			document.getElementsByClassName("add_trade")[0].style.display = "flex";
 		}
@@ -1105,6 +1107,17 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 		console.log(ans/size);
 		$('#total_loss').text((ans/size) * $scope.quantity);
 		$('#margin').text((ans/size) * $scope.quantity * -1);
+		console.log('hi');
+		console.log($scope.id);
+		if ($scope.segment === 'FUTURES') {
+			document.getElementsByClassName("add_trade")[0].style.display = "none";
+			document.getElementsByClassName("callput")[0].style.display = "none";
+			document.getElementsByClassName("future-hide")[0].style.display = "none";
+			document.getElementsByClassName("strike_price")[0].style.display = "none";
+			document.getElementsByClassName("future")[0].style.display = "flex";
+			$('.strike-price').text('Futures Price');
+			$scope.expiries = future_expiries();
+		}
 	}, true);
 
 	$scope.addSetup = function () {
@@ -1150,6 +1163,15 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 		$scope.total_loss[$scope.id] = parseFloat(Object.values($scope.premium[$scope.id])[0][0]);
 		console.log($scope.premium);
 		$scope.id++;
+		console.log($scope.segment);
+		if ($scope.segment === 'FUTURES') {
+			document.getElementsByClassName("add_trade")[0].style.display = "none";
+			document.getElementsByClassName("callput")[0].style.display = "none";
+			document.getElementsByClassName("future-hide")[0].style.display = "none";
+			document.getElementsByClassName("strike_price")[0].style.display = "none";
+			document.getElementsByClassName("future")[0].style.display = "flex";
+		}
+		// $scope.change_segment($scope.segment);
 	};
 
 	$scope.removeTrade = function (setup, trade) {
@@ -1164,6 +1186,9 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			$scope.id--;
 		} else {
 			$scope.id = 0;
+		}
+		if ($scope.segment === 'FUTURES' && $scope.id === 0) {
+			document.getElementsByClassName("add_trade")[0].style.display = "flex";
 		}
 	};
 
