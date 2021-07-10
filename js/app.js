@@ -914,7 +914,7 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			$scope.strike_price = Object.keys($scope.stockdata["premium123"]);
 			$scope.spot_price = [$scope.stockdata["spotprice"]];
 			setup.spotPrice = $scope.spot_price[0];
-			$scope.indices = ["NIFTY", "BANKNIFTY", "USDINR"]
+			$scope.indices = ["NIFTY", "BANKNIFTY"]
 			$scope.premiumValue = {0: [$scope.stockdata["premium123"][Object.keys($scope.stockdata["premium123"])[0]][0]]};
 			$scope.trade_type = 'call';
 			$scope.minQty = 75;
@@ -938,7 +938,7 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			$scope.strike_price = Object.keys($scope.stockdata["premium123"]);
 			$scope.spot_price = [$scope.stockdata["spotprice"]];
 			setup.spotPrice = $scope.spot_price[0];
-			$scope.indices = ["NIFTY", "BANKNIFTY", "USDINR"]
+			$scope.indices = ["NIFTY", "BANKNIFTY"]
 			$scope.premiumValue = {0: [$scope.stockdata["premium123"][Object.keys($scope.stockdata["premium123"])[0]][0]]};
 			$scope.trade_type = 'call';
 			$scope.minQty = 25;
