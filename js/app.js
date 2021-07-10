@@ -1136,6 +1136,7 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 		$('#volume').text((Object.values($scope.stockdata['premium123'])[0][8]));
 		$('#trend_strength').text((Object.values($scope.stockdata['premium123'])[0][10]));
 		$scope.setups.push(setup);
+		$scope.premiumValue = {0: [$scope.stockdata["premium123"][Object.keys($scope.stockdata["premium123"])[0]][0]]};
 	};
 
 	$scope.deleteSetup = function (setup) {
