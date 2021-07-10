@@ -85,7 +85,7 @@
             ng-init="setup.name = indices[0]" 
             ng-model="setup.name"
             ng-options="x for x in indices" 
-            ng-change="index(setup.name)" 
+            ng-change="index(setup.name, setup)" 
             class="form-control" 
             id="index">
           </select>
@@ -99,7 +99,7 @@
             id="select-segment" 
             ng-init="segment = segments[0]" 
             ng-model="segment"
-            ng-change="change_segment(segment)" 
+            ng-change="change_segment(segment, setup.name, setup)" 
             ng-options="x for x in segments">
           </select>
         </label>
@@ -112,7 +112,7 @@
           <select 
             class="form-control expiry" 
             ng-init="expiry = expiries[0]"
-            ng-change="change_expiry(expiry, setup.name)" 
+            ng-change="change_expiry(expiry, setup.name, setup)" 
             ng-model="expiry" 
             ng-options="x for x in expiries">
           </select>
@@ -123,12 +123,17 @@
       <div>
         <label>
           Spot price 
-          <select
+          <!-- <code>{{setup.spotPrice}}</code> -->
+          <!-- <code>{{spot_price}}</code> -->
+          <div class="form-control spotPrice">
+            {{spot_price[0]}}
+          </div>
+          <!-- <select
             ng-init="setup.spotPrice = spot_price[0]" 
             ng-model="setup.spotPrice"
             class="form-control spotPrice" 
             ng-options="x for x in spot_price">
-          </select>
+          </select> -->
         </label>
       </div>
       <div style="grid-column: 1/5;">
@@ -141,9 +146,9 @@
               </div>
               <div class="btn-group callput">
                 <label class="btn btn-warning" ng-model="trade.optionType" uib-btn-radio="'call'"
-                  ng-change="trade_type = trade.optionType; changetrade(trade_type, {{$index}})">Call</label>
+                  ng-change="trade_type = trade.optionType; changetrade(trade_type, {{$index}}, trade)">Call</label>
                 <label class="btn btn-warning" ng-model="trade.optionType" uib-btn-radio="'put'"
-                  ng-change="trade_type = trade.optionType; changetrade(trade_type, {{$index}})">Put</label>
+                  ng-change="trade_type = trade.optionType; changetrade(trade_type, {{$index}}, trade)">Put</label>
               </div>
             </div>
 
@@ -152,29 +157,43 @@
                 <div class="col-md-3">
                   <label class="strike-price">Strike Price</label>
                   <code>{{$index}}</code>
+                  <code>{{trade.strike}}</code>
                   <select 
                     id="{{$index}}" 
                     ng-init="trade.strike = strike_price[0]" 
                     ng-model="trade.strike"
                     class="form-control strike_price" 
                     ng-options="x for x in strike_price"
-                    ng-change="changestrikeprice({{$index}})">
+                    ng-change="changestrikeprice({{$index}}, trade)">
                   </select>
-                  <select 
+                  <!-- <select 
                     class="form-control future" 
                     ng-model="trade.strike" 
                     style="display: none;"
                     ng-options="x for x in future_price">
-                  </select>
+                  </select> -->
+                  <div class="form-control future" style="display: none;">
+                    {{trade.strike}}
+                  </div>
                 </div>
                 <div class="col-md-3 future-hide">
-                  <label uib-tooltip="Price of 1 unit of option">Premium</label>
-                  <select 
+                  <label uib-tooltip="Price of 1 unit of option">
+                    Premium
+                  </label>
+                  <code>{{premiumValue[$index][0]}}</code>
+                  <code>{{trade.premium}}</code>
+                  <div class="form-control col-md-3">
+                    {{premiumValue[$index][0]}}
+                    <!-- {{trade.premium}} -->
+                  </div>
+                  <!-- <code>{{trade.premium}}</code>
+                  <code>{{premiumValue[$index]}}</code> -->
+                  <!-- <select 
                     ng-init="trade.premium = premiumValue[0]" 
                     ng-model="trade.premium"
                     ng-options="x for x in premiumValue[{{$index}}]" 
                     class="form-control premium">
-                  </select>
+                  </select> -->
                 </div>
                 <div class="col-md-3">
                   <label>Qty</label>
@@ -198,6 +217,9 @@
                     <span class="glyphicon glyphicon-remove"></span>
                   </button>
                 </div>
+                <!-- <div class="form-control col-md-3">
+                  {{premiumValue[$index][0]}}
+                </div> -->
               </div>
             </div>
           </div>

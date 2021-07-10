@@ -818,7 +818,7 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 	$scope.theta = 0;
 	$scope.minQty = 75;
 	$scope.stepQty = 75;
-	$scope.changetrade = function(trade_type, index) {
+	$scope.changetrade = function(trade_type, index, trade) {
 		$scope.trade_type = trade_type;
 		var strikeprice = $("#"+index.toString()).children("option:selected").val();
 		strikeprice = strikeprice.replace("string:", "0");
@@ -827,6 +827,7 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			console.log('put');
 			$scope.premiumValue[index] = [$scope.premium[index][strikeprice][1]];
 			console.log($scope.premiumValue);
+			trade.premium = $scope.premiumValue[index][0];
 			$('#strategy').text((Object.values($scope.stockdata["premium123"])[0][3]));
 			$('#oi').text((Object.values($scope.stockdata['premium123'])[0][7]));
 			$('#change_in_oi').text((Object.values($scope.stockdata['premium123'])[0][5]));
@@ -844,6 +845,7 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			console.log('call');
 			$scope.premiumValue[index] = [$scope.premium[index][strikeprice][0]];
 			console.log($scope.premiumValue);
+			trade.premium = $scope.premiumValue[index][0];
 			$('#strategy').text((Object.values($scope.stockdata["premium123"])[0][2]));
 			$('#oi').text((Object.values($scope.stockdata['premium123'])[0][6]));
 			$('#change_in_oi').text((Object.values($scope.stockdata['premium123'])[0][4]));
@@ -861,7 +863,7 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			console.log('no');
 		}
 	};
-	$scope.changestrikeprice = function(index) {
+	$scope.changestrikeprice = function(index, trade) {
 		console.log(index);
 		var strikeprice = $("#"+index.toString()).children("option:selected").val();
 		strikeprice = strikeprice.replace("string:", "0");
@@ -871,6 +873,7 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			console.log('put');
 			$scope.premiumValue[index] = [$scope.premium[index][strikeprice][1]];
 			console.log($scope.premiumValue);
+			trade.premium = $scope.premiumValue[index][0];
 			$scope.breakevens[index] = strikeprice - parseInt($scope.premiumValue[index]);
 			console.log($scope.breakevens);
 			$scope.total_loss[index] = -1 * parseFloat($scope.premiumValue[index]);
@@ -883,6 +886,7 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			console.log('call');
 			$scope.premiumValue[index] = [$scope.premium[index][strikeprice][0]];
 			console.log($scope.premiumValue);
+			trade.premium = $scope.premiumValue[index][0];
 			$scope.breakevens[index] = strikeprice + parseInt($scope.premiumValue[index]);
 			console.log($scope.breakevens);
 			$scope.total_loss[index] = -1 * parseFloat($scope.premiumValue[index]);
@@ -896,7 +900,7 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			console.log('no');
 		}
 	};
-	$scope.index = function(name) {
+	$scope.index = function(name, setup) {
 		console.log(name);
 		if (name == 'NIFTY') {
 			// $scope.stockdata = stock($scope.url);
@@ -909,6 +913,7 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			console.log($scope.premium);
 			$scope.strike_price = Object.keys($scope.stockdata["premium123"]);
 			$scope.spot_price = [$scope.stockdata["spotprice"]];
+			setup.spotPrice = $scope.spot_price[0];
 			$scope.indices = ["NIFTY", "BANKNIFTY", "USDINR"]
 			$scope.premiumValue = {0: [$scope.stockdata["premium123"][Object.keys($scope.stockdata["premium123"])[0]][0]]};
 			$scope.trade_type = 'call';
@@ -932,6 +937,7 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			console.log($scope.premium);
 			$scope.strike_price = Object.keys($scope.stockdata["premium123"]);
 			$scope.spot_price = [$scope.stockdata["spotprice"]];
+			setup.spotPrice = $scope.spot_price[0];
 			$scope.indices = ["NIFTY", "BANKNIFTY", "USDINR"]
 			$scope.premiumValue = {0: [$scope.stockdata["premium123"][Object.keys($scope.stockdata["premium123"])[0]][0]]};
 			$scope.trade_type = 'call';
@@ -946,9 +952,9 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			$('#trend_strength').text((Object.values($scope.stockdata['premium123'])[0][10]));
 		}
 	}
-	$scope.change_expiry = function(expiry, name) {
-		var expiry = $('.expiry').children('option:selected').val();
-		expiry = expiry.slice(7);
+	$scope.change_expiry = function(expiry, name, setup) {
+		// var expiry = $('.expiry').children('option:selected').val();
+		// expiry = expiry.slice(7);
 		console.log(expiry);
 		var option = ($scope.expiries).indexOf(expiry);
 		console.log(option);
@@ -958,6 +964,8 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			// $scope.stockdata = nifty[option];
 			if ($scope.segment === "FUTURES") {
 				$scope.future_price = [Object.values(niftyfutures)[option]];
+				console.log(setup.trades);
+				setup.trades[0].strike = $scope.future_price[0];
 			} else if ($scope.segment === "OPTIONS") {
 				// options
 			}
@@ -972,7 +980,7 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			}
 		}
 		// console.log($scope.url);
-		$scope.index(name);
+		$scope.index(name, setup);
 	}
 	$scope.quantity = 75;
 	$scope.change_qty = function(qty, name) {
@@ -1013,42 +1021,53 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 		$('#total_loss').text((ans/size) * $scope.quantity);
 		$('#margin').text((ans/size) * $scope.quantity * -1);
 	}
-	$scope.change_segment = function(segment) {
+	$scope.change_segment = function(segment, name, setup) {
 		console.log(segment);
 		$scope.segment = segment;
-		var x = document.getElementsByClassName("trade_div");
-		var y = document.getElementsByClassName("callput");
-    	var z = document.getElementsByClassName("future-hide");
-		var a = document.getElementsByClassName("future");
-		var b = document.getElementsByClassName("strike_price");
-		if (segment === "FUTURES") {
-			if ($scope.id !== 0) {
-				document.getElementsByClassName("add_trade")[0].style.display = "none";
-			}
-		} else if (segment === "OPTIONS") {
-			document.getElementsByClassName("add_trade")[0].style.display = "flex";
-		}
-		for (var i=0; i<y.length; i++) {
+		if ($scope.id === 0) {
 			if (segment === "OPTIONS") {
-				x[i].style.display = "flex";
-				y[i].style.display = "inline-block";
-				z[i].style.display = "inline-block";
-				a[i].style.display = "none"
-				b[i].style.display = "flex"
-				$('.strike-price').text('Strike Price');
 				$scope.expiries = options_expiries();
 			} else if (segment === "FUTURES") {
-				if (i !== 0) {
-					x[i].style.display = "none";
-				}
-				y[i].style.display = "none";
-        		z[i].style.display = "none";
-				a[i].style.display = "flex"
-				b[i].style.display = "none"
-        		$('.strike-price').text('Futures Price');
 				$scope.expiries = future_expiries();
 			}
+			$scope.change_expiry($scope.expiries[0], name, setup);
+		} else {
+			var x = document.getElementsByClassName("trade_div");
+			var y = document.getElementsByClassName("callput");
+			var z = document.getElementsByClassName("future-hide");
+			var a = document.getElementsByClassName("future");
+			var b = document.getElementsByClassName("strike_price");
+			if (segment === "FUTURES") {
+				if ($scope.id !== 0) {
+					document.getElementsByClassName("add_trade")[0].style.display = "none";
+				}
+			} else if (segment === "OPTIONS") {
+				document.getElementsByClassName("add_trade")[0].style.display = "flex";
+			}
+			for (var i=0; i<y.length; i++) {
+				if (segment === "OPTIONS") {
+					x[i].style.display = "flex";
+					y[i].style.display = "inline-block";
+					z[i].style.display = "inline-block";
+					a[i].style.display = "none"
+					b[i].style.display = "flex"
+					$('.strike-price').text('Strike Price');
+					$scope.expiries = options_expiries();
+				} else if (segment === "FUTURES") {
+					if (i !== 0) {
+						x[i].style.display = "none";
+					}
+					y[i].style.display = "none";
+					z[i].style.display = "none";
+					a[i].style.display = "flex"
+					b[i].style.display = "none"
+					$('.strike-price').text('Futures Price');
+					$scope.expiries = future_expiries();
+				}
+			}
 		}
+		// console.log($scope.expiries[0]);
+		// $scope.change_expiry($scope.expiries[0], name, setup);
 	}
 
 	$scope.setups = DataService.getAllSetups();
@@ -1172,7 +1191,6 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			document.getElementsByClassName("strike_price")[0].style.display = "none";
 			document.getElementsByClassName("future")[0].style.display = "flex";
 		}
-		// $scope.change_segment($scope.segment);
 	};
 
 	$scope.removeTrade = function (setup, trade) {
