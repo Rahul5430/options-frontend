@@ -1,3 +1,17 @@
+// var options = {
+// 	classname: 'my-class',
+// 	id: 'my-id'
+// }
+// var nanobar = new Nanobar(options);
+// nanobar.go( 30 );
+// nanobar.go( 76 );
+// nanobar.go(100);
+
+NProgress.configure({ minimum: 0.03 });
+NProgress.configure({ trickle: false });
+NProgress.configure({ easing: 'linear', speed: 200 });
+NProgress.start();
+
 var options_expiries = function() {
 	var arr = [];
 	for (var i=0; i<28; i+=7) {
@@ -74,6 +88,8 @@ $(document).ready(function () {
 			bankniftyfutures[1] = parseInt(data.feed.entry[3].content.$t);
 			bankniftyfutures[2] = parseInt(data.feed.entry[5].content.$t);
 		}
+	}).done(function() {
+		NProgress.inc(0.03);
 	});
 	// $.ajax({
 	// 	type: 'GET',
@@ -101,7 +117,12 @@ $(document).ready(function () {
 				success: function (data) {
 					console.log("all data=" + data);
 					temporary = data;
+				},
+				error: function(xhr) {
+					console.log("No data received for " + temp[1] + " expiry");
 				}
+			}).done(function() {
+				NProgress.inc(0.03);
 			});
 			var spotprice = data.feed.entry[35].content.$t;
 			var strikeprice123 = [];
@@ -125,6 +146,8 @@ $(document).ready(function () {
 				"temporary" : temporary
 			};
 		}
+	}).done(function() {
+		NProgress.inc(0.03);
 	});
 	$.ajax({
 		type: 'GET',
@@ -142,7 +165,12 @@ $(document).ready(function () {
 				success: function (data) {
 					console.log("all data=" + data);
 					temporary = data;
+				},
+				error: function(xhr) {
+					console.log("No data received for " + temp[2] + " expiry");
 				}
+			}).done(function() {
+				NProgress.inc(0.03);
 			});
 			var spotprice = data.feed.entry[35].content.$t;
 			var strikeprice123 = [];
@@ -166,6 +194,8 @@ $(document).ready(function () {
 				"temporary" : temporary
 			};
 		}
+	}).done(function() {
+		NProgress.inc(0.03);
 	});
 	$.ajax({
 		type: 'GET',
@@ -183,7 +213,12 @@ $(document).ready(function () {
 				success: function (data) {
 					console.log("all data=" + data);
 					temporary = data;
+				},
+				error: function(xhr) {
+					console.log("No data received for " + temp[3] + " expiry");
 				}
+			}).done(function() {
+				NProgress.inc(0.03);
 			});
 			var spotprice = data.feed.entry[35].content.$t;
 			var strikeprice123 = [];
@@ -206,6 +241,8 @@ $(document).ready(function () {
 				"temporary" : temporary
 			};
 		}
+	}).done(function() {
+		NProgress.inc(0.03);
 	});
 	$.ajax({
 		type: 'GET',
@@ -223,7 +260,12 @@ $(document).ready(function () {
 				success: function (data) {
 					console.log("all data=" + data);
 					temporary = data;
+				},
+				error: function(xhr) {
+					console.log("No data received for " + temp[4] + " expiry");
 				}
+			}).done(function() {
+				NProgress.inc(0.03);
 			});
 			var spotprice = data.feed.entry[35].content.$t;
 			var strikeprice123 = [];
@@ -246,6 +288,8 @@ $(document).ready(function () {
 				"temporary" : temporary
 			};
 		}
+	}).done(function() {
+		NProgress.inc(0.03);
 	});
 	$.ajax({
 		type: 'GET',
@@ -263,7 +307,12 @@ $(document).ready(function () {
 				success: function (data) {
 					console.log("all data=" + data);
 					temporary = data;
+				},
+				error: function(xhr) {
+					console.log("No data received for " + temp[5] + " expiry");
 				}
+			}).done(function() {
+				NProgress.inc(0.03);
 			});
 			var spotprice = data.feed.entry[35].content.$t;
 			var strikeprice123 = [];
@@ -286,6 +335,8 @@ $(document).ready(function () {
 				"temporary" : temporary
 			};
 		}
+	}).done(function() {
+		NProgress.inc(0.03);
 	});
 	$.ajax({
 		type: 'GET',
@@ -303,7 +354,12 @@ $(document).ready(function () {
 				success: function (data) {
 					console.log("all data=" + data);
 					temporary = data;
+				},
+				error: function(xhr) {
+					console.log("No data received for " + temp[6] + " expiry");
 				}
+			}).done(function() {
+				NProgress.inc(0.03);
 			});
 			var spotprice = data.feed.entry[35].content.$t;
 			var strikeprice123 = [];
@@ -326,6 +382,8 @@ $(document).ready(function () {
 				"temporary" : temporary
 			};
 		}
+	}).done(function() {
+		NProgress.inc(0.03);
 	});
 	$.ajax({
 		type: 'GET',
@@ -343,7 +401,12 @@ $(document).ready(function () {
 				success: function (data) {
 					console.log("all data=" + data);
 					temporary = data;
+				},
+				error: function(xhr) {
+					console.log("No data received for " + temp[7] + " expiry");
 				}
+			}).done(function() {
+				NProgress.inc(0.03);
 			});
 			var spotprice = data.feed.entry[35].content.$t;
 			var strikeprice123 = [];
@@ -366,6 +429,8 @@ $(document).ready(function () {
 				"temporary" : temporary
 			};
 		}
+	}).done(function() {
+		NProgress.inc(0.03);
 	});
 	$.ajax({
 		type: 'GET',
@@ -383,7 +448,12 @@ $(document).ready(function () {
 				success: function (data) {
 					console.log("all data=" + data);
 					temporary = data;
+				},
+				error: function(xhr) {
+					console.log("No data received for " + temp[0] + " expiry");
 				}
+			}).done(function() {
+				NProgress.inc(0.03);
 			});
 			var spotprice = data.feed.entry[35].content.$t;
 			var strikeprice123 = [];
@@ -406,6 +476,8 @@ $(document).ready(function () {
 				"temporary" : temporary
 			};
 		}
+	}).done(function() {
+		NProgress.inc(0.03);
 	});
 	$.ajax({
 		type: 'GET',
@@ -423,7 +495,12 @@ $(document).ready(function () {
 				success: function (data) {
 					console.log("all data=" + data);
 					temporary = data;
+				},
+				error: function(xhr) {
+					console.log("No data received for " + temp[1] + " expiry");
 				}
+			}).done(function() {
+				NProgress.inc(0.03);
 			});
 			var spotprice = data.feed.entry[35].content.$t;
 			var strikeprice123 = [];
@@ -446,6 +523,8 @@ $(document).ready(function () {
 				"temporary" : temporary
 			};
 		}
+	}).done(function() {
+		NProgress.inc(0.03);
 	});
 	$.ajax({
 		type: 'GET',
@@ -463,7 +542,12 @@ $(document).ready(function () {
 				success: function (data) {
 					console.log("all data=" + data);
 					temporary = data;
+				},
+				error: function(xhr) {
+					console.log("No data received for " + temp[2] + " expiry");
 				}
+			}).done(function() {
+				NProgress.inc(0.03);
 			});
 			var spotprice = data.feed.entry[35].content.$t;
 			var strikeprice123 = [];
@@ -486,6 +570,8 @@ $(document).ready(function () {
 				"temporary" : temporary
 			};
 		}
+	}).done(function() {
+		NProgress.inc(0.03);
 	});
 	$.ajax({
 		type: 'GET',
@@ -503,7 +589,12 @@ $(document).ready(function () {
 				success: function (data) {
 					console.log("all data=" + data);
 					temporary = data;
+				},
+				error: function(xhr) {
+					console.log("No data received for " + temp[3] + " expiry");
 				}
+			}).done(function() {
+				NProgress.inc(0.03);
 			});
 			var spotprice = data.feed.entry[35].content.$t;
 			var strikeprice123 = [];
@@ -526,6 +617,8 @@ $(document).ready(function () {
 				"temporary" : temporary
 			};
 		}
+	}).done(function() {
+		NProgress.inc(0.03);
 	});
 	$.ajax({
 		type: 'GET',
@@ -543,7 +636,12 @@ $(document).ready(function () {
 				success: function (data) {
 					console.log("all data=" + data);
 					temporary = data;
+				},
+				error: function(xhr) {
+					console.log("No data received for " + temp[4] + " expiry");
 				}
+			}).done(function() {
+				NProgress.inc(0.03);
 			});
 			var spotprice = data.feed.entry[35].content.$t;
 			var strikeprice123 = [];
@@ -566,6 +664,8 @@ $(document).ready(function () {
 				"temporary" : temporary
 			};
 		}
+	}).done(function() {
+		NProgress.inc(0.03);
 	});
 	$.ajax({
 		type: 'GET',
@@ -583,7 +683,12 @@ $(document).ready(function () {
 				success: function (data) {
 					console.log("all data=" + data);
 					temporary = data;
+				},
+				error: function(xhr) {
+					console.log("No data received for " + temp[5] + " expiry");
 				}
+			}).done(function() {
+				NProgress.inc(0.03);
 			});
 			var spotprice = data.feed.entry[35].content.$t;
 			var strikeprice123 = [];
@@ -606,6 +711,8 @@ $(document).ready(function () {
 				"temporary" : temporary
 			};
 		}
+	}).done(function() {
+		NProgress.inc(0.03);
 	});
 	$.ajax({
 		type: 'GET',
@@ -623,7 +730,12 @@ $(document).ready(function () {
 				success: function (data) {
 					console.log("all data=" + data);
 					temporary = data;
+				},
+				error: function(xhr) {
+					console.log("No data received for " + temp[6] + " expiry");
 				}
+			}).done(function() {
+				NProgress.inc(0.03);
 			});
 			var spotprice = data.feed.entry[35].content.$t;
 			var strikeprice123 = [];
@@ -646,6 +758,8 @@ $(document).ready(function () {
 				"temporary" : temporary
 			};
 		}
+	}).done(function() {
+		NProgress.inc(0.03);
 	});
 	$.ajax({
 		type: 'GET',
@@ -663,7 +777,12 @@ $(document).ready(function () {
 				success: function (data) {
 					console.log("all data=" + data);
 					temporary = data;
+				},
+				error: function(xhr) {
+					console.log("No data received for " + temp[7] + " expiry");
 				}
+			}).done(function() {
+				NProgress.inc(0.03);
 			});
 			var spotprice = data.feed.entry[35].content.$t;
 			var strikeprice123 = [];
@@ -686,7 +805,12 @@ $(document).ready(function () {
 				"temporary" : temporary
 			};
 		}
+	}).done(function() {
+		NProgress.inc(0.03);
 	});
+}).ajaxStop(function() {
+	console.log("all requests completed");
+	NProgress.done();
 });
 
 var stock = function(url) {
@@ -701,6 +825,8 @@ var stock = function(url) {
 				success: function(data) {
 					result = data;
 				}
+			}).done(function() {
+				NProgress.inc(0.03);
 			});
 			return result;
 		}
@@ -715,7 +841,12 @@ var stock = function(url) {
 		success: function (data) {
 			console.log("all data=" + data);
 			temporary = data;
+		},
+		error: function(xhr) {
+			console.log("No data received for " + temp[0] + " expiry");
 		}
+	}).done(function() {
+		NProgress.inc(0.03);
 	});
 	var spotprice = data.feed.entry[35].content.$t;
 	$("#spot_Price").text(spotprice);
@@ -1088,14 +1219,43 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 		angular.forEach($scope.setups, function (setup) {
 			setup.profit = $scope.netProfit(setup);
 			$scope.updateChartData(setup);
+			setup.maxProfit = $scope.max;
+			setup.maxLoss = $scope.min;
 			$('#max_profit').text($scope.max);
 			$('#max_loss').text($scope.min);
 			if ($scope.max !== 'Undefined' && $scope.min !== 'Undefined') {
 				$('#max_rr_ratio').text(parseFloat($scope.min)/parseFloat($scope.max));
+				setup.maxRrRatio = parseFloat((setup.maxLoss).slice(2,)) / parseFloat((setup.maxProfit.slice(2,)));
 			} else {
 				$('#max_rr_ratio').text('NA');
+				setup.maxRrRatio = 'NA';
 			}
 			$scope.change_qty($scope.quantity, setup.name);
+			setup.delta = $scope.delta;
+			setup.theta = $scope.theta;
+			setup.gamma = $scope.gamma;
+			setup.vega = $scope.vega;
+			console.log($scope.breakevens);
+			var size = Object.keys($scope.breakevens).length;
+			var ans = 0;
+			for (var [key, value] of Object.entries($scope.breakevens)) {
+				var breakeven = parseInt(`${value}`);
+				ans += breakeven;
+			}
+			console.log(ans/size);
+			$('#breakevens').text(ans/size);
+			setup.breakevens = "₹ " + (ans/size).toString();
+			console.log($scope.total_loss);
+			var size = Object.keys($scope.total_loss).length;
+			var ans = 0;
+			for (var [key, value] of Object.entries($scope.total_loss)) {
+				var total_loss = parseInt(`${value}`);
+				ans += total_loss;
+			}
+			console.log(ans/size);
+			$('#total_loss').text((ans/size) * $scope.quantity);
+			$('#margin').text((ans/size) * $scope.quantity * -1);
+			setup.margin = "₹ " + ((ans/size) * $scope.quantity * -1).toString();
 		});
 		DataService.saveSetups($scope.setups);
 		$('#strategy').text((Object.values($scope.stockdata["premium123"])[0][2]));
@@ -1143,9 +1303,21 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 		var setup = {
 			id: UtilService.getUniqueId(),
 			name: '',
-			spotPrice: 0,
+			spotPrice: $scope.spot_price[0],
 			trades: [],
-			profit: 0
+			profit: 0,
+			maxProfit: "Undefined",
+			maxLoss: "Undefined",
+			maxRrRatio: "NA",
+			pop: "--",
+			breakevens: "NA",
+			totalPNL: 0,
+			netCredit: 0,
+			margin: 0,
+			delta: 0,
+			theta: 0,
+			gamma: 0,
+			vega: 0
 		};
 		console.log(setup.spotPrice);
 		$('#strategy').text((Object.values($scope.stockdata["premium123"])[0][2]));
@@ -1306,36 +1478,36 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 		console.log(extreme_left, extreme_right);
 		console.log(max, min);
 		if (max !== extreme_left && max !== extreme_right) {
-			$scope.max = max.toString();
-			$('.rupee').each(function() {
-				$(this).css("display", "inline-flex");
-			});
+			$scope.max = "₹ " + max.toString();
+			// $('.rupee').each(function() {
+			// 	$(this).css("display", "inline-flex");
+			// });
 		} else if (max === parseFloat(profitArr[1]) || max === parseFloat(profitArr[size-2])) {
-			$scope.max = max.toString();
-			$('.rupee').each(function() {
-				$(this).css("display", "inline-flex");
-			});
+			$scope.max = "₹ " + max.toString();
+			// $('.rupee').each(function() {
+			// 	$(this).css("display", "inline-flex");
+			// });
 		} else {
 			$scope.max = 'Undefined';
-			$('.rupee').each(function() {
-				$(this).css("display", "none");
-			});
+			// $('.rupee').each(function() {
+			// 	$(this).css("display", "none");
+			// });
 		}
 		if (min !== extreme_left && min !== extreme_right) {
-			$scope.min = min.toString();
-			$('.rupee').each(function() {
-				$(this).css("display", "inline-flex");
-			});
+			$scope.min = "₹ " + min.toString();
+			// $('.rupee').each(function() {
+			// 	$(this).css("display", "inline-flex");
+			// });
 		} else if (min === parseFloat(profitArr[1]) || min === parseFloat(profitArr[size-2])) {
-			$scope.min = min.toString();
-			$('.rupee').each(function() {
-				$(this).css("display", "inline-flex");
-			});
+			$scope.min = "₹ " + min.toString();
+			// $('.rupee').each(function() {
+			// 	$(this).css("display", "inline-flex");
+			// });
 		} else {
 			$scope.min = 'Undefined';
-			$('.rupee').each(function() {
-				$(this).css("display", "none");
-			});
+			// $('.rupee').each(function() {
+			// 	$(this).css("display", "none");
+			// });
 		}
 
 		$scope.chart.data[setup.id] = {
