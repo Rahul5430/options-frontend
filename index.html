@@ -14,8 +14,8 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <script type="module" src="js/app.js"></script>
-  <script src="./js/topbar.js"></script>
-  <script src="./js/nanobar.min.js"></script>
+  <!-- <script src="./js/topbar.js"></script>
+  <script src="./js/nanobar.min.js"></script> -->
   <script src="./js/nprogress.js"></script>
   <link rel="stylesheet" href="./css/nprogress.css">
 
@@ -85,7 +85,7 @@
   </div>
 
   <div class="setup form-group" ng-repeat="setup in setups track by $index">
-    <div class="func" ng-init="load(setup.trades.length)">
+    <div class="func" ng-init="load(setup)">
       <div>
         <label>
           Index / Stock 
@@ -154,9 +154,9 @@
               </div>
               <div class="btn-group callput">
                 <label class="btn btn-warning" ng-model="trade.optionType" uib-btn-radio="'call'"
-                  ng-change="trade_type = trade.optionType; changetrade(trade_type, {{$index}}, trade)">Call</label>
+                  ng-change="trade_type = trade.optionType; changetrade(trade_type, {{$index}}, trade, setup)">Call</label>
                 <label class="btn btn-warning" ng-model="trade.optionType" uib-btn-radio="'put'"
-                  ng-change="trade_type = trade.optionType; changetrade(trade_type, {{$index}}, trade)">Put</label>
+                  ng-change="trade_type = trade.optionType; changetrade(trade_type, {{$index}}, trade, setup)">Put</label>
               </div>
             </div>
 
@@ -172,7 +172,7 @@
                     ng-model="trade.strike"
                     class="form-control strike_price" 
                     ng-options="x for x in strike_price"
-                    ng-change="changestrikeprice({{$index}}, trade)">
+                    ng-change="changestrikeprice({{$index}}, trade, setup)">
                   </select>
                   <!-- <select 
                     class="form-control future" 

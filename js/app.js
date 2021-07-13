@@ -949,7 +949,7 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 	$scope.theta = 0;
 	$scope.minQty = 75;
 	$scope.stepQty = 75;
-	$scope.changetrade = function(trade_type, index, trade) {
+	$scope.changetrade = function(trade_type, index, trade, setup) {
 		$scope.trade_type = trade_type;
 		var strikeprice = $("#"+index.toString()).children("option:selected").val();
 		strikeprice = strikeprice.replace("string:", "0");
@@ -966,12 +966,35 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			$('#trend_strength').text((Object.values($scope.stockdata['premium123'])[0][11]));
 			$scope.breakevens[index] = strikeprice - parseInt($scope.premiumValue[index]);
 			console.log($scope.breakevens);
+			var size = Object.keys($scope.breakevens).length;
+			var ans = 0;
+			for (var [key, value] of Object.entries($scope.breakevens)) {
+				var breakeven = parseInt(`${value}`);
+				ans += breakeven;
+			}
+			console.log(ans/size);
+			$('#breakevens').text(ans/size);
+			setup.breakevens = "₹ " + (ans/size).toString();
 			$scope.total_loss[index] = -1 * parseFloat($scope.premiumValue[index]);
 			console.log($scope.total_loss);
+			var size = Object.keys($scope.total_loss).length;
+			var ans = 0;
+			for (var [key, value] of Object.entries($scope.total_loss)) {
+				var total_loss = parseInt(`${value}`);
+				ans += total_loss;
+			}
+			console.log(ans/size);
+			$('#total_loss').text((ans/size) * $scope.quantity);
+			$('#margin').text((ans/size) * $scope.quantity * -1);
+			setup.margin = "₹ " + ((ans/size) * $scope.quantity * -1).toString();
 			$scope.delta = $scope.premium[index][strikeprice][13];
 			$scope.theta = $scope.premium[index][strikeprice][15];
 			$scope.gamma = $scope.premium[index][strikeprice][17];
 			$scope.vega = $scope.premium[index][strikeprice][19];
+			setup.delta = $scope.delta;
+			setup.theta = $scope.theta;
+			setup.gamma = $scope.gamma;
+			setup.vega = $scope.vega;
 		} else if (trade_type == 'call') {
 			console.log('call');
 			$scope.premiumValue[index] = [$scope.premium[index][strikeprice][0]];
@@ -984,17 +1007,40 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			$('#trend_strength').text((Object.values($scope.stockdata['premium123'])[0][10]));
 			$scope.breakevens[index] = strikeprice + parseInt($scope.premiumValue[index]);
 			console.log($scope.breakevens);
+			var size = Object.keys($scope.breakevens).length;
+			var ans = 0;
+			for (var [key, value] of Object.entries($scope.breakevens)) {
+				var breakeven = parseInt(`${value}`);
+				ans += breakeven;
+			}
+			console.log(ans/size);
+			$('#breakevens').text(ans/size);
+			setup.breakevens = "₹ " + (ans/size).toString();
 			$scope.total_loss[index] = -1 * parseFloat($scope.premiumValue[index]);
 			console.log($scope.total_loss);
+			var size = Object.keys($scope.total_loss).length;
+			var ans = 0;
+			for (var [key, value] of Object.entries($scope.total_loss)) {
+				var total_loss = parseInt(`${value}`);
+				ans += total_loss;
+			}
+			console.log(ans/size);
+			$('#total_loss').text((ans/size) * $scope.quantity);
+			$('#margin').text((ans/size) * $scope.quantity * -1);
+			setup.margin = "₹ " + ((ans/size) * $scope.quantity * -1).toString();
 			$scope.delta = $scope.premium[index][strikeprice][12];
 			$scope.theta = $scope.premium[index][strikeprice][14];
 			$scope.gamma = $scope.premium[index][strikeprice][16];
 			$scope.vega = $scope.premium[index][strikeprice][18];
+			setup.delta = $scope.delta;
+			setup.theta = $scope.theta;
+			setup.gamma = $scope.gamma;
+			setup.vega = $scope.vega;
 		} else {
 			console.log('no');
 		}
 	};
-	$scope.changestrikeprice = function(index, trade) {
+	$scope.changestrikeprice = function(index, trade, setup) {
 		console.log(index);
 		var strikeprice = $("#"+index.toString()).children("option:selected").val();
 		strikeprice = strikeprice.replace("string:", "0");
@@ -1007,12 +1053,35 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			trade.premium = $scope.premiumValue[index][0];
 			$scope.breakevens[index] = strikeprice - parseInt($scope.premiumValue[index]);
 			console.log($scope.breakevens);
+			var size = Object.keys($scope.breakevens).length;
+			var ans = 0;
+			for (var [key, value] of Object.entries($scope.breakevens)) {
+				var breakeven = parseInt(`${value}`);
+				ans += breakeven;
+			}
+			console.log(ans/size);
+			$('#breakevens').text(ans/size);
+			setup.breakevens = "₹ " + (ans/size).toString();
 			$scope.total_loss[index] = -1 * parseFloat($scope.premiumValue[index]);
 			console.log($scope.total_loss);
+			var size = Object.keys($scope.total_loss).length;
+			var ans = 0;
+			for (var [key, value] of Object.entries($scope.total_loss)) {
+				var total_loss = parseInt(`${value}`);
+				ans += total_loss;
+			}
+			console.log(ans/size);
+			$('#total_loss').text((ans/size) * $scope.quantity);
+			$('#margin').text((ans/size) * $scope.quantity * -1);
+			setup.margin = "₹ " + ((ans/size) * $scope.quantity * -1).toString();
 			$scope.delta = $scope.premium[index][strikeprice][13];
 			$scope.theta = $scope.premium[index][strikeprice][15];
 			$scope.gamma = $scope.premium[index][strikeprice][17];
 			$scope.vega = $scope.premium[index][strikeprice][19];
+			setup.delta = $scope.delta;
+			setup.theta = $scope.theta;
+			setup.gamma = $scope.gamma;
+			setup.vega = $scope.vega;
 		} else if ($scope.trade_type == 'call') {
 			console.log('call');
 			$scope.premiumValue[index] = [$scope.premium[index][strikeprice][0]];
@@ -1020,13 +1089,36 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			trade.premium = $scope.premiumValue[index][0];
 			$scope.breakevens[index] = strikeprice + parseInt($scope.premiumValue[index]);
 			console.log($scope.breakevens);
+			var size = Object.keys($scope.breakevens).length;
+			var ans = 0;
+			for (var [key, value] of Object.entries($scope.breakevens)) {
+				var breakeven = parseInt(`${value}`);
+				ans += breakeven;
+			}
+			console.log(ans/size);
+			$('#breakevens').text(ans/size);
+			setup.breakevens = "₹ " + (ans/size).toString();
 			$scope.total_loss[index] = -1 * parseFloat($scope.premiumValue[index]);
 			console.log($scope.total_loss);
+			var size = Object.keys($scope.total_loss).length;
+			var ans = 0;
+			for (var [key, value] of Object.entries($scope.total_loss)) {
+				var total_loss = parseInt(`${value}`);
+				ans += total_loss;
+			}
+			console.log(ans/size);
+			$('#total_loss').text((ans/size) * $scope.quantity);
+			$('#margin').text((ans/size) * $scope.quantity * -1);
+			setup.margin = "₹ " + ((ans/size) * $scope.quantity * -1).toString();
 			console.log($scope.premium[index][strikeprice]);
 			$scope.delta = $scope.premium[index][strikeprice][12];
 			$scope.theta = $scope.premium[index][strikeprice][14];
 			$scope.gamma = $scope.premium[index][strikeprice][16];
 			$scope.vega = $scope.premium[index][strikeprice][18];
+			setup.delta = $scope.delta;
+			setup.theta = $scope.theta;
+			setup.gamma = $scope.gamma;
+			setup.vega = $scope.vega;
 		} else {
 			console.log('no');
 		}
@@ -1123,7 +1215,8 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			$("#lot_size").text(qty/25);
 		}
 	};
-	$scope.load = function (n) {
+	$scope.load = function (setup) {
+		var n = setup.trades.length;
 		$scope.id = n;
 		for (var i=0; i<n; i++) {
 			$scope.premium[i] = $scope.stockdata["premium123"];
@@ -1231,31 +1324,31 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 				setup.maxRrRatio = 'NA';
 			}
 			$scope.change_qty($scope.quantity, setup.name);
-			setup.delta = $scope.delta;
-			setup.theta = $scope.theta;
-			setup.gamma = $scope.gamma;
-			setup.vega = $scope.vega;
+			// setup.delta = $scope.delta;
+			// setup.theta = $scope.theta;
+			// setup.gamma = $scope.gamma;
+			// setup.vega = $scope.vega;
 			console.log($scope.breakevens);
-			var size = Object.keys($scope.breakevens).length;
-			var ans = 0;
-			for (var [key, value] of Object.entries($scope.breakevens)) {
-				var breakeven = parseInt(`${value}`);
-				ans += breakeven;
-			}
-			console.log(ans/size);
-			$('#breakevens').text(ans/size);
-			setup.breakevens = "₹ " + (ans/size).toString();
+			// var size = Object.keys($scope.breakevens).length;
+			// var ans = 0;
+			// for (var [key, value] of Object.entries($scope.breakevens)) {
+			// 	var breakeven = parseInt(`${value}`);
+			// 	ans += breakeven;
+			// }
+			// console.log(ans/size);
+			// $('#breakevens').text(ans/size);
+			// setup.breakevens = "₹ " + (ans/size).toString();
 			console.log($scope.total_loss);
-			var size = Object.keys($scope.total_loss).length;
-			var ans = 0;
-			for (var [key, value] of Object.entries($scope.total_loss)) {
-				var total_loss = parseInt(`${value}`);
-				ans += total_loss;
-			}
-			console.log(ans/size);
-			$('#total_loss').text((ans/size) * $scope.quantity);
-			$('#margin').text((ans/size) * $scope.quantity * -1);
-			setup.margin = "₹ " + ((ans/size) * $scope.quantity * -1).toString();
+			// var size = Object.keys($scope.total_loss).length;
+			// var ans = 0;
+			// for (var [key, value] of Object.entries($scope.total_loss)) {
+			// 	var total_loss = parseInt(`${value}`);
+			// 	ans += total_loss;
+			// }
+			// console.log(ans/size);
+			// $('#total_loss').text((ans/size) * $scope.quantity);
+			// $('#margin').text((ans/size) * $scope.quantity * -1);
+			// setup.margin = "₹ " + ((ans/size) * $scope.quantity * -1).toString();
 		});
 		DataService.saveSetups($scope.setups);
 		$('#strategy').text((Object.values($scope.stockdata["premium123"])[0][2]));
@@ -1452,6 +1545,8 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 	$scope.max;
 	$scope.min;
 	$scope.updateChartData = function (setup) {
+		console.log("graph changed for");
+		console.log(setup);
 		var spotPrice = parseInt(setup.spotPrice, 10);
 		if (spotPrice == 0) return 0;
 
