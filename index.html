@@ -271,39 +271,39 @@
       <div style="color:#23a0a4;" class="geeks">
         <div>
           <label>SPOT PRICE:</label>
-          <label id="spot_Price"></label>
+          <label class="changedata" id="spot_Price"></label>
         </div>
         <div>
           <label>STRIKE PRICE:</label>
-          <label id="strategy"></label>
+          <label class="changedata" id="strategy"></label>
         </div>
         <div>
           <label>LOT SIZE:</label>
-          <label id="lot_size"></label>
+          <label class="changedata" id="lot_size"></label>
         </div>
         <div>
           <label>OI:</label>
-          <label id="oi"></label>
+          <label class="changedata" id="oi"></label>
         </div>
         <div>
           <label>CHANGE IN OI:</label>
-          <label id="change_in_oi"></label>
+          <label class="changedata" id="change_in_oi"></label>
         </div>
         <div>
           <label>VOLUME:</label>
-          <label id="volume"></label>
+          <label class="changedata" id="volume"></label>
         </div>
         <div>
           <label>TREND STRENGTH:</label>
-          <label id="trend_strength"></label>
+          <label class="changedata" id="trend_strength"></label>
         </div>
       </div>
     </div>
-    <div class="nme">
+    <!-- <div class="nme">
       <p>Strategy Details</p>
       <p>Option Greeks</p>
-    </div>
-    <div style="display: grid; grid-template-columns: 65% 30%; margin: 40px; grid-gap: 40px;">
+    </div> -->
+    <!-- <div style="display: grid; grid-template-columns: 65% 30%; margin: 40px; grid-gap: 40px;">
       <div class="data">
         <div style="color:#23a0a4;">
           <div>
@@ -378,6 +378,83 @@
             <label id="vega"></label>
             {{setup.vega}}
           </div>
+        </div>
+      </div>
+    </div> -->
+    <div class="nme">
+      <div class="data" style="color:#23a0a4;">
+        <h4 style="text-align: center;">Strategy Details</h4>
+        <div class="strategy">
+          <!-- <div>Prob. of Profit</div> -->
+          <div>
+            <label>Prob. of Profit:</label>
+            <label>--</label>
+            {{setup.pop}}
+          </div>
+          <div class="net-profit">
+            <label>Max. Profit:</label>
+            <span class="rupee" style="display: none;">&#8377;</span>
+            <label id="max_profit">Undefined</label>
+            {{setup.maxProfit}}
+          </div>
+          <div>
+            <label>Max. RR Ratio:</label>
+            <label id="max_rr_ratio">NA</label>
+            {{setup.maxRrRatio}}
+          </div>
+          <div>
+            <label>Max. Loss:</label>
+            <span class="rupee" style="display: none;">&#8377;</span>
+            <label id="max_loss">Undefined</label>
+            {{setup.maxLoss}}
+          </div>
+          <div>
+            <label>Breakevens:</label>
+            <span>&#8377;</span>
+            <label id="breakevens"></label>
+            {{setup.breakevens}}
+          </div>
+          <div>
+            <label>Total PNL:</label>
+            <span>&#8377;</span>
+            <label>0</label>
+            {{setup.totalPNL}}
+          </div>
+          <div>
+            <label>Net Credit:</label>
+            <span>&#8377;</span>
+            <label>0</label>
+            {{setup.netCredit}}
+          </div>
+          <div>
+            <label>Estimated Margin/Premium:</label>
+            <span>&#8377;</span>
+            <label id="margin"></label>
+            {{setup.margin}}
+          </div>
+        </div>
+      </div>
+      <div style="color:#23a0a4;" class="data2">
+        <h4 style="text-align: center;">Option Geeks</h4>
+        <div>
+          <label>Delta:</label>
+          <label id="delta"></label>
+          {{setup.delta}}
+        </div>
+        <div>
+          <label>Theta:</label>
+          <label id="theta"></label>
+          {{setup.theta}}
+        </div>
+        <div>
+          <label>Gamma:</label>
+          <label id="gamma"></label>
+          {{setup.gamma}}
+        </div>
+        <div>
+          <label>Vega:</label>
+          <label id="vega"></label>
+          {{setup.vega}}
         </div>
       </div>
     </div>

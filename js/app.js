@@ -1299,7 +1299,7 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 		data: {},
 		series: ['Profit & Loss'],
 		options: {
-			responsive: true,
+			
 			legend: {
 				labels: {
 					fontColor: "white",
