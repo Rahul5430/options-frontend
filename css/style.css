@@ -11834,9 +11834,21 @@ body {
         margin-left: -60px !important;
         height: 50vw !important;
     }
+    #chart-div {
+        width: 100vw !important;
+        /* padding-top: 30%; */
+        margin-left: -60px !important;
+        height: 50vw !important;
+    }
 }
 @media screen and (max-width: 768px) {
     canvas {
+        width: 100vw !important;
+        /* padding-top: 30%; */
+        margin-left: -60px !important;
+        height: 60vw !important;
+    }
+    #chart-div {
         width: 100vw !important;
         /* padding-top: 30%; */
         margin-left: -60px !important;

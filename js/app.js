@@ -1295,6 +1295,7 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 	}
 
 	$scope.setups = DataService.getAllSetups();
+	$scope.chartData = []
 	$scope.chart = {
 		data: {},
 		series: ['Profit & Loss'],
@@ -1306,12 +1307,21 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 				}
 			}
 		},
+		datasetOverride: [{
+			// fill: {above: 'green', below: 'red', target: 'origin'}
+			pointBorderColor: $scope.chartData.map((value) => value < 0 ? 'red' : 'green'),
+			pointBackgroundColor: $scope.chartData.map((value) => value < 0 ? 'red' : 'green'),
+			fill: true,
+			backgroundColor: 'green'
+		}]
 	};
 	
 	$scope.$watch('setups', function () {
 		angular.forEach($scope.setups, function (setup) {
+			console.log($scope.chartData);
 			setup.profit = $scope.netProfit(setup);
-			$scope.updateChartData(setup);
+			// $scope.updateChartData(setup);
+			$scope.updateChart(setup);
 			setup.maxProfit = $scope.max;
 			setup.maxLoss = $scope.min;
 			$('#max_profit').text($scope.max);
@@ -1570,6 +1580,7 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 		var min = Math.min.apply(Math, profitArr);
 		var max = Math.max.apply(Math, profitArr);
 		console.log(profitArr);
+		$scope.chartData = profitArr;
 		console.log(extreme_left, extreme_right);
 		console.log(max, min);
 		if (max !== extreme_left && max !== extreme_right) {
@@ -1611,6 +1622,153 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 		};
 
 		return 1;
+	};
+	$scope.updateChart = function(setup) {
+		am4core.useTheme(am4themes_animated);
+
+		var chart = am4core.create("chart-div", am4charts.XYChart);
+		chart.colors.list = [
+			am4core.color("#67dc75"),
+			am4core.color("#dc6967")
+		];
+
+		// Add data
+		var minimum = 0;
+		var maximum = 0;
+		// chart.data = generatechartData();
+		chart.data = chartData(setup);
+		console.log(chart.data);
+		function chartData(setup) {
+			console.log("graph changed for");
+			console.log(setup);
+			var spotPrice = parseInt(setup.spotPrice, 10);
+			if (spotPrice == 0) return 0;
+
+			var spotRange = parseInt(spotPrice * 0.08, 10);
+			var spotInc = UtilService.getSpotInc(spotRange);
+			var spotMin = Math.ceil((spotPrice - spotRange) / spotInc) * spotInc;
+			var spotMax = Math.ceil((spotPrice + spotRange) / spotInc) * spotInc;
+
+			minimum = spotMin;
+			maximum = spotMax;
+
+			var profitArr = [];
+			var labelArr = [];
+
+			for (var spot = spotMin; spot <= spotMax; spot += spotInc) {
+				labelArr.push(spot);
+				profitArr.push($scope.netProfit(setup, spot));
+			}
+
+			var size = profitArr.length;
+			var extreme_left = parseFloat(profitArr[0]);
+			var extreme_right = parseFloat(profitArr[size-1]);
+			var min = Math.min.apply(Math, profitArr);
+			var max = Math.max.apply(Math, profitArr);
+			console.log(profitArr);
+			$scope.chartData = profitArr;
+			console.log(extreme_left, extreme_right);
+			console.log(max, min);
+			if (max !== extreme_left && max !== extreme_right) {
+				$scope.max = "₹ " + max.toString();
+			} else if (max === parseFloat(profitArr[1]) || max === parseFloat(profitArr[size-2])) {
+				$scope.max = "₹ " + max.toString();
+			} else {
+				$scope.max = 'Undefined';
+			}
+			if (min !== extreme_left && min !== extreme_right) {
+				$scope.min = "₹ " + min.toString();
+			} else if (min === parseFloat(profitArr[1]) || min === parseFloat(profitArr[size-2])) {
+				$scope.min = "₹ " + min.toString();
+			} else {
+				$scope.min = 'Undefined';
+			}
+
+			$scope.chart.data[setup.id] = {
+				profits: [profitArr],
+				labels: labelArr
+			};
+			var chartData = []
+			for (var i=0; i<labelArr.length; i++) {
+				chartData.push({
+					date: labelArr[i],
+					visits: profitArr[i]
+				});
+			}
+
+			return chartData;
+		}
+		function generatechartData() {
+			var chartData = [];
+			var firstDate = new Date();
+			firstDate.setDate(firstDate.getDate() - 150);
+			var visits = -40;
+			var b = 0.6;
+			for (var i = 0; i < 150; i++) {
+				// we create date objects here. In your data, you can have date strings
+				// and then set format of your dates using chart.dataDateFormat property,
+				// however when possible, use date objects, as this will speed up chart rendering.
+				var newDate = new Date(firstDate);
+				newDate.setDate(newDate.getDate() + i);
+				if (i > 80) {
+				b = 0.4;
+				}
+				visits += Math.round((Math.random() < b ? 1 : -1) * Math.random() * 10);
+
+				chartData.push({
+				date: newDate,
+				visits: visits
+				});
+			}
+			return chartData;
+		}
+
+		// Create axes
+		var dateAxis = chart.xAxes.push(new am4charts.ValueAxis());
+		dateAxis.renderer.labels.template.fill = am4core.color("#23a0a4");
+		dateAxis.min = minimum;
+		dateAxis.max = maximum;
+		dateAxis.strictMinMax = true;
+		// dateAxis.startLocation = 0.5;
+		// dateAxis.endLocation = 0.5;
+
+		// Create value axis
+		var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+		valueAxis.renderer.labels.template.fill = am4core.color("#23a0a4");
+
+		// Create series
+		var series = chart.series.push(new am4charts.LineSeries());
+		series.dataFields.valueY = "visits";
+		series.dataFields.valueX = "date";
+		series.strokeWidth = 3;
+		series.tooltipText = "hi";
+		series.fillOpacity = 0.1;
+
+		// Create a range to change stroke for values below 0
+		var range = valueAxis.createSeriesRange(series);
+		range.value = 0;
+		range.endValue = -1000000000;
+		range.contents.stroke = chart.colors.getIndex(1);
+		range.contents.fill = range.contents.stroke;
+		range.contents.strokeOpacity = 0.7;
+		range.contents.fillOpacity = 0.1;
+		console.log(chart.colors.list);
+
+		// Add cursor
+		chart.cursor = new am4charts.XYCursor();
+		chart.cursor.xAxis = dateAxis;
+		chart.scrollbarX = new am4core.Scrollbar();
+
+		series.tooltip.getFillFromObject = false;
+		series.tooltip.adapter.add("x", (x, target) => {
+		if (series.tooltip.tooltipDataItem.valueY < 0) {
+			series.tooltip.background.fill = chart.colors.getIndex(1);
+		} else {
+			series.tooltip.background.fill = chart.colors.getIndex(0);
+		}
+		return x;
+		});
+
 	};
 
 }]);
