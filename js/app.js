@@ -974,7 +974,7 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			}
 			console.log(ans/size);
 			$('#breakevens').text(ans/size);
-			setup.breakevens = "₹ " + (ans/size).toString();
+			setup.breakevens = "₹ " + (Math.round(((ans/size) + Number.EPSILON) * 100) / 100).toString();
 			$scope.total_loss[index] = -1 * parseFloat($scope.premiumValue[index]);
 			console.log($scope.total_loss);
 			var size = Object.keys($scope.total_loss).length;
@@ -986,7 +986,7 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			console.log(ans/size);
 			$('#total_loss').text((ans/size) * $scope.quantity);
 			$('#margin').text((ans/size) * $scope.quantity * -1);
-			setup.margin = "₹ " + ((ans/size) * $scope.quantity * -1).toString();
+			setup.margin = "₹ " + (Math.round((((ans/size) * $scope.quantity * -1) + Number.EPSILON) * 100) / 100).toString();
 			$scope.delta = $scope.premium[index][strikeprice][13];
 			$scope.theta = $scope.premium[index][strikeprice][15];
 			$scope.gamma = $scope.premium[index][strikeprice][17];
@@ -1015,7 +1015,7 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			}
 			console.log(ans/size);
 			$('#breakevens').text(ans/size);
-			setup.breakevens = "₹ " + (ans/size).toString();
+			setup.breakevens = "₹ " + (Math.round(((ans/size) + Number.EPSILON) * 100) / 100).toString();
 			$scope.total_loss[index] = -1 * parseFloat($scope.premiumValue[index]);
 			console.log($scope.total_loss);
 			var size = Object.keys($scope.total_loss).length;
@@ -1027,7 +1027,7 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			console.log(ans/size);
 			$('#total_loss').text((ans/size) * $scope.quantity);
 			$('#margin').text((ans/size) * $scope.quantity * -1);
-			setup.margin = "₹ " + ((ans/size) * $scope.quantity * -1).toString();
+			setup.margin = "₹ " + (Math.round((((ans/size) * $scope.quantity * -1) + Number.EPSILON) * 100) / 100).toString();
 			$scope.delta = $scope.premium[index][strikeprice][12];
 			$scope.theta = $scope.premium[index][strikeprice][14];
 			$scope.gamma = $scope.premium[index][strikeprice][16];
@@ -1061,7 +1061,7 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			}
 			console.log(ans/size);
 			$('#breakevens').text(ans/size);
-			setup.breakevens = "₹ " + (ans/size).toString();
+			setup.breakevens = "₹ " + (Math.round(((ans/size) + Number.EPSILON) * 100) / 100).toString();
 			$scope.total_loss[index] = -1 * parseFloat($scope.premiumValue[index]);
 			console.log($scope.total_loss);
 			var size = Object.keys($scope.total_loss).length;
@@ -1073,7 +1073,7 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			console.log(ans/size);
 			$('#total_loss').text((ans/size) * $scope.quantity);
 			$('#margin').text((ans/size) * $scope.quantity * -1);
-			setup.margin = "₹ " + ((ans/size) * $scope.quantity * -1).toString();
+			setup.margin = "₹ " + (Math.round((((ans/size) * $scope.quantity * -1) + Number.EPSILON) * 100) / 100).toString();
 			$scope.delta = $scope.premium[index][strikeprice][13];
 			$scope.theta = $scope.premium[index][strikeprice][15];
 			$scope.gamma = $scope.premium[index][strikeprice][17];
@@ -1097,7 +1097,7 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			}
 			console.log(ans/size);
 			$('#breakevens').text(ans/size);
-			setup.breakevens = "₹ " + (ans/size).toString();
+			setup.breakevens = "₹ " + (Math.round(((ans/size) + Number.EPSILON) * 100) / 100).toString();
 			$scope.total_loss[index] = -1 * parseFloat($scope.premiumValue[index]);
 			console.log($scope.total_loss);
 			var size = Object.keys($scope.total_loss).length;
@@ -1109,7 +1109,7 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			console.log(ans/size);
 			$('#total_loss').text((ans/size) * $scope.quantity);
 			$('#margin').text((ans/size) * $scope.quantity * -1);
-			setup.margin = "₹ " + ((ans/size) * $scope.quantity * -1).toString();
+			setup.margin = "₹ " + (Math.round((((ans/size) * $scope.quantity * -1) + Number.EPSILON) * 100) / 100).toString();
 			console.log($scope.premium[index][strikeprice]);
 			$scope.delta = $scope.premium[index][strikeprice][12];
 			$scope.theta = $scope.premium[index][strikeprice][14];
@@ -1328,7 +1328,9 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			$('#max_loss').text($scope.min);
 			if ($scope.max !== 'Undefined' && $scope.min !== 'Undefined') {
 				$('#max_rr_ratio').text(parseFloat($scope.min)/parseFloat($scope.max));
-				setup.maxRrRatio = parseFloat((setup.maxLoss).slice(2,)) / parseFloat((setup.maxProfit.slice(2,)));
+				let num = parseFloat((setup.maxLoss).slice(2,)) / parseFloat((setup.maxProfit.slice(2,)));
+				// setup.maxRrRatio = parseFloat((setup.maxLoss).slice(2,)) / parseFloat((setup.maxProfit.slice(2,)));
+				setup.maxRrRatio = Math.round((num + Number.EPSILON) * 100) / 100;
 			} else {
 				$('#max_rr_ratio').text('NA');
 				setup.maxRrRatio = 'NA';
@@ -1741,7 +1743,7 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 		series.dataFields.valueY = "visits";
 		series.dataFields.valueX = "date";
 		series.strokeWidth = 3;
-		series.tooltipText = "hi";
+		series.tooltipText = "{valueY}";
 		series.fillOpacity = 0.1;
 
 		// Create a range to change stroke for values below 0
@@ -1756,8 +1758,17 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 
 		// Add cursor
 		chart.cursor = new am4charts.XYCursor();
-		chart.cursor.xAxis = dateAxis;
+		dateAxis.getSeriesDataItem = function(series, position) {
+			var key = this.axisFieldName + this.axisLetter;
+			var value = this.positionToValue(position);
+			const dataItem = series.dataItems.getIndex(series.dataItems.findClosestIndex(value, function(x) {
+				return x[key] ? x[key] : undefined;
+			}, "any"));
+			return dataItem;
+		};
+		// chart.cursor.xAxis = dateAxis;
 		chart.scrollbarX = new am4core.Scrollbar();
+		// chart.scrollbarY = new am4core.Scrollbar();
 
 		series.tooltip.getFillFromObject = false;
 		series.tooltip.adapter.add("x", (x, target) => {
@@ -1768,6 +1779,50 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 		}
 		return x;
 		});
+
+		// Add scrollbar
+		var scrollbar1 = new am4charts.XYChartScrollbar();
+		// var scrollbar2 = new am4charts.XYChartScrollbar();
+		scrollbar1.series.push(series);
+		chart.scrollbarX = scrollbar1;
+		chart.scrollbarX.parent = chart.bottomAxesContainer;
+		chart.scrollbarX.background.fillOpacity = 0;
+		// chart.scrollbarY = scrollbar2;
+		// chart.scrollbarY.parent = chart.rightAxesContainer;
+		// chart.scrollbarY.background.fillOpacity = 0;
+
+		// Style scrollbar
+		function customizeGrip(grip) {
+			grip.icon.disabled = true;
+			grip.background.disabled = true;
+
+			var img = grip.createChild(am4core.Rectangle);
+			img.width = 15;
+			img.height = 15;
+			img.fill = am4core.color("#999");
+			img.rotation = 45;
+			img.align = "center";
+			img.valign = "middle";
+
+			var line = grip.createChild(am4core.Rectangle);
+			line.height = 60;
+			line.width = 3;
+			line.fill = am4core.color("#999");
+			line.align = "center";
+			line.valign = "middle";
+		}
+
+		customizeGrip(chart.scrollbarX.startGrip);
+		customizeGrip(chart.scrollbarX.endGrip);
+		// customizeGrip(chart.scrollbarY.startGrip);
+		// customizeGrip(chart.scrollbarY.endGrip);
+
+		var scrollSeries1 = chart.scrollbarX.scrollbarChart.series.getIndex(0);
+		scrollSeries1.fillOpacity = 0;
+		scrollSeries1.strokeDasharray = "2,2";
+
+		chart.scrollbarX.scrollbarChart.plotContainer.filters.clear();
+		chart.scrollbarX.unselectedOverlay.fillOpacity = 0.1;
 
 	};
 
@@ -1833,9 +1888,9 @@ app.factory('UtilService', function () {
 				case x < 1000:
 					return 100;
 				case x < 2000:
-					return 50;
+					return 10;
 				default:
-					return 50;
+					return 10;
 			}
 		}
 	};

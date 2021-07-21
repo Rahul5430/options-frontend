@@ -88,7 +88,7 @@
   </div>
 
   <div class="setup form-group" ng-repeat="setup in setups track by $index">
-    <div class="func" ng-init="load(setup)">
+    <div class="func" ng-init="load(setup); updateChart(setup)">
       <div>
         <label>
           Index / Stock 
