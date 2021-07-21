@@ -51,6 +51,10 @@
     .glyphicon-remove:before {
       content: '\e014';
     }
+
+    .glyphicon-minus:before {
+      content: '\2212';
+    }
   </style>
 
   <!-- Google Tag Manager -->
@@ -208,18 +212,35 @@
                     class="form-control premium">
                   </select> -->
                 </div>
-                <div class="col-md-3">
-                  <label>Qty</label>
-                  <input 
-                    type="number" 
-                    ng-init="trade.qty = 75" 
-                    ng-model="trade.qty" 
-                    class="form-control qty" 
-                    ng-min="minQty"
-                    step="75" 
-                    ng-change="change_qty(trade.qty, setup.name)" 
-                  />
+                <div>
+                  <label>Lot Qty.</label>
+                  <code>{{trade.qty}}</code>
+                  <code>{{minQty}}</code>
+                  <code>{{trade.qty / minQty}}</code>
+                  <div class="inner-addon left-addon right-addon">
+                    <i class="glyphicon glyphicon-minus" style="left: 0; cursor: pointer;" ng-click="trade.qty = trade.qty - minQty"></i>
+                    <input 
+                      type="number"
+                      name="quantity" 
+                      ng-init="trade.qty = 50" 
+                      ng-model="trade.qty" 
+                      class="form-control qty" 
+                      ng-min="minQty"
+                      step="50" 
+                      ng-change="change_qty(trade.qty, setup.name)" 
+                    />
+                    <i class="glyphicon glyphicon-plus" style="right: 0; cursor: pointer;" ng-click="trade.qty = trade.qty + minQty"></i>
+                  </div>
+                  <!-- <span ng-show="quantity.$invalid">INVALID</span> -->
                 </div>
+                <!-- <div>
+                  <label>Lot Qty.</label>
+                  <div class="inner-addon left-addon right-addon">
+                    <i class="glyphicon glyphicon-minus" style="left: 0;"></i>
+                    <input type="number" class="form-control">
+                    <i class="glyphicon glyphicon-plus" style="right: 0;"></i>
+                  </div>
+                </div> -->
                 <div class="col-md-1 delete-trade" style="padding-top: 24px;">
                   <button 
                     type="button" 

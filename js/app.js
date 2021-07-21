@@ -947,8 +947,8 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 	$scope.gamma = 0;
 	$scope.vega = 0;
 	$scope.theta = 0;
-	$scope.minQty = 75;
-	$scope.stepQty = 75;
+	$scope.minQty = 50;
+	$scope.stepQty = 50;
 	$scope.changetrade = function(trade_type, index, trade, setup) {
 		$scope.trade_type = trade_type;
 		var strikeprice = $("#"+index.toString()).children("option:selected").val();
@@ -1140,8 +1140,8 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			$scope.indices = ["NIFTY", "BANKNIFTY"]
 			$scope.premiumValue = {0: [$scope.stockdata["premium123"][Object.keys($scope.stockdata["premium123"])[0]][0]]};
 			$scope.trade_type = 'call';
-			$scope.minQty = 75;
-			$(".qty").attr("step", "75");
+			$scope.minQty = 50;
+			$(".qty").attr("step", "50");
 			// $(".qty").attr("min", "75");
 			// $(".qty").attr("value", "75");
 			$('#strategy').text((Object.values($scope.stockdata["premium123"])[0][2]));
@@ -1205,12 +1205,12 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 		// console.log($scope.url);
 		$scope.index(name, setup);
 	}
-	$scope.quantity = 75;
+	$scope.quantity = 50;
 	$scope.change_qty = function(qty, name) {
 		console.log(qty);
 		$scope.quantity = qty;
 		if (name == 'NIFTY') {
-			$("#lot_size").text(qty/75);
+			$("#lot_size").text(qty/50);
 		} else if (name == 'BANKNIFTY') {
 			$("#lot_size").text(qty/25);
 		}
