@@ -1227,6 +1227,7 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			trade.qty -= 25;
 			console.log(trade.qty);
 		}
+		$("#lot_size").text(trade.qty);
 	};
 	$scope.load = function (setup) {
 		var n = setup.trades.length;
