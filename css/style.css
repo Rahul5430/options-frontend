@@ -12220,3 +12220,6 @@ input[type="number"] {
 /* add padding  */
 .left-addon input  { padding-left:  30px; }
 .right-addon input { padding-right: 30px; }
+
+.left-addon div  { padding-left:  30px; }
+.right-addon div { padding-right: 30px; }

@@ -212,13 +212,14 @@
                     class="form-control premium">
                   </select> -->
                 </div>
-                <div>
+                <!-- <div>
                   <label>Lot Qty.</label>
                   <code>{{trade.qty}}</code>
                   <code>{{minQty}}</code>
                   <code>{{trade.qty / minQty}}</code>
+                  <code>{{lot}}</code>
                   <div class="inner-addon left-addon right-addon">
-                    <i class="glyphicon glyphicon-minus" style="left: 0; cursor: pointer;" ng-click="trade.qty = trade.qty - minQty"></i>
+                    <i class="glyphicon glyphicon-minus" style="left: 0; cursor: pointer;" ng-click="trade.qty = trade.qty - minQty; lot = trade.qty / minQty"></i>
                     <input 
                       type="number"
                       name="quantity" 
@@ -229,7 +230,29 @@
                       step="50" 
                       ng-change="change_qty(trade.qty, setup.name)" 
                     />
-                    <i class="glyphicon glyphicon-plus" style="right: 0; cursor: pointer;" ng-click="trade.qty = trade.qty + minQty"></i>
+                    <i class="glyphicon glyphicon-plus" style="right: 0; cursor: pointer;" ng-click="trade.qty = trade.qty + minQty; lot = trade.qty / minQty"></i>
+                  </div>
+                  <span ng-show="quantity.$invalid">INVALID</span>
+                </div> -->
+                <div>
+                  <label>Lot Qty.</label>
+                  <code>{{trade.qty}}</code>
+                  <code>{{minQty}}</code>
+                  <code>{{trade.qty / minQty}}</code>
+                  <code>{{lot}}</code>
+                  <code>{{quantity}}</code>
+                  <div class="inner-addon left-addon right-addon">
+                    <i class="glyphicon glyphicon-minus" style="left: 0; cursor: pointer;" ng-click="trade.qty = trade.qty - minQty; lot = trade.qty / minQty; check_qty(trade, lot); quantity = trade.qty"></i>
+                    <!-- <input 
+                      type="number"
+                      name="quantity" 
+                      class="form-control qty"
+                    /> -->
+                    <div class="form-control" style="height: 42px;">
+                      <!-- <span>{{Number.isInteger(trade.qty / minQty) ? trade.qty / minQty : trade.qty}}</span> -->
+                      <span>{{(trade.qty / minQty)}}</span>
+                    </div>
+                    <i class="glyphicon glyphicon-plus" style="right: 0; cursor: pointer;" ng-click="trade.qty = trade.qty + minQty; lot = trade.qty / minQty; check_qty(trade, lot); quantity = trade.qty"></i>
                   </div>
                   <!-- <span ng-show="quantity.$invalid">INVALID</span> -->
                 </div>

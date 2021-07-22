@@ -1206,13 +1206,26 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 		$scope.index(name, setup);
 	}
 	$scope.quantity = 50;
+	$scope.lot = 1;
 	$scope.change_qty = function(qty, name) {
+		// var qty = trade.qty;
 		console.log(qty);
 		$scope.quantity = qty;
+		$scope.lot = Math.floor(qty / minQty);
 		if (name == 'NIFTY') {
 			$("#lot_size").text(qty/50);
 		} else if (name == 'BANKNIFTY') {
 			$("#lot_size").text(qty/25);
+		}
+	};
+	$scope.check_qty = function(trade, lot) {
+		console.log(trade.qty);
+		console.log($scope.minQty);
+		console.log(lot);
+		if (trade.qty % $scope.minQty !== 0) {
+			// trade.qty -= $scope.minQty;
+			trade.qty -= 25;
+			console.log(trade.qty);
 		}
 	};
 	$scope.load = function (setup) {
@@ -1316,8 +1329,10 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 		}]
 	};
 	
-	$scope.$watch('setups', function () {
+	$scope.$watch('setups', function (newVal, oldVal) {
 		angular.forEach($scope.setups, function (setup) {
+			console.log(newVal);
+			console.log(oldVal);
 			console.log($scope.chartData);
 			setup.profit = $scope.netProfit(setup);
 			// $scope.updateChartData(setup);
@@ -1335,7 +1350,7 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 				$('#max_rr_ratio').text('NA');
 				setup.maxRrRatio = 'NA';
 			}
-			$scope.change_qty($scope.quantity, setup.name);
+			// $scope.change_qty($scope.quantity, setup.name);
 			// setup.delta = $scope.delta;
 			// setup.theta = $scope.theta;
 			// setup.gamma = $scope.gamma;
@@ -1372,25 +1387,25 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 		$('#theta').text($scope.theta);
 		$('#gamma').text($scope.gamma);
 		$('#vega').text($scope.vega);
-		console.log($scope.breakevens);
-		var size = Object.keys($scope.breakevens).length;
-		var ans = 0;
-		for (var [key, value] of Object.entries($scope.breakevens)) {
-			var breakeven = parseInt(`${value}`);
-			ans += breakeven;
-		}
-		console.log(ans/size);
-		$('#breakevens').text(ans/size);
-		console.log($scope.total_loss);
-		var size = Object.keys($scope.total_loss).length;
-		var ans = 0;
-		for (var [key, value] of Object.entries($scope.total_loss)) {
-			var total_loss = parseInt(`${value}`);
-			ans += total_loss;
-		}
-		console.log(ans/size);
-		$('#total_loss').text((ans/size) * $scope.quantity);
-		$('#margin').text((ans/size) * $scope.quantity * -1);
+		// console.log($scope.breakevens);
+		// var size = Object.keys($scope.breakevens).length;
+		// var ans = 0;
+		// for (var [key, value] of Object.entries($scope.breakevens)) {
+		// 	var breakeven = parseInt(`${value}`);
+		// 	ans += breakeven;
+		// }
+		// console.log(ans/size);
+		// $('#breakevens').text(ans/size);
+		// console.log($scope.total_loss);
+		// var size = Object.keys($scope.total_loss).length;
+		// var ans = 0;
+		// for (var [key, value] of Object.entries($scope.total_loss)) {
+		// 	var total_loss = parseInt(`${value}`);
+		// 	ans += total_loss;
+		// }
+		// console.log(ans/size);
+		// $('#total_loss').text((ans/size) * $scope.quantity);
+		// $('#margin').text((ans/size) * $scope.quantity * -1);
 		console.log('hi');
 		console.log($scope.id);
 		if ($scope.segment === 'FUTURES') {
