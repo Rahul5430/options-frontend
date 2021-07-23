@@ -1392,6 +1392,25 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			// $('#total_loss').text((ans/size) * $scope.quantity);
 			// $('#margin').text((ans/size) * $scope.quantity * -1);
 			// setup.margin = "₹ " + ((ans/size) * $scope.quantity * -1).toString();
+			if ($scope.segment === 'FUTURES') {
+				// 	document.getElementsByClassName("add_trade")[0].style.display = "none";
+				// 	document.getElementsByClassName("callput")[0].style.display = "none";
+				// 	document.getElementsByClassName("future-hide")[0].style.display = "none";
+				// 	document.getElementsByClassName("strike_price")[0].style.display = "none";
+				// 	document.getElementsByClassName("future")[0].style.display = "flex";
+				// 	$scope.expiries = future_expiries();
+				$(".FUTURES .callput:last").css("display", "none");
+				$(".FUTURES .future-hide:last").css("display", "none");
+				$(".FUTURES .strike_price:last").css("display", "none");
+				$(".FUTURES .future:last").css("display", "flex");
+				$('.FUTURES .strike-price').text('Futures Price');
+				setup.trades.map((trade) => {
+					console.log(trade);
+					if (trade.segment === "FUTURES") {
+						trade.strike = $scope.future_price[0];
+					}
+				});
+			}
 		});
 		DataService.saveSetups($scope.setups);
 		$('#strategy').text((Object.values($scope.stockdata["premium123"])[0][2]));
@@ -1424,19 +1443,7 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 		// $('#margin').text((ans/size) * $scope.quantity * -1);
 		console.log('hi');
 		console.log($scope.id);
-		if ($scope.segment === 'FUTURES') {
-		// 	document.getElementsByClassName("add_trade")[0].style.display = "none";
-		// 	document.getElementsByClassName("callput")[0].style.display = "none";
-		// 	document.getElementsByClassName("future-hide")[0].style.display = "none";
-		// 	document.getElementsByClassName("strike_price")[0].style.display = "none";
-		// 	document.getElementsByClassName("future")[0].style.display = "flex";
-		// 	$scope.expiries = future_expiries();
-			$(".FUTURES .callput:last").css("display", "none");
-			$(".FUTURES .future-hide:last").css("display", "none");
-			$(".FUTURES .strike_price:last").css("display", "none");
-			$(".FUTURES .future:last").css("display", "flex");
-			$('.FUTURES .strike-price').text('Futures Price');
-		}
+		
 	}, true);
 
 	$scope.addSetup = function () {
