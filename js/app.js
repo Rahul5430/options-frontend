@@ -1188,7 +1188,13 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			if ($scope.segment === "FUTURES") {
 				$scope.future_price = [Object.values(niftyfutures)[option]];
 				console.log(setup.trades);
-				setup.trades[0].strike = $scope.future_price[0];
+				// setup.trades[0].strike = $scope.future_price[0];
+				setup.trades.map((trade) => {
+					console.log(trade);
+					if (trade.segment === "FUTURES") {
+						trade.strike = $scope.future_price[0];
+					}
+				});
 			} else if ($scope.segment === "OPTIONS") {
 				// options
 			}
@@ -1198,6 +1204,14 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			// $scope.stockdata = banknifty[option];
 			if ($scope.segment === "FUTURES") {
 				$scope.future_price = [Object.values(bankniftyfutures)[option]];
+				console.log(setup.trades);
+				// setup.trades[0].strike = $scope.future_price[0];
+				setup.trades.map((trade) => {
+					console.log(trade);
+					if (trade.segment === "FUTURES") {
+						trade.strike = $scope.future_price[0];
+					}
+				});
 			} else if ($scope.segment === "OPTIONS") {
 				// options
 			}
@@ -1262,48 +1276,48 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 	$scope.change_segment = function(segment, name, setup) {
 		console.log(segment);
 		$scope.segment = segment;
-		if ($scope.id === 0) {
+		// if ($scope.id === 0) {
 			if (segment === "OPTIONS") {
 				$scope.expiries = options_expiries();
 			} else if (segment === "FUTURES") {
 				$scope.expiries = future_expiries();
 			}
 			$scope.change_expiry($scope.expiries[0], name, setup);
-		} else {
-			var x = document.getElementsByClassName("trade_div");
-			var y = document.getElementsByClassName("callput");
-			var z = document.getElementsByClassName("future-hide");
-			var a = document.getElementsByClassName("future");
-			var b = document.getElementsByClassName("strike_price");
-			if (segment === "FUTURES") {
-				if ($scope.id !== 0) {
-					document.getElementsByClassName("add_trade")[0].style.display = "none";
-				}
-			} else if (segment === "OPTIONS") {
-				document.getElementsByClassName("add_trade")[0].style.display = "flex";
-			}
-			for (var i=0; i<y.length; i++) {
-				if (segment === "OPTIONS") {
-					x[i].style.display = "flex";
-					y[i].style.display = "inline-block";
-					z[i].style.display = "inline-block";
-					a[i].style.display = "none"
-					b[i].style.display = "flex"
-					$('.strike-price').text('Strike Price');
-					$scope.expiries = options_expiries();
-				} else if (segment === "FUTURES") {
-					if (i !== 0) {
-						x[i].style.display = "none";
-					}
-					y[i].style.display = "none";
-					z[i].style.display = "none";
-					a[i].style.display = "flex"
-					b[i].style.display = "none"
-					$('.strike-price').text('Futures Price');
-					$scope.expiries = future_expiries();
-				}
-			}
-		}
+		// } else {
+		// 	var x = document.getElementsByClassName("trade_div");
+		// 	var y = document.getElementsByClassName("callput");
+		// 	var z = document.getElementsByClassName("future-hide");
+		// 	var a = document.getElementsByClassName("future");
+		// 	var b = document.getElementsByClassName("strike_price");
+		// 	if (segment === "FUTURES") {
+		// 		if ($scope.id !== 0) {
+		// 			document.getElementsByClassName("add_trade")[0].style.display = "none";
+		// 		}
+		// 	} else if (segment === "OPTIONS") {
+		// 		document.getElementsByClassName("add_trade")[0].style.display = "flex";
+		// 	}
+		// 	for (var i=0; i<y.length; i++) {
+		// 		if (segment === "OPTIONS") {
+		// 			x[i].style.display = "flex";
+		// 			y[i].style.display = "inline-block";
+		// 			z[i].style.display = "inline-block";
+		// 			a[i].style.display = "none"
+		// 			b[i].style.display = "flex"
+		// 			$('.strike-price').text('Strike Price');
+		// 			$scope.expiries = options_expiries();
+		// 		} else if (segment === "FUTURES") {
+		// 			if (i !== 0) {
+		// 				x[i].style.display = "none";
+		// 			}
+		// 			y[i].style.display = "none";
+		// 			z[i].style.display = "none";
+		// 			a[i].style.display = "flex"
+		// 			b[i].style.display = "none"
+		// 			$('.strike-price').text('Futures Price');
+		// 			$scope.expiries = future_expiries();
+		// 		}
+		// 	}
+		// }
 		// console.log($scope.expiries[0]);
 		// $scope.change_expiry($scope.expiries[0], name, setup);
 	}
@@ -1332,6 +1346,7 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 	
 	$scope.$watch('setups', function (newVal, oldVal) {
 		angular.forEach($scope.setups, function (setup) {
+			console.log(setup.trades);
 			console.log(newVal);
 			console.log(oldVal);
 			console.log($scope.chartData);
@@ -1410,13 +1425,17 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 		console.log('hi');
 		console.log($scope.id);
 		if ($scope.segment === 'FUTURES') {
-			document.getElementsByClassName("add_trade")[0].style.display = "none";
-			document.getElementsByClassName("callput")[0].style.display = "none";
-			document.getElementsByClassName("future-hide")[0].style.display = "none";
-			document.getElementsByClassName("strike_price")[0].style.display = "none";
-			document.getElementsByClassName("future")[0].style.display = "flex";
-			$('.strike-price').text('Futures Price');
-			$scope.expiries = future_expiries();
+		// 	document.getElementsByClassName("add_trade")[0].style.display = "none";
+		// 	document.getElementsByClassName("callput")[0].style.display = "none";
+		// 	document.getElementsByClassName("future-hide")[0].style.display = "none";
+		// 	document.getElementsByClassName("strike_price")[0].style.display = "none";
+		// 	document.getElementsByClassName("future")[0].style.display = "flex";
+		// 	$scope.expiries = future_expiries();
+			$(".FUTURES .callput:last").css("display", "none");
+			$(".FUTURES .future-hide:last").css("display", "none");
+			$(".FUTURES .strike_price:last").css("display", "none");
+			$(".FUTURES .future:last").css("display", "flex");
+			$('.FUTURES .strike-price').text('Futures Price');
 		}
 	}, true);
 
@@ -1449,6 +1468,8 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 		$('#trend_strength').text((Object.values($scope.stockdata['premium123'])[0][10]));
 		$scope.setups.push(setup);
 		$scope.premiumValue = {0: [$scope.stockdata["premium123"][Object.keys($scope.stockdata["premium123"])[0]][0]]};
+		$scope.segment = "OPTIONS";
+		$scope.expiries = options_expiries();
 	};
 
 	$scope.deleteSetup = function (setup) {
@@ -1469,7 +1490,8 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			optionType: "call",
 			strike: 0,
 			premium: 0,
-			qty: 1
+			qty: $scope.minQty,
+			segment: $scope.segment
 		});
 		$scope.premium[$scope.id] = $scope.stockdata["premium123"];
 		$scope.breakevens[$scope.id] = parseInt($scope.strike_price[0]);
@@ -1477,13 +1499,14 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 		console.log($scope.premium);
 		$scope.id++;
 		console.log($scope.segment);
-		if ($scope.segment === 'FUTURES') {
-			document.getElementsByClassName("add_trade")[0].style.display = "none";
-			document.getElementsByClassName("callput")[0].style.display = "none";
-			document.getElementsByClassName("future-hide")[0].style.display = "none";
-			document.getElementsByClassName("strike_price")[0].style.display = "none";
-			document.getElementsByClassName("future")[0].style.display = "flex";
-		}
+		// if ($scope.segment === 'FUTURES') {
+		// 	// document.getElementsByClassName("add_trade")[document.getElementsByClassName("add_trade").length-1].style.display = "none";
+		// 	// document.getElementsByClassName("callput")[document.getElementsByClassName("callput").length-1].style.display = "none";
+		// 	document.getElementsByClassName("future-hide")[document.getElementsByClassName("future-hide").length-1].style.display = "none";
+		// 	document.getElementsByClassName("strike_price")[document.getElementsByClassName("strike_price").length-1].style.display = "none";
+		// 	document.getElementsByClassName("future")[document.getElementsByClassName("future").length-1].style.display = "flex";
+		// 	$(".callput:last").css("display", "none");
+		// }
 	};
 
 	$scope.removeTrade = function (setup, trade) {
@@ -1528,34 +1551,42 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 		if (spotPrice == 0) return 0;
 
 		var ret = 0;
-		if ($scope.segment === "OPTIONS") {
+		// if ($scope.segment === "OPTIONS") {
 			setup.trades.forEach(function (trade) {
 				if (trade.strike <= 0) return;
 
 				if (trade.tradeType == "buy") {
-					if (trade.optionType == "call") {
-						ret += (Math.max(spotPrice - trade.strike, 0) - trade.premium) * trade.qty;
-					} else { //put
-						ret += (Math.max(trade.strike - spotPrice, 0) - trade.premium) * trade.qty;
+					if (trade.segment === "OPTIONS") {
+						if (trade.optionType == "call") {
+							ret += (Math.max(spotPrice - trade.strike, 0) - trade.premium) * trade.qty;
+						} else { //put
+							ret += (Math.max(trade.strike - spotPrice, 0) - trade.premium) * trade.qty;
+						}
+					} else if (trade.segment === "FUTURES") {
+						ret += (spotPrice - trade.strike) * trade.qty;
 					}
 				} else { //sell
-					if (trade.optionType == "call") {
-						ret += (trade.premium - Math.max(spotPrice - trade.strike, 0)) * trade.qty;
-					} else { //put
-						ret += (trade.premium - Math.max(trade.strike - spotPrice, 0)) * trade.qty;
+					if (trade.segment === "OPTIONS") {
+						if (trade.optionType == "call") {
+							ret += (trade.premium - Math.max(spotPrice - trade.strike, 0)) * trade.qty;
+						} else { //put
+							ret += (trade.premium - Math.max(trade.strike - spotPrice, 0)) * trade.qty;
+						}
+					} else if (trade.segment === "FUTURES") {
+						ret += (trade.strike - spotPrice) * trade.qty;
 					}
 				}
 			});
-		} else if ($scope.segment === "FUTURES") {
-			var trade = setup.trades[0];
-			if (trade.strike <= 0) return;
+		// } else if ($scope.segment === "FUTURES") {
+		// 	var trade = setup.trades[0];
+		// 	if (trade.strike <= 0) return;
 
-			if (trade.tradeType == "buy") {
-				ret += (spotPrice - trade.strike) * trade.qty;
-			} else { //sell
-				ret += (trade.strike - spotPrice) * trade.qty;
-			}
-		}
+		// 	if (trade.tradeType == "buy") {
+		// 		ret += (spotPrice - trade.strike) * trade.qty;
+		// 	} else { //sell
+		// 		ret += (trade.strike - spotPrice) * trade.qty;
+		// 	}
+		// }
 
 		return parseFloat(ret).toFixed(2);
 	};

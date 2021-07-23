@@ -152,7 +152,7 @@
         </label>
       </div>
       <div style="grid-column: 1/5;">
-        <div ng-repeat="trade in setup.trades  track by $index">
+        <div ng-repeat="trade in setup.trades  track by $index" class="{{trade.segment}}">
           <div class="row trade_div">
             <div class="col-md-4">
               <div class="btn-group">
