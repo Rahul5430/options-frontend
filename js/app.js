@@ -966,22 +966,28 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			$('#trend_strength').text((Object.values($scope.stockdata['premium123'])[0][11]));
 			$scope.breakevens[index] = strikeprice - parseInt($scope.premiumValue[index]);
 			console.log($scope.breakevens);
-			var size = Object.keys($scope.breakevens).length;
+			// var size = Object.keys($scope.breakevens).length;
+			var size = $scope.id;
 			var ans = 0;
 			for (var [key, value] of Object.entries($scope.breakevens)) {
-				var breakeven = parseInt(`${value}`);
-				ans += breakeven;
+				if (key < $scope.id) {
+					var breakeven = parseInt(`${value}`);
+					ans += breakeven;
+				}
 			}
 			console.log(ans/size);
 			$('#breakevens').text(ans/size);
 			setup.breakevens = "₹ " + (Math.round(((ans/size) + Number.EPSILON) * 100) / 100).toString();
 			$scope.total_loss[index] = -1 * parseFloat($scope.premiumValue[index]);
 			console.log($scope.total_loss);
-			var size = Object.keys($scope.total_loss).length;
+			// var size = Object.keys($scope.total_loss).length;
+			var size = $scope.id;
 			var ans = 0;
 			for (var [key, value] of Object.entries($scope.total_loss)) {
-				var total_loss = parseInt(`${value}`);
-				ans += total_loss;
+				if (key < $scope.id) {
+					var total_loss = parseInt(`${value}`);
+					ans += total_loss;
+				}
 			}
 			console.log(ans/size);
 			$('#total_loss').text((ans/size) * $scope.quantity);
@@ -1007,22 +1013,28 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			$('#trend_strength').text((Object.values($scope.stockdata['premium123'])[0][10]));
 			$scope.breakevens[index] = strikeprice + parseInt($scope.premiumValue[index]);
 			console.log($scope.breakevens);
-			var size = Object.keys($scope.breakevens).length;
+			// var size = Object.keys($scope.breakevens).length;
+			var size = $scope.id;
 			var ans = 0;
 			for (var [key, value] of Object.entries($scope.breakevens)) {
-				var breakeven = parseInt(`${value}`);
-				ans += breakeven;
+				if (key < $scope.id) {
+					var breakeven = parseInt(`${value}`);
+					ans += breakeven;
+				}
 			}
 			console.log(ans/size);
 			$('#breakevens').text(ans/size);
 			setup.breakevens = "₹ " + (Math.round(((ans/size) + Number.EPSILON) * 100) / 100).toString();
 			$scope.total_loss[index] = -1 * parseFloat($scope.premiumValue[index]);
 			console.log($scope.total_loss);
-			var size = Object.keys($scope.total_loss).length;
+			// var size = Object.keys($scope.total_loss).length;
+			var size = $scope.id;
 			var ans = 0;
 			for (var [key, value] of Object.entries($scope.total_loss)) {
-				var total_loss = parseInt(`${value}`);
-				ans += total_loss;
+				if (key < $scope.id) {
+					var total_loss = parseInt(`${value}`);
+					ans += total_loss;
+				}
 			}
 			console.log(ans/size);
 			$('#total_loss').text((ans/size) * $scope.quantity);
@@ -1067,11 +1079,14 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			setup.breakevens = "₹ " + (Math.round(((ans/size) + Number.EPSILON) * 100) / 100).toString();
 			$scope.total_loss[index] = -1 * parseFloat($scope.premiumValue[index]);
 			console.log($scope.total_loss);
-			var size = Object.keys($scope.total_loss).length;
+			// var size = Object.keys($scope.total_loss).length;
+			var size = $scope.id;
 			var ans = 0;
 			for (var [key, value] of Object.entries($scope.total_loss)) {
-				var total_loss = parseInt(`${value}`);
-				ans += total_loss;
+				if (key < $scope.id) {
+					var total_loss = parseInt(`${value}`);
+					ans += total_loss;
+				}
 			}
 			console.log(ans/size);
 			$('#total_loss').text((ans/size) * $scope.quantity);
@@ -1106,11 +1121,14 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			setup.breakevens = "₹ " + (Math.round(((ans/size) + Number.EPSILON) * 100) / 100).toString();
 			$scope.total_loss[index] = -1 * parseFloat($scope.premiumValue[index]);
 			console.log($scope.total_loss);
-			var size = Object.keys($scope.total_loss).length;
+			// var size = Object.keys($scope.total_loss).length;
+			var size = $scope.id;
 			var ans = 0;
 			for (var [key, value] of Object.entries($scope.total_loss)) {
-				var total_loss = parseInt(`${value}`);
-				ans += total_loss;
+				if (key < $scope.id) {
+					var total_loss = parseInt(`${value}`);
+					ans += total_loss;
+				}
 			}
 			console.log(ans/size);
 			$('#total_loss').text((ans/size) * $scope.quantity);
@@ -1272,11 +1290,14 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 		}
 		console.log(ans/size);
 		$('#breakevens').text(ans/size);
-		var size = Object.keys($scope.total_loss).length;
+		// var size = Object.keys($scope.total_loss).length;
+		var size = $scope.id;
 		var ans = 0;
 		for (var [key, value] of Object.entries($scope.total_loss)) {
-			var total_loss = parseInt(`${value}`);
-			ans += total_loss;
+			if (key < $scope.id) {
+				var total_loss = parseInt(`${value}`);
+				ans += total_loss;
+			}
 		}
 		console.log(ans/size);
 		$('#total_loss').text((ans/size) * $scope.quantity);
