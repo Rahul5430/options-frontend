@@ -1053,11 +1053,14 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			trade.premium = $scope.premiumValue[index][0];
 			$scope.breakevens[index] = strikeprice - parseInt($scope.premiumValue[index]);
 			console.log($scope.breakevens);
-			var size = Object.keys($scope.breakevens).length;
+			// var size = Object.keys($scope.breakevens).length;
+			var size = $scope.id;
 			var ans = 0;
 			for (var [key, value] of Object.entries($scope.breakevens)) {
-				var breakeven = parseInt(`${value}`);
-				ans += breakeven;
+				if (key < $scope.id) {
+					var breakeven = parseInt(`${value}`);
+					ans += breakeven;
+				}
 			}
 			console.log(ans/size);
 			$('#breakevens').text(ans/size);
@@ -1089,11 +1092,14 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			trade.premium = $scope.premiumValue[index][0];
 			$scope.breakevens[index] = strikeprice + parseInt($scope.premiumValue[index]);
 			console.log($scope.breakevens);
-			var size = Object.keys($scope.breakevens).length;
+			// var size = Object.keys($scope.breakevens).length;
+			var size = $scope.id;
 			var ans = 0;
 			for (var [key, value] of Object.entries($scope.breakevens)) {
-				var breakeven = parseInt(`${value}`);
-				ans += breakeven;
+				if (key < $scope.id) {
+					var breakeven = parseInt(`${value}`);
+					ans += breakeven;
+				}
 			}
 			console.log(ans/size);
 			$('#breakevens').text(ans/size);
@@ -1255,11 +1261,14 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 		$('#theta').text($scope.theta);
 		$('#gamma').text($scope.gamma);
 		$('#vega').text($scope.vega);
-		var size = Object.keys($scope.breakevens).length;
+		// var size = Object.keys($scope.breakevens).length;
+		var size = $scope.id;
 		var ans = 0;
 		for (var [key, value] of Object.entries($scope.breakevens)) {
-			var breakeven = parseInt(`${value}`);
-			ans += breakeven;
+			if (key < $scope.id) {
+				var breakeven = parseInt(`${value}`);
+				ans += breakeven;
+			}
 		}
 		console.log(ans/size);
 		$('#breakevens').text(ans/size);
