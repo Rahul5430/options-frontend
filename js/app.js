@@ -47,46 +47,174 @@ var options_expiries = function() {
 };
 var temp = options_expiries();
 
+var future_expiries = function() {
+	var arr = [];
+	var temp = 1;
+	for (var i=0; i<3; i++) {
+		var d = new Date();
+		d.setDate(1);
+		d.setMonth(d.getMonth()+temp+i);
+		do {
+			d.setDate(d.getDate() - 1);
+		} while (d.getDay() !== 4);
+		console.log(d);
+		if (d < new Date()) {
+			temp = 2;
+			i--;
+			continue;
+		}
+		// arr.push(d.toString().slice(4,15).toUpperCase());
+		var date = d.toString().slice(4,15).toUpperCase();
+		var month = date.slice(0, 3);
+		var day = date.slice(4, 6);
+		var year = date.slice(7, );
+		// console.log(day+' '+month+' '+year);
+		arr.push(day+' '+month+' '+year);
+	}
+	return arr;
+};
+var fe = future_expiries();
+
+// var url_nifty_all = {
+// 	0: 'https://spreadsheets.google.com/feeds/cells/11CeHRJ8HTIcAxKTd6BrzMTN-gY0f8C4iI0_ZQ7nGZyQ/ocvh19r/public/basic?alt=json',
+// 	1: 'https://spreadsheets.google.com/feeds/cells/1-ZI_sRkV3YXW1EyzaD8TzLAjjIDo3-4KxdEAEKx9cGg/ocvh19r/public/basic?alt=json',
+// 	2: 'https://spreadsheets.google.com/feeds/cells/1UUhg8026dTGpI9lvpMk1HMBYWL0VE9TOO-ouQSeFQi8/ocvh19r/public/basic?alt=json',
+// 	3: 'https://spreadsheets.google.com/feeds/cells/1QuRPDUiKVKsq2Pn1vUgl6RgYan0vAKxEQK_aPuK52bA/ocvh19r/public/basic?alt=json',
+// 	4: 'https://spreadsheets.google.com/feeds/cells/1P93jrxiWVUIYtoxxcg9t3XJrDZat_wJZN1mJaiDuIUw/ocvh19r/public/basic?alt=json',
+// 	5: 'https://spreadsheets.google.com/feeds/cells/1OLb3THjSJNqE4yBb_zaYemkvO_EmlaHGHJUyT3HbOs4/ocvh19r/public/basic?alt=json',
+// 	6: 'https://spreadsheets.google.com/feeds/cells/1K2Mj2tDqpP3p9KBx0S4jJur7VCddbwmL9pokDgBwHYU/ocvh19r/public/basic?alt=json',
+// 	7: 'https://spreadsheets.google.com/feeds/cells/1tqMWxaUlurnAoTeTjdLxWnUVz42dR3WHvcBOv35-VnU/ocvh19r/public/basic?alt=json'
+// };
 var url_nifty_all = {
-	0: 'https://spreadsheets.google.com/feeds/cells/11CeHRJ8HTIcAxKTd6BrzMTN-gY0f8C4iI0_ZQ7nGZyQ/ocvh19r/public/basic?alt=json',
-	1: 'https://spreadsheets.google.com/feeds/cells/1-ZI_sRkV3YXW1EyzaD8TzLAjjIDo3-4KxdEAEKx9cGg/ocvh19r/public/basic?alt=json',
-	2: 'https://spreadsheets.google.com/feeds/cells/1UUhg8026dTGpI9lvpMk1HMBYWL0VE9TOO-ouQSeFQi8/ocvh19r/public/basic?alt=json',
-	3: 'https://spreadsheets.google.com/feeds/cells/1QuRPDUiKVKsq2Pn1vUgl6RgYan0vAKxEQK_aPuK52bA/ocvh19r/public/basic?alt=json',
-	4: 'https://spreadsheets.google.com/feeds/cells/1P93jrxiWVUIYtoxxcg9t3XJrDZat_wJZN1mJaiDuIUw/ocvh19r/public/basic?alt=json',
-	5: 'https://spreadsheets.google.com/feeds/cells/1OLb3THjSJNqE4yBb_zaYemkvO_EmlaHGHJUyT3HbOs4/ocvh19r/public/basic?alt=json',
-	6: 'https://spreadsheets.google.com/feeds/cells/1K2Mj2tDqpP3p9KBx0S4jJur7VCddbwmL9pokDgBwHYU/ocvh19r/public/basic?alt=json',
-	7: 'https://spreadsheets.google.com/feeds/cells/1tqMWxaUlurnAoTeTjdLxWnUVz42dR3WHvcBOv35-VnU/ocvh19r/public/basic?alt=json'
+	0: 'https://opstra.definedge.com/api/free/strategybuilder/optionchain/NIFTY&' + temp[0].replace(/\s+/g, ""),
+	1: 'https://opstra.definedge.com/api/free/strategybuilder/optionchain/NIFTY&' + temp[1].replace(/\s+/g, ""),
+	2: 'https://opstra.definedge.com/api/free/strategybuilder/optionchain/NIFTY&' + temp[2].replace(/\s+/g, ""),
+	3: 'https://opstra.definedge.com/api/free/strategybuilder/optionchain/NIFTY&' + temp[3].replace(/\s+/g, ""),
+	4: 'https://opstra.definedge.com/api/free/strategybuilder/optionchain/NIFTY&' + temp[4].replace(/\s+/g, ""),
+	5: 'https://opstra.definedge.com/api/free/strategybuilder/optionchain/NIFTY&' + temp[5].replace(/\s+/g, ""),
+	6: 'https://opstra.definedge.com/api/free/strategybuilder/optionchain/NIFTY&' + temp[6].replace(/\s+/g, ""),
+	7: 'https://opstra.definedge.com/api/free/strategybuilder/optionchain/NIFTY&' + temp[7].replace(/\s+/g, "")
 };
 var url_banknifty_all = {
-	0: 'https://spreadsheets.google.com/feeds/cells/11CeHRJ8HTIcAxKTd6BrzMTN-gY0f8C4iI0_ZQ7nGZyQ/o6nd5tx/public/basic?alt=json',
-	1: 'https://spreadsheets.google.com/feeds/cells/1-ZI_sRkV3YXW1EyzaD8TzLAjjIDo3-4KxdEAEKx9cGg/o6nd5tx/public/basic?alt=json',
-	2: 'https://spreadsheets.google.com/feeds/cells/1UUhg8026dTGpI9lvpMk1HMBYWL0VE9TOO-ouQSeFQi8/o6nd5tx/public/basic?alt=json',
-	3: 'https://spreadsheets.google.com/feeds/cells/1QuRPDUiKVKsq2Pn1vUgl6RgYan0vAKxEQK_aPuK52bA/o6nd5tx/public/basic?alt=json',
-	4: 'https://spreadsheets.google.com/feeds/cells/1P93jrxiWVUIYtoxxcg9t3XJrDZat_wJZN1mJaiDuIUw/o6nd5tx/public/basic?alt=json',
-	5: 'https://spreadsheets.google.com/feeds/cells/1OLb3THjSJNqE4yBb_zaYemkvO_EmlaHGHJUyT3HbOs4/o6nd5tx/public/basic?alt=json',
-	6: 'https://spreadsheets.google.com/feeds/cells/1K2Mj2tDqpP3p9KBx0S4jJur7VCddbwmL9pokDgBwHYU/o6nd5tx/public/basic?alt=json',
-	7: 'https://spreadsheets.google.com/feeds/cells/1tqMWxaUlurnAoTeTjdLxWnUVz42dR3WHvcBOv35-VnU/o6nd5tx/public/basic?alt=json'
+	0: 'https://opstra.definedge.com/api/free/strategybuilder/optionchain/BANKNIFTY&' + temp[0].replace(/\s+/g, ""),
+	1: 'https://opstra.definedge.com/api/free/strategybuilder/optionchain/BANKNIFTY&' + temp[1].replace(/\s+/g, ""),
+	2: 'https://opstra.definedge.com/api/free/strategybuilder/optionchain/BANKNIFTY&' + temp[2].replace(/\s+/g, ""),
+	3: 'https://opstra.definedge.com/api/free/strategybuilder/optionchain/BANKNIFTY&' + temp[3].replace(/\s+/g, ""),
+	4: 'https://opstra.definedge.com/api/free/strategybuilder/optionchain/BANKNIFTY&' + temp[4].replace(/\s+/g, ""),
+	5: 'https://opstra.definedge.com/api/free/strategybuilder/optionchain/BANKNIFTY&' + temp[5].replace(/\s+/g, ""),
+	6: 'https://opstra.definedge.com/api/free/strategybuilder/optionchain/BANKNIFTY&' + temp[6].replace(/\s+/g, ""),
+	7: 'https://opstra.definedge.com/api/free/strategybuilder/optionchain/BANKNIFTY&' + temp[7].replace(/\s+/g, "")
 };
+// var url_banknifty_all = {
+// 	0: 'https://spreadsheets.google.com/feeds/cells/11CeHRJ8HTIcAxKTd6BrzMTN-gY0f8C4iI0_ZQ7nGZyQ/o6nd5tx/public/basic?alt=json',
+// 	1: 'https://spreadsheets.google.com/feeds/cells/1-ZI_sRkV3YXW1EyzaD8TzLAjjIDo3-4KxdEAEKx9cGg/o6nd5tx/public/basic?alt=json',
+// 	2: 'https://spreadsheets.google.com/feeds/cells/1UUhg8026dTGpI9lvpMk1HMBYWL0VE9TOO-ouQSeFQi8/o6nd5tx/public/basic?alt=json',
+// 	3: 'https://spreadsheets.google.com/feeds/cells/1QuRPDUiKVKsq2Pn1vUgl6RgYan0vAKxEQK_aPuK52bA/o6nd5tx/public/basic?alt=json',
+// 	4: 'https://spreadsheets.google.com/feeds/cells/1P93jrxiWVUIYtoxxcg9t3XJrDZat_wJZN1mJaiDuIUw/o6nd5tx/public/basic?alt=json',
+// 	5: 'https://spreadsheets.google.com/feeds/cells/1OLb3THjSJNqE4yBb_zaYemkvO_EmlaHGHJUyT3HbOs4/o6nd5tx/public/basic?alt=json',
+// 	6: 'https://spreadsheets.google.com/feeds/cells/1K2Mj2tDqpP3p9KBx0S4jJur7VCddbwmL9pokDgBwHYU/o6nd5tx/public/basic?alt=json',
+// 	7: 'https://spreadsheets.google.com/feeds/cells/1tqMWxaUlurnAoTeTjdLxWnUVz42dR3WHvcBOv35-VnU/o6nd5tx/public/basic?alt=json'
+// };
 var url_usdinr = '';
+var futures = {
+	0: 'https://opstra.definedge.com/api/free/strategybuilder/optionchain/NIFTY&' + fe[0].replace(/\s+/g, ""),
+	1: 'https://opstra.definedge.com/api/free/strategybuilder/optionchain/NIFTY&' + fe[1].replace(/\s+/g, ""),
+	2: 'https://opstra.definedge.com/api/free/strategybuilder/optionchain/NIFTY&' + fe[2].replace(/\s+/g, ""),
+	3: 'https://opstra.definedge.com/api/free/strategybuilder/optionchain/BANKNIFTY&' + fe[0].replace(/\s+/g, ""),
+	4: 'https://opstra.definedge.com/api/free/strategybuilder/optionchain/BANKNIFTY&' + fe[1].replace(/\s+/g, ""),
+	5: 'https://opstra.definedge.com/api/free/strategybuilder/optionchain/BANKNIFTY&' + fe[2].replace(/\s+/g, ""),
+};
 
 var nifty = {};
 var banknifty = {};
 var niftyfutures = {}
 var bankniftyfutures = {}
 $(document).ready(function () {
+	// $.ajax({
+	// 	type: 'GET',
+	// 	url: 'https://spreadsheets.google.com/feeds/cells/11CeHRJ8HTIcAxKTd6BrzMTN-gY0f8C4iI0_ZQ7nGZyQ/o1jty9e/public/basic?alt=json',
+	// 	dataType: 'json',
+	// 	async: true,
+	// 	success: function (data) {
+	// 		console.log("futures data=" + data);
+	// 		niftyfutures[0] = parseInt(data.feed.entry[0].content.$t);
+	// 		niftyfutures[1] = parseInt(data.feed.entry[2].content.$t);
+	// 		niftyfutures[2] = parseInt(data.feed.entry[4].content.$t);
+	// 		bankniftyfutures[0] = parseInt(data.feed.entry[1].content.$t);
+	// 		bankniftyfutures[1] = parseInt(data.feed.entry[3].content.$t);
+	// 		bankniftyfutures[2] = parseInt(data.feed.entry[5].content.$t);
+	// 	}
+	// }).done(function() {
+	// 	NProgress.inc(0.03);
+	// });
 	$.ajax({
 		type: 'GET',
-		url: 'https://spreadsheets.google.com/feeds/cells/11CeHRJ8HTIcAxKTd6BrzMTN-gY0f8C4iI0_ZQ7nGZyQ/o1jty9e/public/basic?alt=json',
+		url: futures[0],
 		dataType: 'json',
 		async: true,
 		success: function (data) {
 			console.log("futures data=" + data);
-			niftyfutures[0] = parseInt(data.feed.entry[0].content.$t);
-			niftyfutures[1] = parseInt(data.feed.entry[2].content.$t);
-			niftyfutures[2] = parseInt(data.feed.entry[4].content.$t);
-			bankniftyfutures[0] = parseInt(data.feed.entry[1].content.$t);
-			bankniftyfutures[1] = parseInt(data.feed.entry[3].content.$t);
-			bankniftyfutures[2] = parseInt(data.feed.entry[5].content.$t);
+			niftyfutures[0] = data.futuresprice;
+		}
+	}).done(function() {
+		NProgress.inc(0.03);
+	});
+	$.ajax({
+		type: 'GET',
+		url: futures[1],
+		dataType: 'json',
+		async: true,
+		success: function (data) {
+			console.log("futures data=" + data);
+			niftyfutures[1] = data.futuresprice;
+		}
+	}).done(function() {
+		NProgress.inc(0.03);
+	});
+	$.ajax({
+		type: 'GET',
+		url: futures[2],
+		dataType: 'json',
+		async: true,
+		success: function (data) {
+			console.log("futures data=" + data);
+			niftyfutures[2] = data.futuresprice;
+		}
+	}).done(function() {
+		NProgress.inc(0.03);
+	});
+	$.ajax({
+		type: 'GET',
+		url: futures[3],
+		dataType: 'json',
+		async: true,
+		success: function (data) {
+			console.log("futures data=" + data);
+			bankniftyfutures[0] = data.futuresprice;
+		}
+	}).done(function() {
+		NProgress.inc(0.03);
+	});
+	$.ajax({
+		type: 'GET',
+		url: futures[4],
+		dataType: 'json',
+		async: true,
+		success: function (data) {
+			console.log("futures data=" + data);
+			bankniftyfutures[1] = data.futuresprice;
+		}
+	}).done(function() {
+		NProgress.inc(0.03);
+	});
+	$.ajax({
+		type: 'GET',
+		url: futures[5],
+		dataType: 'json',
+		async: true,
+		success: function (data) {
+			console.log("futures data=" + data);
+			bankniftyfutures[2] = data.futuresprice;
 		}
 	}).done(function() {
 		NProgress.inc(0.03);
@@ -109,37 +237,41 @@ $(document).ready(function () {
 		success: function (data) {
 			console.log("data1=" + data);
 			var temporary;
-			$.ajax({
-				type: 'GET',
-				url: 'https://opstra.definedge.com/api/free/strategybuilder/optionchain/NIFTY&' + temp[1].replace(/\s+/g, ""),
-				dataType: 'json',
-				async: false,
-				success: function (data) {
-					console.log("all data=" + data);
-					temporary = data;
-				},
-				error: function(xhr) {
-					console.log("No data received for " + temp[1] + " expiry");
-				}
-			}).done(function() {
-				NProgress.inc(0.03);
-			});
-			var spotprice = data.feed.entry[35].content.$t;
+			// $.ajax({
+			// 	type: 'GET',
+			// 	url: 'https://opstra.definedge.com/api/free/strategybuilder/optionchain/NIFTY&' + temp[1].replace(/\s+/g, ""),
+			// 	dataType: 'json',
+			// 	async: false,
+			// 	success: function (data) {
+			// 		console.log("all data=" + data);
+			// 		temporary = data;
+			// 	},
+			// 	error: function(xhr) {
+			// 		console.log("No data received for " + temp[1] + " expiry");
+			// 	}
+			// }).done(function() {
+			// 	NProgress.inc(0.03);
+			// });
+			var spotprice = data.spotprice;
 			var strikeprice123 = [];
 			var premium123 = {};
 			var i=0;
-			console.log(temporary.data);
+			// console.log(temporary.data);
 			var j=0;
-			while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "" && j < temporary.data.length) {
-				strikeprice123.push(data.feed.entry[83+23*i].content.$t);
-				if (data.feed.entry[83+23*i].content.$t == temporary.data[j].StrikePrice) {
-					premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), (temporary.data[j].CallDelta), (temporary.data[j].PutDelta), (temporary.data[j].CallTheta), (temporary.data[j].PutTheta), (temporary.data[j].CallGamma), (temporary.data[j].PutGamma), (temporary.data[j].CallVega), (temporary.data[j].PutVega)];;
-					j++;
-				} else {
-					premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), "-", "-", "-", "-", "-", "-", "-", "-"];
-				}
-				i++;
-			}
+			// while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "" && j < temporary.data.length) {
+			// 	strikeprice123.push(data.feed.entry[83+23*i].content.$t);
+			// 	if (data.feed.entry[83+23*i].content.$t == temporary.data[j].StrikePrice) {
+			// 		premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), (temporary.data[j].CallDelta), (temporary.data[j].PutDelta), (temporary.data[j].CallTheta), (temporary.data[j].PutTheta), (temporary.data[j].CallGamma), (temporary.data[j].PutGamma), (temporary.data[j].CallVega), (temporary.data[j].PutVega)];;
+			// 		j++;
+			// 	} else {
+			// 		premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), "-", "-", "-", "-", "-", "-", "-", "-"];
+			// 	}
+			// 	i++;
+			// }
+			data.data.map((item, index) => {
+				strikeprice123.push(item.StrikePrice);
+				premium123[item.StrikePrice] = [item.CallLTP, item.PutLTP, , , , , , , , , , , item.CallDelta, item.PutDelta, item.CallTheta, item.PutTheta, item.CallGamma, item.PutGamma, item.CallVega, item.PutVega];
+			});
 			nifty[1] = {
 				"spotprice" : spotprice,
 				"premium123" : premium123,
@@ -157,37 +289,41 @@ $(document).ready(function () {
 		success: function (data) {
 			console.log("data2=" + data);
 			var temporary;
-			$.ajax({
-				type: 'GET',
-				url: 'https://opstra.definedge.com/api/free/strategybuilder/optionchain/NIFTY&' + temp[2].replace(/\s+/g, ""),
-				dataType: 'json',
-				async: false,
-				success: function (data) {
-					console.log("all data=" + data);
-					temporary = data;
-				},
-				error: function(xhr) {
-					console.log("No data received for " + temp[2] + " expiry");
-				}
-			}).done(function() {
-				NProgress.inc(0.03);
-			});
-			var spotprice = data.feed.entry[35].content.$t;
+			// $.ajax({
+			// 	type: 'GET',
+			// 	url: 'https://opstra.definedge.com/api/free/strategybuilder/optionchain/NIFTY&' + temp[2].replace(/\s+/g, ""),
+			// 	dataType: 'json',
+			// 	async: false,
+			// 	success: function (data) {
+			// 		console.log("all data=" + data);
+			// 		temporary = data;
+			// 	},
+			// 	error: function(xhr) {
+			// 		console.log("No data received for " + temp[2] + " expiry");
+			// 	}
+			// }).done(function() {
+			// 	NProgress.inc(0.03);
+			// });
+			var spotprice = data.spotprice;
 			var strikeprice123 = [];
 			var premium123 = {};
 			var i=0;
-			console.log(temporary.data);
+			// console.log(temporary.data);
 			var j=0;
-			while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "" && j < temporary.data.length) {
-				strikeprice123.push(data.feed.entry[83+23*i].content.$t);
-				if (data.feed.entry[83+23*i].content.$t == temporary.data[j].StrikePrice) {
-					premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), (temporary.data[j].CallDelta), (temporary.data[j].PutDelta), (temporary.data[j].CallTheta), (temporary.data[j].PutTheta), (temporary.data[j].CallGamma), (temporary.data[j].PutGamma), (temporary.data[j].CallVega), (temporary.data[j].PutVega)];;
-					j++;
-				} else {
-					premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), "-", "-", "-", "-", "-", "-", "-", "-"];
-				}
-				i++;
-			}
+			// while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "" && j < temporary.data.length) {
+			// 	strikeprice123.push(data.feed.entry[83+23*i].content.$t);
+			// 	if (data.feed.entry[83+23*i].content.$t == temporary.data[j].StrikePrice) {
+			// 		premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), (temporary.data[j].CallDelta), (temporary.data[j].PutDelta), (temporary.data[j].CallTheta), (temporary.data[j].PutTheta), (temporary.data[j].CallGamma), (temporary.data[j].PutGamma), (temporary.data[j].CallVega), (temporary.data[j].PutVega)];;
+			// 		j++;
+			// 	} else {
+			// 		premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), "-", "-", "-", "-", "-", "-", "-", "-"];
+			// 	}
+			// 	i++;
+			// }
+			data.data.map((item, index) => {
+				strikeprice123.push(item.StrikePrice);
+				premium123[item.StrikePrice] = [item.CallLTP, item.PutLTP, , , , , , , , , , , item.CallDelta, item.PutDelta, item.CallTheta, item.PutTheta, item.CallGamma, item.PutGamma, item.CallVega, item.PutVega];
+			});
 			nifty[2] = {
 				"spotprice" : spotprice,
 				"premium123" : premium123,
@@ -205,36 +341,40 @@ $(document).ready(function () {
 		success: function (data) {
 			console.log("data3=" + data);
 			var temporary;
-			$.ajax({
-				type: 'GET',
-				url: 'https://opstra.definedge.com/api/free/strategybuilder/optionchain/NIFTY&' + temp[3].replace(/\s+/g, ""),
-				dataType: 'json',
-				async: false,
-				success: function (data) {
-					console.log("all data=" + data);
-					temporary = data;
-				},
-				error: function(xhr) {
-					console.log("No data received for " + temp[3] + " expiry");
-				}
-			}).done(function() {
-				NProgress.inc(0.03);
-			});
-			var spotprice = data.feed.entry[35].content.$t;
+			// $.ajax({
+			// 	type: 'GET',
+			// 	url: 'https://opstra.definedge.com/api/free/strategybuilder/optionchain/NIFTY&' + temp[3].replace(/\s+/g, ""),
+			// 	dataType: 'json',
+			// 	async: false,
+			// 	success: function (data) {
+			// 		console.log("all data=" + data);
+			// 		temporary = data;
+			// 	},
+			// 	error: function(xhr) {
+			// 		console.log("No data received for " + temp[3] + " expiry");
+			// 	}
+			// }).done(function() {
+			// 	NProgress.inc(0.03);
+			// });
+			var spotprice = data.spotprice;
 			var strikeprice123 = [];
 			var premium123 = {};
 			var i=0;
 			var j=0;
-			while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "" && j < temporary.data.length) {
-				strikeprice123.push(data.feed.entry[83+23*i].content.$t);
-				if (data.feed.entry[83+23*i].content.$t == temporary.data[j].StrikePrice) {
-					premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), (temporary.data[j].CallDelta), (temporary.data[j].PutDelta), (temporary.data[j].CallTheta), (temporary.data[j].PutTheta), (temporary.data[j].CallGamma), (temporary.data[j].PutGamma), (temporary.data[j].CallVega), (temporary.data[j].PutVega)];;
-					j++;
-				} else {
-					premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), "-", "-", "-", "-", "-", "-", "-", "-"];
-				}
-				i++;
-			}
+			// while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "" && j < temporary.data.length) {
+			// 	strikeprice123.push(data.feed.entry[83+23*i].content.$t);
+			// 	if (data.feed.entry[83+23*i].content.$t == temporary.data[j].StrikePrice) {
+			// 		premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), (temporary.data[j].CallDelta), (temporary.data[j].PutDelta), (temporary.data[j].CallTheta), (temporary.data[j].PutTheta), (temporary.data[j].CallGamma), (temporary.data[j].PutGamma), (temporary.data[j].CallVega), (temporary.data[j].PutVega)];;
+			// 		j++;
+			// 	} else {
+			// 		premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), "-", "-", "-", "-", "-", "-", "-", "-"];
+			// 	}
+			// 	i++;
+			// }
+			data.data.map((item, index) => {
+				strikeprice123.push(item.StrikePrice);
+				premium123[item.StrikePrice] = [item.CallLTP, item.PutLTP, , , , , , , , , , , item.CallDelta, item.PutDelta, item.CallTheta, item.PutTheta, item.CallGamma, item.PutGamma, item.CallVega, item.PutVega];
+			});
 			nifty[3] = {
 				"spotprice" : spotprice,
 				"premium123" : premium123,
@@ -252,36 +392,40 @@ $(document).ready(function () {
 		success: function (data) {
 			console.log("data4=" + data);
 			var temporary;
-			$.ajax({
-				type: 'GET',
-				url: 'https://opstra.definedge.com/api/free/strategybuilder/optionchain/NIFTY&' + temp[4].replace(/\s+/g, ""),
-				dataType: 'json',
-				async: false,
-				success: function (data) {
-					console.log("all data=" + data);
-					temporary = data;
-				},
-				error: function(xhr) {
-					console.log("No data received for " + temp[4] + " expiry");
-				}
-			}).done(function() {
-				NProgress.inc(0.03);
-			});
-			var spotprice = data.feed.entry[35].content.$t;
+			// $.ajax({
+			// 	type: 'GET',
+			// 	url: 'https://opstra.definedge.com/api/free/strategybuilder/optionchain/NIFTY&' + temp[4].replace(/\s+/g, ""),
+			// 	dataType: 'json',
+			// 	async: false,
+			// 	success: function (data) {
+			// 		console.log("all data=" + data);
+			// 		temporary = data;
+			// 	},
+			// 	error: function(xhr) {
+			// 		console.log("No data received for " + temp[4] + " expiry");
+			// 	}
+			// }).done(function() {
+			// 	NProgress.inc(0.03);
+			// });
+			var spotprice = data.spotprice;
 			var strikeprice123 = [];
 			var premium123 = {};
 			var i=0;
 			var j=0;
-			while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "" && j < temporary.data.length) {
-				strikeprice123.push(data.feed.entry[83+23*i].content.$t);
-				if (data.feed.entry[83+23*i].content.$t == temporary.data[j].StrikePrice) {
-					premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), (temporary.data[j].CallDelta), (temporary.data[j].PutDelta), (temporary.data[j].CallTheta), (temporary.data[j].PutTheta), (temporary.data[j].CallGamma), (temporary.data[j].PutGamma), (temporary.data[j].CallVega), (temporary.data[j].PutVega)];;
-					j++;
-				} else {
-					premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), "-", "-", "-", "-", "-", "-", "-", "-"];
-				}
-				i++;
-			}
+			// while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "" && j < temporary.data.length) {
+			// 	strikeprice123.push(data.feed.entry[83+23*i].content.$t);
+			// 	if (data.feed.entry[83+23*i].content.$t == temporary.data[j].StrikePrice) {
+			// 		premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), (temporary.data[j].CallDelta), (temporary.data[j].PutDelta), (temporary.data[j].CallTheta), (temporary.data[j].PutTheta), (temporary.data[j].CallGamma), (temporary.data[j].PutGamma), (temporary.data[j].CallVega), (temporary.data[j].PutVega)];;
+			// 		j++;
+			// 	} else {
+			// 		premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), "-", "-", "-", "-", "-", "-", "-", "-"];
+			// 	}
+			// 	i++;
+			// }
+			data.data.map((item, index) => {
+				strikeprice123.push(item.StrikePrice);
+				premium123[item.StrikePrice] = [item.CallLTP, item.PutLTP, , , , , , , , , , , item.CallDelta, item.PutDelta, item.CallTheta, item.PutTheta, item.CallGamma, item.PutGamma, item.CallVega, item.PutVega];
+			});
 			nifty[4] = {
 				"spotprice" : spotprice,
 				"premium123" : premium123,
@@ -299,36 +443,40 @@ $(document).ready(function () {
 		success: function (data) {
 			console.log("data5=" + data);
 			var temporary;
-			$.ajax({
-				type: 'GET',
-				url: 'https://opstra.definedge.com/api/free/strategybuilder/optionchain/NIFTY&' + temp[5].replace(/\s+/g, ""),
-				dataType: 'json',
-				async: false,
-				success: function (data) {
-					console.log("all data=" + data);
-					temporary = data;
-				},
-				error: function(xhr) {
-					console.log("No data received for " + temp[5] + " expiry");
-				}
-			}).done(function() {
-				NProgress.inc(0.03);
-			});
-			var spotprice = data.feed.entry[35].content.$t;
+			// $.ajax({
+			// 	type: 'GET',
+			// 	url: 'https://opstra.definedge.com/api/free/strategybuilder/optionchain/NIFTY&' + temp[5].replace(/\s+/g, ""),
+			// 	dataType: 'json',
+			// 	async: false,
+			// 	success: function (data) {
+			// 		console.log("all data=" + data);
+			// 		temporary = data;
+			// 	},
+			// 	error: function(xhr) {
+			// 		console.log("No data received for " + temp[5] + " expiry");
+			// 	}
+			// }).done(function() {
+			// 	NProgress.inc(0.03);
+			// });
+			var spotprice = data.spotprice;
 			var strikeprice123 = [];
 			var premium123 = {};
 			var i=0;
 			var j=0;
-			while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "" && j < temporary.data.length) {
-				strikeprice123.push(data.feed.entry[83+23*i].content.$t);
-				if (data.feed.entry[83+23*i].content.$t == temporary.data[j].StrikePrice) {
-					premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), (temporary.data[j].CallDelta), (temporary.data[j].PutDelta), (temporary.data[j].CallTheta), (temporary.data[j].PutTheta), (temporary.data[j].CallGamma), (temporary.data[j].PutGamma), (temporary.data[j].CallVega), (temporary.data[j].PutVega)];;
-					j++;
-				} else {
-					premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), "-", "-", "-", "-", "-", "-", "-", "-"];
-				}
-				i++;
-			}
+			// while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "" && j < temporary.data.length) {
+			// 	strikeprice123.push(data.feed.entry[83+23*i].content.$t);
+			// 	if (data.feed.entry[83+23*i].content.$t == temporary.data[j].StrikePrice) {
+			// 		premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), (temporary.data[j].CallDelta), (temporary.data[j].PutDelta), (temporary.data[j].CallTheta), (temporary.data[j].PutTheta), (temporary.data[j].CallGamma), (temporary.data[j].PutGamma), (temporary.data[j].CallVega), (temporary.data[j].PutVega)];;
+			// 		j++;
+			// 	} else {
+			// 		premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), "-", "-", "-", "-", "-", "-", "-", "-"];
+			// 	}
+			// 	i++;
+			// }
+			data.data.map((item, index) => {
+				strikeprice123.push(item.StrikePrice);
+				premium123[item.StrikePrice] = [item.CallLTP, item.PutLTP, , , , , , , , , , , item.CallDelta, item.PutDelta, item.CallTheta, item.PutTheta, item.CallGamma, item.PutGamma, item.CallVega, item.PutVega];
+			});
 			nifty[5] = {
 				"spotprice" : spotprice,
 				"premium123" : premium123,
@@ -346,36 +494,40 @@ $(document).ready(function () {
 		success: function (data) {
 			console.log("data6=" + data);
 			var temporary;
-			$.ajax({
-				type: 'GET',
-				url: 'https://opstra.definedge.com/api/free/strategybuilder/optionchain/NIFTY&' + temp[6].replace(/\s+/g, ""),
-				dataType: 'json',
-				async: false,
-				success: function (data) {
-					console.log("all data=" + data);
-					temporary = data;
-				},
-				error: function(xhr) {
-					console.log("No data received for " + temp[6] + " expiry");
-				}
-			}).done(function() {
-				NProgress.inc(0.03);
-			});
-			var spotprice = data.feed.entry[35].content.$t;
+			// $.ajax({
+			// 	type: 'GET',
+			// 	url: 'https://opstra.definedge.com/api/free/strategybuilder/optionchain/NIFTY&' + temp[6].replace(/\s+/g, ""),
+			// 	dataType: 'json',
+			// 	async: false,
+			// 	success: function (data) {
+			// 		console.log("all data=" + data);
+			// 		temporary = data;
+			// 	},
+			// 	error: function(xhr) {
+			// 		console.log("No data received for " + temp[6] + " expiry");
+			// 	}
+			// }).done(function() {
+			// 	NProgress.inc(0.03);
+			// });
+			var spotprice = data.spotprice;
 			var strikeprice123 = [];
 			var premium123 = {};
 			var i=0;
 			var j=0;
-			while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "" && j < temporary.data.length) {
-				strikeprice123.push(data.feed.entry[83+23*i].content.$t);
-				if (data.feed.entry[83+23*i].content.$t == temporary.data[j].StrikePrice) {
-					premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), (temporary.data[j].CallDelta), (temporary.data[j].PutDelta), (temporary.data[j].CallTheta), (temporary.data[j].PutTheta), (temporary.data[j].CallGamma), (temporary.data[j].PutGamma), (temporary.data[j].CallVega), (temporary.data[j].PutVega)];;
-					j++;
-				} else {
-					premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), "-", "-", "-", "-", "-", "-", "-", "-"];
-				}
-				i++;
-			}
+			// while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "" && j < temporary.data.length) {
+			// 	strikeprice123.push(data.feed.entry[83+23*i].content.$t);
+			// 	if (data.feed.entry[83+23*i].content.$t == temporary.data[j].StrikePrice) {
+			// 		premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), (temporary.data[j].CallDelta), (temporary.data[j].PutDelta), (temporary.data[j].CallTheta), (temporary.data[j].PutTheta), (temporary.data[j].CallGamma), (temporary.data[j].PutGamma), (temporary.data[j].CallVega), (temporary.data[j].PutVega)];;
+			// 		j++;
+			// 	} else {
+			// 		premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), "-", "-", "-", "-", "-", "-", "-", "-"];
+			// 	}
+			// 	i++;
+			// }
+			data.data.map((item, index) => {
+				strikeprice123.push(item.StrikePrice);
+				premium123[item.StrikePrice] = [item.CallLTP, item.PutLTP, , , , , , , , , , , item.CallDelta, item.PutDelta, item.CallTheta, item.PutTheta, item.CallGamma, item.PutGamma, item.CallVega, item.PutVega];
+			});
 			nifty[6] = {
 				"spotprice" : spotprice,
 				"premium123" : premium123,
@@ -393,36 +545,40 @@ $(document).ready(function () {
 		success: function (data) {
 			console.log("data7=" + data);
 			var temporary;
-			$.ajax({
-				type: 'GET',
-				url: 'https://opstra.definedge.com/api/free/strategybuilder/optionchain/NIFTY&' + temp[7].replace(/\s+/g, ""),
-				dataType: 'json',
-				async: false,
-				success: function (data) {
-					console.log("all data=" + data);
-					temporary = data;
-				},
-				error: function(xhr) {
-					console.log("No data received for " + temp[7] + " expiry");
-				}
-			}).done(function() {
-				NProgress.inc(0.03);
-			});
-			var spotprice = data.feed.entry[35].content.$t;
+			// $.ajax({
+			// 	type: 'GET',
+			// 	url: 'https://opstra.definedge.com/api/free/strategybuilder/optionchain/NIFTY&' + temp[7].replace(/\s+/g, ""),
+			// 	dataType: 'json',
+			// 	async: false,
+			// 	success: function (data) {
+			// 		console.log("all data=" + data);
+			// 		temporary = data;
+			// 	},
+			// 	error: function(xhr) {
+			// 		console.log("No data received for " + temp[7] + " expiry");
+			// 	}
+			// }).done(function() {
+			// 	NProgress.inc(0.03);
+			// });
+			var spotprice = data.spotprice;
 			var strikeprice123 = [];
 			var premium123 = {};
 			var i=0;
 			var j=0;
-			while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "" && j < temporary.data.length) {
-				strikeprice123.push(data.feed.entry[83+23*i].content.$t);
-				if (data.feed.entry[83+23*i].content.$t == temporary.data[j].StrikePrice) {
-					premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), (temporary.data[j].CallDelta), (temporary.data[j].PutDelta), (temporary.data[j].CallTheta), (temporary.data[j].PutTheta), (temporary.data[j].CallGamma), (temporary.data[j].PutGamma), (temporary.data[j].CallVega), (temporary.data[j].PutVega)];;
-					j++;
-				} else {
-					premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), "-", "-", "-", "-", "-", "-", "-", "-"];
-				}
-				i++;
-			}
+			// while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "" && j < temporary.data.length) {
+			// 	strikeprice123.push(data.feed.entry[83+23*i].content.$t);
+			// 	if (data.feed.entry[83+23*i].content.$t == temporary.data[j].StrikePrice) {
+			// 		premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), (temporary.data[j].CallDelta), (temporary.data[j].PutDelta), (temporary.data[j].CallTheta), (temporary.data[j].PutTheta), (temporary.data[j].CallGamma), (temporary.data[j].PutGamma), (temporary.data[j].CallVega), (temporary.data[j].PutVega)];;
+			// 		j++;
+			// 	} else {
+			// 		premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), "-", "-", "-", "-", "-", "-", "-", "-"];
+			// 	}
+			// 	i++;
+			// }
+			data.data.map((item, index) => {
+				strikeprice123.push(item.StrikePrice);
+				premium123[item.StrikePrice] = [item.CallLTP, item.PutLTP, , , , , , , , , , , item.CallDelta, item.PutDelta, item.CallTheta, item.PutTheta, item.CallGamma, item.PutGamma, item.CallVega, item.PutVega];
+			});
 			nifty[7] = {
 				"spotprice" : spotprice,
 				"premium123" : premium123,
@@ -440,36 +596,40 @@ $(document).ready(function () {
 		success: function (data) {
 			console.log("bankdata0=" + data);
 			var temporary;
-			$.ajax({
-				type: 'GET',
-				url: 'https://opstra.definedge.com/api/free/strategybuilder/optionchain/BANKNIFTY&' + temp[0].replace(/\s+/g, ""),
-				dataType: 'json',
-				async: false,
-				success: function (data) {
-					console.log("all data=" + data);
-					temporary = data;
-				},
-				error: function(xhr) {
-					console.log("No data received for " + temp[0] + " expiry");
-				}
-			}).done(function() {
-				NProgress.inc(0.03);
-			});
-			var spotprice = data.feed.entry[35].content.$t;
+			// $.ajax({
+			// 	type: 'GET',
+			// 	url: 'https://opstra.definedge.com/api/free/strategybuilder/optionchain/BANKNIFTY&' + temp[0].replace(/\s+/g, ""),
+			// 	dataType: 'json',
+			// 	async: false,
+			// 	success: function (data) {
+			// 		console.log("all data=" + data);
+			// 		temporary = data;
+			// 	},
+			// 	error: function(xhr) {
+			// 		console.log("No data received for " + temp[0] + " expiry");
+			// 	}
+			// }).done(function() {
+			// 	NProgress.inc(0.03);
+			// });
+			var spotprice = data.spotprice;
 			var strikeprice123 = [];
 			var premium123 = {};
 			var i=0;
 			var j=0;
-			while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "" && j < temporary.data.length) {
-				strikeprice123.push(data.feed.entry[83+23*i].content.$t);
-				if (data.feed.entry[83+23*i].content.$t == temporary.data[j].StrikePrice) {
-					premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), (temporary.data[j].CallDelta), (temporary.data[j].PutDelta), (temporary.data[j].CallTheta), (temporary.data[j].PutTheta), (temporary.data[j].CallGamma), (temporary.data[j].PutGamma), (temporary.data[j].CallVega), (temporary.data[j].PutVega)];;
-					j++;
-				} else {
-					premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), "-", "-", "-", "-", "-", "-", "-", "-"];
-				}
-				i++;
-			}
+			// while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "" && j < temporary.data.length) {
+			// 	strikeprice123.push(data.feed.entry[83+23*i].content.$t);
+			// 	if (data.feed.entry[83+23*i].content.$t == temporary.data[j].StrikePrice) {
+			// 		premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), (temporary.data[j].CallDelta), (temporary.data[j].PutDelta), (temporary.data[j].CallTheta), (temporary.data[j].PutTheta), (temporary.data[j].CallGamma), (temporary.data[j].PutGamma), (temporary.data[j].CallVega), (temporary.data[j].PutVega)];;
+			// 		j++;
+			// 	} else {
+			// 		premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), "-", "-", "-", "-", "-", "-", "-", "-"];
+			// 	}
+			// 	i++;
+			// }
+			data.data.map((item, index) => {
+				strikeprice123.push(item.StrikePrice);
+				premium123[item.StrikePrice] = [item.CallLTP, item.PutLTP, , , , , , , , , , , item.CallDelta, item.PutDelta, item.CallTheta, item.PutTheta, item.CallGamma, item.PutGamma, item.CallVega, item.PutVega];
+			});
 			banknifty[0] = {
 				"spotprice" : spotprice,
 				"premium123" : premium123,
@@ -487,36 +647,40 @@ $(document).ready(function () {
 		success: function (data) {
 			console.log("bankdata1=" + data);
 			var temporary;
-			$.ajax({
-				type: 'GET',
-				url: 'https://opstra.definedge.com/api/free/strategybuilder/optionchain/BANKNIFTY&' + temp[1].replace(/\s+/g, ""),
-				dataType: 'json',
-				async: false,
-				success: function (data) {
-					console.log("all data=" + data);
-					temporary = data;
-				},
-				error: function(xhr) {
-					console.log("No data received for " + temp[1] + " expiry");
-				}
-			}).done(function() {
-				NProgress.inc(0.03);
-			});
-			var spotprice = data.feed.entry[35].content.$t;
+			// $.ajax({
+			// 	type: 'GET',
+			// 	url: 'https://opstra.definedge.com/api/free/strategybuilder/optionchain/BANKNIFTY&' + temp[1].replace(/\s+/g, ""),
+			// 	dataType: 'json',
+			// 	async: false,
+			// 	success: function (data) {
+			// 		console.log("all data=" + data);
+			// 		temporary = data;
+			// 	},
+			// 	error: function(xhr) {
+			// 		console.log("No data received for " + temp[1] + " expiry");
+			// 	}
+			// }).done(function() {
+			// 	NProgress.inc(0.03);
+			// });
+			var spotprice = data.spotprice;
 			var strikeprice123 = [];
 			var premium123 = {};
 			var i=0;
 			var j=0;
-			while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "" && j < temporary.data.length) {
-				strikeprice123.push(data.feed.entry[83+23*i].content.$t);
-				if (data.feed.entry[83+23*i].content.$t == temporary.data[j].StrikePrice) {
-					premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), (temporary.data[j].CallDelta), (temporary.data[j].PutDelta), (temporary.data[j].CallTheta), (temporary.data[j].PutTheta), (temporary.data[j].CallGamma), (temporary.data[j].PutGamma), (temporary.data[j].CallVega), (temporary.data[j].PutVega)];;
-					j++;
-				} else {
-					premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), "-", "-", "-", "-", "-", "-", "-", "-"];
-				}
-				i++;
-			}
+			// while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "" && j < temporary.data.length) {
+			// 	strikeprice123.push(data.feed.entry[83+23*i].content.$t);
+			// 	if (data.feed.entry[83+23*i].content.$t == temporary.data[j].StrikePrice) {
+			// 		premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), (temporary.data[j].CallDelta), (temporary.data[j].PutDelta), (temporary.data[j].CallTheta), (temporary.data[j].PutTheta), (temporary.data[j].CallGamma), (temporary.data[j].PutGamma), (temporary.data[j].CallVega), (temporary.data[j].PutVega)];;
+			// 		j++;
+			// 	} else {
+			// 		premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), "-", "-", "-", "-", "-", "-", "-", "-"];
+			// 	}
+			// 	i++;
+			// }
+			data.data.map((item, index) => {
+				strikeprice123.push(item.StrikePrice);
+				premium123[item.StrikePrice] = [item.CallLTP, item.PutLTP, , , , , , , , , , , item.CallDelta, item.PutDelta, item.CallTheta, item.PutTheta, item.CallGamma, item.PutGamma, item.CallVega, item.PutVega];
+			});
 			banknifty[1] = {
 				"spotprice" : spotprice,
 				"premium123" : premium123,
@@ -534,36 +698,40 @@ $(document).ready(function () {
 		success: function (data) {
 			console.log("bankdata2=" + data);
 			var temporary;
-			$.ajax({
-				type: 'GET',
-				url: 'https://opstra.definedge.com/api/free/strategybuilder/optionchain/BANKNIFTY&' + temp[2].replace(/\s+/g, ""),
-				dataType: 'json',
-				async: false,
-				success: function (data) {
-					console.log("all data=" + data);
-					temporary = data;
-				},
-				error: function(xhr) {
-					console.log("No data received for " + temp[2] + " expiry");
-				}
-			}).done(function() {
-				NProgress.inc(0.03);
-			});
-			var spotprice = data.feed.entry[35].content.$t;
+			// $.ajax({
+			// 	type: 'GET',
+			// 	url: 'https://opstra.definedge.com/api/free/strategybuilder/optionchain/BANKNIFTY&' + temp[2].replace(/\s+/g, ""),
+			// 	dataType: 'json',
+			// 	async: false,
+			// 	success: function (data) {
+			// 		console.log("all data=" + data);
+			// 		temporary = data;
+			// 	},
+			// 	error: function(xhr) {
+			// 		console.log("No data received for " + temp[2] + " expiry");
+			// 	}
+			// }).done(function() {
+			// 	NProgress.inc(0.03);
+			// });
+			var spotprice = data.spotprice;
 			var strikeprice123 = [];
 			var premium123 = {};
 			var i=0;
 			var j=0;
-			while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "" && j < temporary.data.length) {
-				strikeprice123.push(data.feed.entry[83+23*i].content.$t);
-				if (data.feed.entry[83+23*i].content.$t == temporary.data[j].StrikePrice) {
-					premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), (temporary.data[j].CallDelta), (temporary.data[j].PutDelta), (temporary.data[j].CallTheta), (temporary.data[j].PutTheta), (temporary.data[j].CallGamma), (temporary.data[j].PutGamma), (temporary.data[j].CallVega), (temporary.data[j].PutVega)];;
-					j++;
-				} else {
-					premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), "-", "-", "-", "-", "-", "-", "-", "-"];
-				}
-				i++;
-			}
+			// while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "" && j < temporary.data.length) {
+			// 	strikeprice123.push(data.feed.entry[83+23*i].content.$t);
+			// 	if (data.feed.entry[83+23*i].content.$t == temporary.data[j].StrikePrice) {
+			// 		premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), (temporary.data[j].CallDelta), (temporary.data[j].PutDelta), (temporary.data[j].CallTheta), (temporary.data[j].PutTheta), (temporary.data[j].CallGamma), (temporary.data[j].PutGamma), (temporary.data[j].CallVega), (temporary.data[j].PutVega)];;
+			// 		j++;
+			// 	} else {
+			// 		premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), "-", "-", "-", "-", "-", "-", "-", "-"];
+			// 	}
+			// 	i++;
+			// }
+			data.data.map((item, index) => {
+				strikeprice123.push(item.StrikePrice);
+				premium123[item.StrikePrice] = [item.CallLTP, item.PutLTP, , , , , , , , , , , item.CallDelta, item.PutDelta, item.CallTheta, item.PutTheta, item.CallGamma, item.PutGamma, item.CallVega, item.PutVega];
+			});
 			banknifty[2] = {
 				"spotprice" : spotprice,
 				"premium123" : premium123,
@@ -581,36 +749,40 @@ $(document).ready(function () {
 		success: function (data) {
 			console.log("bankdata3=" + data);
 			var temporary;
-			$.ajax({
-				type: 'GET',
-				url: 'https://opstra.definedge.com/api/free/strategybuilder/optionchain/BANKNIFTY&' + temp[3].replace(/\s+/g, ""),
-				dataType: 'json',
-				async: false,
-				success: function (data) {
-					console.log("all data=" + data);
-					temporary = data;
-				},
-				error: function(xhr) {
-					console.log("No data received for " + temp[3] + " expiry");
-				}
-			}).done(function() {
-				NProgress.inc(0.03);
-			});
-			var spotprice = data.feed.entry[35].content.$t;
+			// $.ajax({
+			// 	type: 'GET',
+			// 	url: 'https://opstra.definedge.com/api/free/strategybuilder/optionchain/BANKNIFTY&' + temp[3].replace(/\s+/g, ""),
+			// 	dataType: 'json',
+			// 	async: false,
+			// 	success: function (data) {
+			// 		console.log("all data=" + data);
+			// 		temporary = data;
+			// 	},
+			// 	error: function(xhr) {
+			// 		console.log("No data received for " + temp[3] + " expiry");
+			// 	}
+			// }).done(function() {
+			// 	NProgress.inc(0.03);
+			// });
+			var spotprice = data.spotprice;
 			var strikeprice123 = [];
 			var premium123 = {};
 			var i=0;
 			var j=0;
-			while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "" && j < temporary.data.length) {
-				strikeprice123.push(data.feed.entry[83+23*i].content.$t);
-				if (data.feed.entry[83+23*i].content.$t == temporary.data[j].StrikePrice) {
-					premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), (temporary.data[j].CallDelta), (temporary.data[j].PutDelta), (temporary.data[j].CallTheta), (temporary.data[j].PutTheta), (temporary.data[j].CallGamma), (temporary.data[j].PutGamma), (temporary.data[j].CallVega), (temporary.data[j].PutVega)];;
-					j++;
-				} else {
-					premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), "-", "-", "-", "-", "-", "-", "-", "-"];
-				}
-				i++;
-			}
+			// while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "" && j < temporary.data.length) {
+			// 	strikeprice123.push(data.feed.entry[83+23*i].content.$t);
+			// 	if (data.feed.entry[83+23*i].content.$t == temporary.data[j].StrikePrice) {
+			// 		premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), (temporary.data[j].CallDelta), (temporary.data[j].PutDelta), (temporary.data[j].CallTheta), (temporary.data[j].PutTheta), (temporary.data[j].CallGamma), (temporary.data[j].PutGamma), (temporary.data[j].CallVega), (temporary.data[j].PutVega)];;
+			// 		j++;
+			// 	} else {
+			// 		premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), "-", "-", "-", "-", "-", "-", "-", "-"];
+			// 	}
+			// 	i++;
+			// }
+			data.data.map((item, index) => {
+				strikeprice123.push(item.StrikePrice);
+				premium123[item.StrikePrice] = [item.CallLTP, item.PutLTP, , , , , , , , , , , item.CallDelta, item.PutDelta, item.CallTheta, item.PutTheta, item.CallGamma, item.PutGamma, item.CallVega, item.PutVega];
+			});
 			banknifty[3] = {
 				"spotprice" : spotprice,
 				"premium123" : premium123,
@@ -628,36 +800,40 @@ $(document).ready(function () {
 		success: function (data) {
 			console.log("bankdata4=" + data);
 			var temporary;
-			$.ajax({
-				type: 'GET',
-				url: 'https://opstra.definedge.com/api/free/strategybuilder/optionchain/BANKNIFTY&' + temp[4].replace(/\s+/g, ""),
-				dataType: 'json',
-				async: false,
-				success: function (data) {
-					console.log("all data=" + data);
-					temporary = data;
-				},
-				error: function(xhr) {
-					console.log("No data received for " + temp[4] + " expiry");
-				}
-			}).done(function() {
-				NProgress.inc(0.03);
-			});
-			var spotprice = data.feed.entry[35].content.$t;
+			// $.ajax({
+			// 	type: 'GET',
+			// 	url: 'https://opstra.definedge.com/api/free/strategybuilder/optionchain/BANKNIFTY&' + temp[4].replace(/\s+/g, ""),
+			// 	dataType: 'json',
+			// 	async: false,
+			// 	success: function (data) {
+			// 		console.log("all data=" + data);
+			// 		temporary = data;
+			// 	},
+			// 	error: function(xhr) {
+			// 		console.log("No data received for " + temp[4] + " expiry");
+			// 	}
+			// }).done(function() {
+			// 	NProgress.inc(0.03);
+			// });
+			var spotprice = data.spotprice;
 			var strikeprice123 = [];
 			var premium123 = {};
 			var i=0;
 			var j=0;
-			while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "" && j < temporary.data.length) {
-				strikeprice123.push(data.feed.entry[83+23*i].content.$t);
-				if (data.feed.entry[83+23*i].content.$t == temporary.data[j].StrikePrice) {
-					premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), (temporary.data[j].CallDelta), (temporary.data[j].PutDelta), (temporary.data[j].CallTheta), (temporary.data[j].PutTheta), (temporary.data[j].CallGamma), (temporary.data[j].PutGamma), (temporary.data[j].CallVega), (temporary.data[j].PutVega)];;
-					j++;
-				} else {
-					premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), "-", "-", "-", "-", "-", "-", "-", "-"];
-				}
-				i++;
-			}
+			// while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "" && j < temporary.data.length) {
+			// 	strikeprice123.push(data.feed.entry[83+23*i].content.$t);
+			// 	if (data.feed.entry[83+23*i].content.$t == temporary.data[j].StrikePrice) {
+			// 		premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), (temporary.data[j].CallDelta), (temporary.data[j].PutDelta), (temporary.data[j].CallTheta), (temporary.data[j].PutTheta), (temporary.data[j].CallGamma), (temporary.data[j].PutGamma), (temporary.data[j].CallVega), (temporary.data[j].PutVega)];;
+			// 		j++;
+			// 	} else {
+			// 		premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), "-", "-", "-", "-", "-", "-", "-", "-"];
+			// 	}
+			// 	i++;
+			// }
+			data.data.map((item, index) => {
+				strikeprice123.push(item.StrikePrice);
+				premium123[item.StrikePrice] = [item.CallLTP, item.PutLTP, , , , , , , , , , , item.CallDelta, item.PutDelta, item.CallTheta, item.PutTheta, item.CallGamma, item.PutGamma, item.CallVega, item.PutVega];
+			});
 			banknifty[4] = {
 				"spotprice" : spotprice,
 				"premium123" : premium123,
@@ -675,36 +851,40 @@ $(document).ready(function () {
 		success: function (data) {
 			console.log("bankdata5=" + data);
 			var temporary;
-			$.ajax({
-				type: 'GET',
-				url: 'https://opstra.definedge.com/api/free/strategybuilder/optionchain/BANKNIFTY&' + temp[5].replace(/\s+/g, ""),
-				dataType: 'json',
-				async: false,
-				success: function (data) {
-					console.log("all data=" + data);
-					temporary = data;
-				},
-				error: function(xhr) {
-					console.log("No data received for " + temp[5] + " expiry");
-				}
-			}).done(function() {
-				NProgress.inc(0.03);
-			});
-			var spotprice = data.feed.entry[35].content.$t;
+			// $.ajax({
+			// 	type: 'GET',
+			// 	url: 'https://opstra.definedge.com/api/free/strategybuilder/optionchain/BANKNIFTY&' + temp[5].replace(/\s+/g, ""),
+			// 	dataType: 'json',
+			// 	async: false,
+			// 	success: function (data) {
+			// 		console.log("all data=" + data);
+			// 		temporary = data;
+			// 	},
+			// 	error: function(xhr) {
+			// 		console.log("No data received for " + temp[5] + " expiry");
+			// 	}
+			// }).done(function() {
+			// 	NProgress.inc(0.03);
+			// });
+			var spotprice = data.spotprice;
 			var strikeprice123 = [];
 			var premium123 = {};
 			var i=0;
 			var j=0;
-			while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "" && j < temporary.data.length) {
-				strikeprice123.push(data.feed.entry[83+23*i].content.$t);
-				if (data.feed.entry[83+23*i].content.$t == temporary.data[j].StrikePrice) {
-					premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), (temporary.data[j].CallDelta), (temporary.data[j].PutDelta), (temporary.data[j].CallTheta), (temporary.data[j].PutTheta), (temporary.data[j].CallGamma), (temporary.data[j].PutGamma), (temporary.data[j].CallVega), (temporary.data[j].PutVega)];;
-					j++;
-				} else {
-					premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), "-", "-", "-", "-", "-", "-", "-", "-"];
-				}
-				i++;
-			}
+			// while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "" && j < temporary.data.length) {
+			// 	strikeprice123.push(data.feed.entry[83+23*i].content.$t);
+			// 	if (data.feed.entry[83+23*i].content.$t == temporary.data[j].StrikePrice) {
+			// 		premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), (temporary.data[j].CallDelta), (temporary.data[j].PutDelta), (temporary.data[j].CallTheta), (temporary.data[j].PutTheta), (temporary.data[j].CallGamma), (temporary.data[j].PutGamma), (temporary.data[j].CallVega), (temporary.data[j].PutVega)];;
+			// 		j++;
+			// 	} else {
+			// 		premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), "-", "-", "-", "-", "-", "-", "-", "-"];
+			// 	}
+			// 	i++;
+			// }
+			data.data.map((item, index) => {
+				strikeprice123.push(item.StrikePrice);
+				premium123[item.StrikePrice] = [item.CallLTP, item.PutLTP, , , , , , , , , , , item.CallDelta, item.PutDelta, item.CallTheta, item.PutTheta, item.CallGamma, item.PutGamma, item.CallVega, item.PutVega];
+			});
 			banknifty[5] = {
 				"spotprice" : spotprice,
 				"premium123" : premium123,
@@ -722,36 +902,40 @@ $(document).ready(function () {
 		success: function (data) {
 			console.log("bankdata6=" + data);
 			var temporary;
-			$.ajax({
-				type: 'GET',
-				url: 'https://opstra.definedge.com/api/free/strategybuilder/optionchain/BANKNIFTY&' + temp[6].replace(/\s+/g, ""),
-				dataType: 'json',
-				async: false,
-				success: function (data) {
-					console.log("all data=" + data);
-					temporary = data;
-				},
-				error: function(xhr) {
-					console.log("No data received for " + temp[6] + " expiry");
-				}
-			}).done(function() {
-				NProgress.inc(0.03);
-			});
-			var spotprice = data.feed.entry[35].content.$t;
+			// $.ajax({
+			// 	type: 'GET',
+			// 	url: 'https://opstra.definedge.com/api/free/strategybuilder/optionchain/BANKNIFTY&' + temp[6].replace(/\s+/g, ""),
+			// 	dataType: 'json',
+			// 	async: false,
+			// 	success: function (data) {
+			// 		console.log("all data=" + data);
+			// 		temporary = data;
+			// 	},
+			// 	error: function(xhr) {
+			// 		console.log("No data received for " + temp[6] + " expiry");
+			// 	}
+			// }).done(function() {
+			// 	NProgress.inc(0.03);
+			// });
+			var spotprice = data.spotprice;
 			var strikeprice123 = [];
 			var premium123 = {};
 			var i=0;
 			var j=0;
-			while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "" && j < temporary.data.length) {
-				strikeprice123.push(data.feed.entry[83+23*i].content.$t);
-				if (data.feed.entry[83+23*i].content.$t == temporary.data[j].StrikePrice) {
-					premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), (temporary.data[j].CallDelta), (temporary.data[j].PutDelta), (temporary.data[j].CallTheta), (temporary.data[j].PutTheta), (temporary.data[j].CallGamma), (temporary.data[j].PutGamma), (temporary.data[j].CallVega), (temporary.data[j].PutVega)];;
-					j++;
-				} else {
-					premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), "-", "-", "-", "-", "-", "-", "-", "-"];
-				}
-				i++;
-			}
+			// while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "" && j < temporary.data.length) {
+			// 	strikeprice123.push(data.feed.entry[83+23*i].content.$t);
+			// 	if (data.feed.entry[83+23*i].content.$t == temporary.data[j].StrikePrice) {
+			// 		premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), (temporary.data[j].CallDelta), (temporary.data[j].PutDelta), (temporary.data[j].CallTheta), (temporary.data[j].PutTheta), (temporary.data[j].CallGamma), (temporary.data[j].PutGamma), (temporary.data[j].CallVega), (temporary.data[j].PutVega)];;
+			// 		j++;
+			// 	} else {
+			// 		premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), "-", "-", "-", "-", "-", "-", "-", "-"];
+			// 	}
+			// 	i++;
+			// }
+			data.data.map((item, index) => {
+				strikeprice123.push(item.StrikePrice);
+				premium123[item.StrikePrice] = [item.CallLTP, item.PutLTP, , , , , , , , , , , item.CallDelta, item.PutDelta, item.CallTheta, item.PutTheta, item.CallGamma, item.PutGamma, item.CallVega, item.PutVega];
+			});
 			banknifty[6] = {
 				"spotprice" : spotprice,
 				"premium123" : premium123,
@@ -769,36 +953,40 @@ $(document).ready(function () {
 		success: function (data) {
 			console.log("bankdata7=" + data);
 			var temporary;
-			$.ajax({
-				type: 'GET',
-				url: 'https://opstra.definedge.com/api/free/strategybuilder/optionchain/BANKNIFTY&' + temp[7].replace(/\s+/g, ""),
-				dataType: 'json',
-				async: false,
-				success: function (data) {
-					console.log("all data=" + data);
-					temporary = data;
-				},
-				error: function(xhr) {
-					console.log("No data received for " + temp[7] + " expiry");
-				}
-			}).done(function() {
-				NProgress.inc(0.03);
-			});
-			var spotprice = data.feed.entry[35].content.$t;
+			// $.ajax({
+			// 	type: 'GET',
+			// 	url: 'https://opstra.definedge.com/api/free/strategybuilder/optionchain/BANKNIFTY&' + temp[7].replace(/\s+/g, ""),
+			// 	dataType: 'json',
+			// 	async: false,
+			// 	success: function (data) {
+			// 		console.log("all data=" + data);
+			// 		temporary = data;
+			// 	},
+			// 	error: function(xhr) {
+			// 		console.log("No data received for " + temp[7] + " expiry");
+			// 	}
+			// }).done(function() {
+			// 	NProgress.inc(0.03);
+			// });
+			var spotprice = data.spotprice;
 			var strikeprice123 = [];
 			var premium123 = {};
 			var i=0;
 			var j=0;
-			while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "" && j < temporary.data.length) {
-				strikeprice123.push(data.feed.entry[83+23*i].content.$t);
-				if (data.feed.entry[83+23*i].content.$t == temporary.data[j].StrikePrice) {
-					premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), (temporary.data[j].CallDelta), (temporary.data[j].PutDelta), (temporary.data[j].CallTheta), (temporary.data[j].PutTheta), (temporary.data[j].CallGamma), (temporary.data[j].PutGamma), (temporary.data[j].CallVega), (temporary.data[j].PutVega)];;
-					j++;
-				} else {
-					premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), "-", "-", "-", "-", "-", "-", "-", "-"];
-				}
-				i++;
-			}
+			// while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "" && j < temporary.data.length) {
+			// 	strikeprice123.push(data.feed.entry[83+23*i].content.$t);
+			// 	if (data.feed.entry[83+23*i].content.$t == temporary.data[j].StrikePrice) {
+			// 		premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), (temporary.data[j].CallDelta), (temporary.data[j].PutDelta), (temporary.data[j].CallTheta), (temporary.data[j].PutTheta), (temporary.data[j].CallGamma), (temporary.data[j].PutGamma), (temporary.data[j].CallVega), (temporary.data[j].PutVega)];;
+			// 		j++;
+			// 	} else {
+			// 		premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), "-", "-", "-", "-", "-", "-", "-", "-"];
+			// 	}
+			// 	i++;
+			// }
+			data.data.map((item, index) => {
+				strikeprice123.push(item.StrikePrice);
+				premium123[item.StrikePrice] = [item.CallLTP, item.PutLTP, , , , , , , , , , , item.CallDelta, item.PutDelta, item.CallTheta, item.PutTheta, item.CallGamma, item.PutGamma, item.CallVega, item.PutVega];
+			});
 			banknifty[7] = {
 				"spotprice" : spotprice,
 				"premium123" : premium123,
@@ -848,22 +1036,30 @@ var stock = function(url) {
 	}).done(function() {
 		NProgress.inc(0.03);
 	});
-	var spotprice = data.feed.entry[35].content.$t;
+	// var spotprice = data.feed.entry[35].content.$t;
+	var spotprice = data.spotprice;
 	$("#spot_Price").text(spotprice);
 	var strikeprice123 = [];
 	var premium123 = {};
 	var i=0;
 	var j=0;
-	while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "" && j < temporary.data.length) {
-		strikeprice123.push(data.feed.entry[83+23*i].content.$t);
-		if (data.feed.entry[83+23*i].content.$t == temporary.data[j].StrikePrice) {
-			premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), (temporary.data[j].CallDelta), (temporary.data[j].PutDelta), (temporary.data[j].CallTheta), (temporary.data[j].PutTheta), (temporary.data[j].CallGamma), (temporary.data[j].PutGamma), (temporary.data[j].CallVega), (temporary.data[j].PutVega)];;
-			j++;
-		} else {
-			premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), "-", "-", "-", "-", "-", "-", "-", "-"];
-		}
-		i++;
-	}	
+	// while (data.feed.entry[83+23*i].content.$t != "#VALUE!" && data.feed.entry[83+23*i].content.$t != "" && j < temporary.data.length) {
+	// 	strikeprice123.push(data.feed.entry[83+23*i].content.$t);
+	// 	if (data.feed.entry[83+23*i].content.$t == temporary.data[j].StrikePrice) {
+	// 		premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), (temporary.data[j].CallDelta), (temporary.data[j].PutDelta), (temporary.data[j].CallTheta), (temporary.data[j].PutTheta), (temporary.data[j].CallGamma), (temporary.data[j].PutGamma), (temporary.data[j].CallVega), (temporary.data[j].PutVega)];;
+	// 		j++;
+	// 	} else {
+	// 		premium123[data.feed.entry[83+23*i].content.$t] = [parseFloat((data.feed.entry[82+23*i].content.$t).replace(/,/g, '')), parseFloat((data.feed.entry[84+23*i].content.$t).replace(/,/g, '')), (data.feed.entry[12].content.$t), (data.feed.entry[13].content.$t), (data.feed.entry[18].content.$t), (data.feed.entry[19].content.$t), (data.feed.entry[27].content.$t), (data.feed.entry[28].content.$t), (data.feed.entry[33].content.$t), (data.feed.entry[34].content.$t), (data.feed.entry[40].content.$t), (data.feed.entry[41].content.$t), "-", "-", "-", "-", "-", "-", "-", "-"];
+	// 	}
+	// 	i++;
+	// }	
+	data.data.map((item, index) => {
+		strikeprice123.push(item.StrikePrice);
+		premium123[item.StrikePrice] = [item.CallLTP, item.PutLTP, , , , , , , , , , , item.CallDelta, item.PutDelta, item.CallTheta, item.PutTheta, item.CallGamma, item.PutGamma, item.CallVega, item.PutVega];
+	});
+	console.log(data.data);
+	console.log(strikeprice123);
+	console.log(premium123);
 	return {
 		"spotprice" : spotprice,
 		"premium123" : premium123,
@@ -901,26 +1097,6 @@ console.log(options_expiries());
 // 	});
 // }
 
-var future_expiries = function() {
-	var arr = [];
-	var temp = 1;
-	for (var i=0; i<3; i++) {
-		var d = new Date();
-		d.setDate(1);
-		d.setMonth(d.getMonth()+temp+i);
-		do {
-			d.setDate(d.getDate() - 1);
-		} while (d.getDay() !== 4);
-		console.log(d);
-		if (d < new Date()) {
-			temp = 2;
-			i--;
-			continue;
-		}
-		arr.push(d.toString().slice(4,15).toUpperCase());
-	}
-	return arr;
-};
 console.log(future_expiries());
 
 var app = angular.module("optionsApp", ['ui.bootstrap', 'chart.js']);
