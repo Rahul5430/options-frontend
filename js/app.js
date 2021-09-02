@@ -1055,7 +1055,7 @@ var stock = function(url) {
 	// }	
 	data.data.map((item, index) => {
 		strikeprice123.push(item.StrikePrice);
-		premium123[item.StrikePrice] = [item.CallLTP, item.PutLTP, , , , , , , , , , , item.CallDelta, item.PutDelta, item.CallTheta, item.PutTheta, item.CallGamma, item.PutGamma, item.CallVega, item.PutVega];
+		premium123[item.StrikePrice] = [item.CallLTP, item.PutLTP, item.StrikePrice, data.futuresprice, item.CallIV, item.PutIV, item.CITMP, item.PITMP, , , , , item.CallDelta, item.PutDelta, item.CallTheta, item.PutTheta, item.CallGamma, item.PutGamma, item.CallVega, item.PutVega];
 	});
 	console.log(data.data);
 	console.log(strikeprice123);
@@ -1135,11 +1135,11 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			$scope.premiumValue[index] = [$scope.premium[index][strikeprice][1]];
 			console.log($scope.premiumValue);
 			trade.premium = $scope.premiumValue[index][0];
-			$('#strategy').text((Object.values($scope.stockdata["premium123"])[0][3]));
-			$('#oi').text((Object.values($scope.stockdata['premium123'])[0][7]));
-			$('#change_in_oi').text((Object.values($scope.stockdata['premium123'])[0][5]));
-			$('#volume').text((Object.values($scope.stockdata['premium123'])[0][9]));
-			$('#trend_strength').text((Object.values($scope.stockdata['premium123'])[0][11]));
+			$('#strategy').text(($scope.premium[index][strikeprice])[2]);
+			$('#future_strategy').text(Math.round(($scope.premium[index][strikeprice])[3]));
+			$('#iv').text(($scope.premium[index][strikeprice])[5]);
+			$('#citmp').text(($scope.premium[index][strikeprice])[6]);
+			$('#pitmp').text(($scope.premium[index][strikeprice])[7]);
 			$scope.breakevens[index] = strikeprice - parseInt($scope.premiumValue[index]);
 			console.log($scope.breakevens);
 			// var size = Object.keys($scope.breakevens).length;
@@ -1182,11 +1182,15 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			$scope.premiumValue[index] = [$scope.premium[index][strikeprice][0]];
 			console.log($scope.premiumValue);
 			trade.premium = $scope.premiumValue[index][0];
-			$('#strategy').text((Object.values($scope.stockdata["premium123"])[0][2]));
-			$('#oi').text((Object.values($scope.stockdata['premium123'])[0][6]));
-			$('#change_in_oi').text((Object.values($scope.stockdata['premium123'])[0][4]));
-			$('#volume').text((Object.values($scope.stockdata['premium123'])[0][8]));
-			$('#trend_strength').text((Object.values($scope.stockdata['premium123'])[0][10]));
+			console.log(Object.values($scope.stockdata["premium123"]));
+			console.log(index);
+			console.log($scope.premium[index][strikeprice]);
+			console.log(($scope.premium[index][strikeprice])[2]);
+			$('#strategy').text(($scope.premium[index][strikeprice])[2]);
+			$('#future_strategy').text(Math.round(($scope.premium[index][strikeprice])[3]));
+			$('#iv').text(($scope.premium[index][strikeprice])[4]);
+			$('#citmp').text(($scope.premium[index][strikeprice])[6]);
+			$('#pitmp').text(($scope.premium[index][strikeprice])[7]);
 			$scope.breakevens[index] = strikeprice + parseInt($scope.premiumValue[index]);
 			console.log($scope.breakevens);
 			// var size = Object.keys($scope.breakevens).length;
@@ -1268,6 +1272,11 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			$('#total_loss').text((ans/size) * $scope.quantity);
 			$('#margin').text((ans/size) * $scope.quantity * -1);
 			setup.margin = "₹ " + (Math.round((((ans/size) * $scope.quantity * -1) + Number.EPSILON) * 100) / 100).toString();
+			$('#strategy').text(($scope.premium[index][strikeprice])[2]);
+			$('#future_strategy').text(Math.round(($scope.premium[index][strikeprice])[3]));
+			$('#iv').text(($scope.premium[index][strikeprice])[5]);
+			$('#citmp').text(($scope.premium[index][strikeprice])[6]);
+			$('#pitmp').text(($scope.premium[index][strikeprice])[7]);
 			$scope.delta = $scope.premium[index][strikeprice][13];
 			$scope.theta = $scope.premium[index][strikeprice][15];
 			$scope.gamma = $scope.premium[index][strikeprice][17];
@@ -1311,6 +1320,11 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			$('#margin').text((ans/size) * $scope.quantity * -1);
 			setup.margin = "₹ " + (Math.round((((ans/size) * $scope.quantity * -1) + Number.EPSILON) * 100) / 100).toString();
 			console.log($scope.premium[index][strikeprice]);
+			$('#strategy').text(($scope.premium[index][strikeprice])[2]);
+			$('#future_strategy').text(Math.round(($scope.premium[index][strikeprice])[3]));
+			$('#iv').text(($scope.premium[index][strikeprice])[4]);
+			$('#citmp').text(($scope.premium[index][strikeprice])[6]);
+			$('#pitmp').text(($scope.premium[index][strikeprice])[7]);
 			$scope.delta = $scope.premium[index][strikeprice][12];
 			$scope.theta = $scope.premium[index][strikeprice][14];
 			$scope.gamma = $scope.premium[index][strikeprice][16];
@@ -1345,10 +1359,10 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			// $(".qty").attr("min", "75");
 			// $(".qty").attr("value", "75");
 			$('#strategy').text((Object.values($scope.stockdata["premium123"])[0][2]));
-			$('#oi').text((Object.values($scope.stockdata['premium123'])[0][6]));
-			$('#change_in_oi').text((Object.values($scope.stockdata['premium123'])[0][4]));
-			$('#volume').text((Object.values($scope.stockdata['premium123'])[0][8]));
-			$('#trend_strength').text((Object.values($scope.stockdata['premium123'])[0][10]));
+			$('#future_strategy').text((Object.values($scope.stockdata['premium123'])[0][3]));
+			$('#iv').text((Object.values($scope.stockdata['premium123'])[0][4]));
+			$('#citmp').text((Object.values($scope.stockdata['premium123'])[0][6]));
+			$('#pitmp').text((Object.values($scope.stockdata['premium123'])[0][7]));
 		} else if (name == 'BANKNIFTY') {
 			// $scope.stockdata = stock($scope.url);
 			$scope.stockdata = banknifty[$scope.url];
@@ -1369,10 +1383,10 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			// $(".qty").attr("min", "25");
 			// $(".qty").attr("value", "25");
 			$('#strategy').text((Object.values($scope.stockdata["premium123"])[0][2]));
-			$('#oi').text((Object.values($scope.stockdata['premium123'])[0][6]));
-			$('#change_in_oi').text((Object.values($scope.stockdata['premium123'])[0][4]));
-			$('#volume').text((Object.values($scope.stockdata['premium123'])[0][8]));
-			$('#trend_strength').text((Object.values($scope.stockdata['premium123'])[0][10]));
+			$('#future_strategy').text((Object.values($scope.stockdata['premium123'])[0][3]));
+			$('#iv').text((Object.values($scope.stockdata['premium123'])[0][4]));
+			$('#citmp').text((Object.values($scope.stockdata['premium123'])[0][6]));
+			$('#pitmp').text((Object.values($scope.stockdata['premium123'])[0][7]));
 		}
 	}
 	$scope.change_expiry = function(expiry, name, setup) {
@@ -1619,11 +1633,11 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 			}
 		});
 		DataService.saveSetups($scope.setups);
-		$('#strategy').text((Object.values($scope.stockdata["premium123"])[0][2]));
-		$('#oi').text((Object.values($scope.stockdata['premium123'])[0][6]));
-		$('#change_in_oi').text((Object.values($scope.stockdata['premium123'])[0][4]));
-		$('#volume').text((Object.values($scope.stockdata['premium123'])[0][8]));
-		$('#trend_strength').text((Object.values($scope.stockdata['premium123'])[0][10]));
+		// $('#strategy').text((Object.values($scope.stockdata["premium123"])[0][2]));
+		// $('#oi').text((Object.values($scope.stockdata['premium123'])[0][6]));
+		// $('#change_in_oi').text((Object.values($scope.stockdata['premium123'])[0][4]));
+		// $('#volume').text((Object.values($scope.stockdata['premium123'])[0][8]));
+		// $('#trend_strength').text((Object.values($scope.stockdata['premium123'])[0][10]));
 		$('#delta').text($scope.delta);
 		$('#theta').text($scope.theta);
 		$('#gamma').text($scope.gamma);
@@ -1675,10 +1689,10 @@ app.controller('MainCtrl', ["$scope", "DataService", "UtilService", function ($s
 		console.log(setup.spotPrice);
 		$('#strategy').text((Object.values($scope.stockdata["premium123"])[0][2]));
 		console.log((Object.values($scope.stockdata["premium123"])[0][2]));
-		$('#oi').text((Object.values($scope.stockdata['premium123'])[0][6]));
-		$('#change_in_oi').text((Object.values($scope.stockdata['premium123'])[0][4]));
-		$('#volume').text((Object.values($scope.stockdata['premium123'])[0][8]));
-		$('#trend_strength').text((Object.values($scope.stockdata['premium123'])[0][10]));
+		$('#future_strategy').text((Object.values($scope.stockdata['premium123'])[0][3]));
+		$('#iv').text((Object.values($scope.stockdata['premium123'])[0][4]));
+		$('#citmp').text((Object.values($scope.stockdata['premium123'])[0][6]));
+		$('#pitmp').text((Object.values($scope.stockdata['premium123'])[0][7]));
 		$scope.setups.push(setup);
 		$scope.premiumValue = {0: [$scope.stockdata["premium123"][Object.keys($scope.stockdata["premium123"])[0]][0]]};
 		$scope.segment = "OPTIONS";
