@@ -95,13 +95,13 @@
     <div class="func" ng-init="load(setup); updateChart(setup)">
       <div>
         <label>
-          Index / Stock 
-          <select 
-            ng-init="setup.name = indices[0]" 
+          Index / Stock
+          <select
+            ng-init="setup.name = indices[0]"
             ng-model="setup.name"
-            ng-options="x for x in indices" 
-            ng-change="index(setup.name, setup)" 
-            class="form-control" 
+            ng-options="x for x in indices"
+            ng-change="index(setup.name, setup)"
+            class="form-control"
             id="index">
           </select>
         </label>
@@ -109,12 +109,12 @@
       <div>
         <label>
           Select Segment
-          <select 
-            class="form-control" 
-            id="select-segment" 
-            ng-init="segment = segments[0]" 
+          <select
+            class="form-control"
+            id="select-segment"
+            ng-init="segment = segments[0]"
             ng-model="segment"
-            ng-change="change_segment(segment, setup.name, setup)" 
+            ng-change="change_segment(segment, setup.name, setup)"
             ng-options="x for x in segments">
           </select>
         </label>
@@ -124,11 +124,11 @@
 
         <label>
           Select Expiry
-          <select 
-            class="form-control expiry" 
+          <select
+            class="form-control expiry"
             ng-init="expiry = expiries[0]"
-            ng-change="change_expiry(expiry, setup.name, setup)" 
-            ng-model="expiry" 
+            ng-change="change_expiry(expiry, setup.name, setup)"
+            ng-model="expiry"
             ng-options="x for x in expiries">
           </select>
 
@@ -137,16 +137,16 @@
       </div>
       <div>
         <label>
-          Spot price 
+          Spot price
           <!-- <code>{{setup.spotPrice}}</code> -->
           <!-- <code>{{spot_price}}</code> -->
           <div class="form-control spotPrice">
             {{spot_price[0]}}
           </div>
           <!-- <select
-            ng-init="setup.spotPrice = spot_price[0]" 
+            ng-init="setup.spotPrice = spot_price[0]"
             ng-model="setup.spotPrice"
-            class="form-control spotPrice" 
+            class="form-control spotPrice"
             ng-options="x for x in spot_price">
           </select> -->
         </label>
@@ -173,17 +173,17 @@
                   <label class="strike-price">Strike Price</label>
                   <code>{{$index}}</code>
                   <code>{{trade.strike}}</code>
-                  <select 
-                    id="{{$index}}" 
-                    ng-init="trade.strike = strike_price[0]" 
+                  <select
+                    id="{{$index}}"
+                    ng-init="trade.strike = strike_price[0]"
                     ng-model="trade.strike"
-                    class="form-control strike_price" 
+                    class="form-control strike_price"
                     ng-options="x for x in strike_price"
                     ng-change="changestrikeprice({{$index}}, trade, setup)">
                   </select>
-                  <!-- <select 
-                    class="form-control future" 
-                    ng-model="trade.strike" 
+                  <!-- <select
+                    class="form-control future"
+                    ng-model="trade.strike"
                     style="display: none;"
                     ng-options="x for x in future_price">
                   </select> -->
@@ -205,10 +205,10 @@
                   </div>
                   <!-- <code>{{trade.premium}}</code>
                   <code>{{premiumValue[$index]}}</code> -->
-                  <!-- <select 
-                    ng-init="trade.premium = premiumValue[0]" 
+                  <!-- <select
+                    ng-init="trade.premium = premiumValue[0]"
                     ng-model="trade.premium"
-                    ng-options="x for x in premiumValue[{{$index}}]" 
+                    ng-options="x for x in premiumValue[{{$index}}]"
                     class="form-control premium">
                   </select> -->
                 </div>
@@ -220,15 +220,15 @@
                   <code>{{lot}}</code>
                   <div class="inner-addon left-addon right-addon">
                     <i class="glyphicon glyphicon-minus" style="left: 0; cursor: pointer;" ng-click="trade.qty = trade.qty - minQty; lot = trade.qty / minQty"></i>
-                    <input 
+                    <input
                       type="number"
-                      name="quantity" 
-                      ng-init="trade.qty = 50" 
-                      ng-model="trade.qty" 
-                      class="form-control qty" 
+                      name="quantity"
+                      ng-init="trade.qty = 50"
+                      ng-model="trade.qty"
+                      class="form-control qty"
                       ng-min="minQty"
-                      step="50" 
-                      ng-change="change_qty(trade.qty, setup.name)" 
+                      step="50"
+                      ng-change="change_qty(trade.qty, setup.name)"
                     />
                     <i class="glyphicon glyphicon-plus" style="right: 0; cursor: pointer;" ng-click="trade.qty = trade.qty + minQty; lot = trade.qty / minQty"></i>
                   </div>
@@ -243,9 +243,9 @@
                   <code>{{quantity}}</code>
                   <div class="inner-addon left-addon right-addon">
                     <i class="glyphicon glyphicon-minus" style="left: 0; cursor: pointer;" ng-click="trade.qty = trade.qty - minQty; lot = trade.qty / minQty; check_qty(trade, lot); quantity = trade.qty"></i>
-                    <!-- <input 
+                    <!-- <input
                       type="number"
-                      name="quantity" 
+                      name="quantity"
                       class="form-control qty"
                     /> -->
                     <div class="form-control" style="height: 42px;">
@@ -265,9 +265,9 @@
                   </div>
                 </div> -->
                 <div class="col-md-1 delete-trade" style="padding-top: 24px;">
-                  <button 
-                    type="button" 
-                    class="btn btn-danger btn-sm" 
+                  <button
+                    type="button"
+                    class="btn btn-danger btn-sm"
                     uib-tooltip="Remove trade"
                     ng-click="removeTrade(setup, trade)"
                   >
@@ -286,7 +286,7 @@
 
       <div class="add-trade-btn-wrapper add_trade">
         <button class="btn btn-default" ng-click="addTrade(setup)">
-          <span class="glyphicon glyphicon-plus"></span> 
+          <span class="glyphicon glyphicon-plus"></span>
           Add Trade
         </button>
       </div>
@@ -306,10 +306,10 @@
     <div class="graph">
       <div class="container">
         <div class="chart-wrapper" ng-if="setup.spotPrice > 0">
-          <!-- <canvas 
-            class="chart chart-line" 
+          <!-- <canvas
+            class="chart chart-line"
             chart-data="chart.data[setup.id].profits"
-            chart-labels="chart.data[setup.id].labels" 
+            chart-labels="chart.data[setup.id].labels"
             chart-series="chart.series"
             chart-options="chart.options"
             chart-dataset-override="chart.datasetOverride">
@@ -348,7 +348,7 @@
         </div>
       </div>
     </div>
-    
+
     <!-- <div class="nme">
       <p>Strategy Details</p>
       <p>Option Greeks</p>
@@ -438,48 +438,48 @@
           <!-- <div>Prob. of Profit</div> -->
           <div>
             <label>Prob. of Profit:</label>
-            <label>--</label>
+            <!-- <label>--</label> -->
             {{setup.pop}}
           </div>
           <div class="net-profit">
             <label>Max. Profit:</label>
             <span class="rupee" style="display: none;">&#8377;</span>
-            <label id="max_profit">Undefined</label>
+            <!-- <label id="max_profit">Undefined</label> -->
             {{setup.maxProfit}}
           </div>
           <div>
             <label>Max. RR Ratio:</label>
-            <label id="max_rr_ratio">NA</label>
+            <!-- <label id="max_rr_ratio">NA</label> -->
             {{setup.maxRrRatio}}
           </div>
           <div>
             <label>Max. Loss:</label>
             <span class="rupee" style="display: none;">&#8377;</span>
-            <label id="max_loss">Undefined</label>
+            <!-- <label id="max_loss">Undefined</label> -->
             {{setup.maxLoss}}
           </div>
           <div>
             <label>Breakevens:</label>
             <span>&#8377;</span>
-            <label id="breakevens"></label>
+            <!-- <label id="breakevens"></label> -->
             {{setup.breakevens}}
           </div>
           <div>
             <label>Total PNL:</label>
             <span>&#8377;</span>
-            <label>0</label>
+            <!-- <label>0</label> -->
             {{setup.totalPNL}}
           </div>
           <div>
             <label>Net Credit:</label>
             <span>&#8377;</span>
-            <label>0</label>
+            <!-- <label>0</label> -->
             {{setup.netCredit}}
           </div>
           <div>
             <label>Estimated Margin/Premium:</label>
             <span>&#8377;</span>
-            <label id="margin"></label>
+            <!-- <label id="margin"></label> -->
             {{setup.margin}}
           </div>
         </div>
@@ -488,22 +488,22 @@
         <h4 style="text-align: center;">Option Greeks</h4>
         <div>
           <label>Delta:</label>
-          <label id="delta"></label>
+          <!-- <label id="delta"></label> -->
           {{setup.delta}}
         </div>
         <div>
           <label>Theta:</label>
-          <label id="theta"></label>
+          <!-- <label id="theta"></label> -->
           {{setup.theta}}
         </div>
         <div>
           <label>Gamma:</label>
-          <label id="gamma"></label>
+          <!-- <label id="gamma"></label> -->
           {{setup.gamma}}
         </div>
         <div>
           <label>Vega:</label>
-          <label id="vega"></label>
+          <!-- <label id="vega"></label> -->
           {{setup.vega}}
         </div>
       </div>
@@ -511,7 +511,7 @@
   </div>
   <div class="button-group text-center" style="padding: 30px;">
     <button class="btn btn-primary" ng-click="addSetup()">
-      <span class="glyphicon glyphicon-plus"></span> 
+      <span class="glyphicon glyphicon-plus"></span>
       Add New Setup
     </button>
   </div>
@@ -539,7 +539,7 @@
     //   var x = $("#select-segment").value;
     //   console.log(x);
     // })
-    // var abs = 
+    // var abs =
 
 
     // console.log($(".spotPrice option:selected").val());
